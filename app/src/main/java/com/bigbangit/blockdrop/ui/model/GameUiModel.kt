@@ -4,6 +4,7 @@ import com.bigbangit.blockdrop.core.BoardSnapshot
 import com.bigbangit.blockdrop.core.GameConstants
 import com.bigbangit.blockdrop.core.GameState
 import com.bigbangit.blockdrop.core.TetrominoType
+import com.bigbangit.blockdrop.data.RankedScoreboardEntry
 
 data class GameUiModel(
     val state: GameState = GameState.Idle,
@@ -24,4 +25,19 @@ data class GameUiModel(
     val isGrounded: Boolean = false,
     val isMuted: Boolean = false,
     val showTutorial: Boolean = false,
+    val scoreboardEntries: List<RankedScoreboardEntry> = emptyList(),
+    val isScoreboardVisible: Boolean = false,
+    val pendingNickname: String = "",
+    val isSubmittingScore: Boolean = false,
+    val hasSubmittedScore: Boolean = false,
+    val didQualifyForScoreboard: Boolean? = null,
+    val qualifiedRank: Int? = null,
+    val nicknameError: String? = null,
+    val lineClearLines: Int? = null,
+    val lineClearAnimationKey: Int = 0,
+    val placementFlashCells: List<BoardCell> = emptyList(),
+    val placementFlashAnimationKey: Int = 0,
+    val levelUpAnimationKey: Int = 0,
+    val celebrationType: CelebrationType? = null,
+    val celebrationAnimationKey: Int = 0,
 )
