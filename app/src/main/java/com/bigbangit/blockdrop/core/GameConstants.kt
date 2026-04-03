@@ -46,6 +46,10 @@ object GameConstants {
         val delay = DROP_DELAY_MAX_MS - (clampedLevel - 1L) * DROP_DELAY_STEP_MS
         return delay.coerceAtLeast(DROP_DELAY_MIN_MS)
     }
+
+    fun getVisibleNextCount(level: Int): Int {
+        return nextQueueTiers.find { level in it.levelStart..it.levelEnd }?.visiblePieces ?: 1
+    }
 }
 
 data class NextQueueTier(

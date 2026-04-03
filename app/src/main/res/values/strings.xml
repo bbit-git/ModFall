@@ -9,6 +9,9 @@
     <string name="lines_label">LINES</string>
     <string name="score_label_caps">SCORE</string>
     <string name="level_label_caps">LEVEL</string>
+    <string name="score_stat_compact">SCORE %1$d</string>
+    <string name="level_stat_compact">LEVEL %1$d</string>
+    <string name="lines_stat_compact">LINES %1$d</string>
     <string name="none_label">None</string>
     <string name="move_left">Left</string>
     <string name="move_right">Right</string>
@@ -16,6 +19,7 @@
     <string name="rotate_cw">Rotate CW</string>
     <string name="soft_drop">Soft drop</string>
     <string name="hard_drop">Hard drop</string>
+    <string name="hard_drop_short">HARD DROP</string>
     <string name="hold_action">Hold</string>
     <string name="drop_delay">Drop delay</string>
 
@@ -26,17 +30,13 @@
     <string name="paused_title">PAUSED</string>
     <string name="resume_button">RESUME</string>
     <string name="restart_button">RESTART</string>
+    <string name="menu_button">MENU</string>
     <string name="quit_button">QUIT</string>
     <string name="cancel_button">CANCEL</string>
     <string name="exit_confirm_title">Quit Game?</string>
     <string name="exit_confirm_message">Current progress will be lost.</string>
     <string name="help_description">Help</string>
     <string name="mute_description">Mute</string>
-
-    <!-- Control Surface Labels -->
-    <string name="hold_panel_label">HOLD: %1$s</string>
-    <string name="gesture_hint_label">Swipe/Drag to move, Tap to rotate</string>
-    <string name="debug_fallback_label">DEBUG CONTROLS</string>
 
     <!-- Tutorial Overlay -->
     <string name="tutorial_title">HOW TO PLAY</string>
