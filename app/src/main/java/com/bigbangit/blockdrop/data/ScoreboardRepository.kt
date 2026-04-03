@@ -89,7 +89,7 @@ class ScoreboardRepository(
             var previousEntry: ScoreboardEntry? = null
 
             return sortedEntries.mapIndexed { index, entry ->
-                if (previousEntry == null || !isSharedRank(previousEntry!!, entry)) {
+                if (previousEntry == null || !isSharedRank(previousEntry, entry)) {
                     currentRank = index + 1
                 }
                 previousEntry = entry

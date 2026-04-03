@@ -44,7 +44,7 @@
        - **Full T-spin:** ≥ 3 corners occupied AND both "front" corners (the two diagonals facing the pointing direction of the T) are occupied.
        - **Mini T-spin:** ≥ 3 corners occupied but only 1 front corner is occupied (back-heavy 3-corner); OR exactly 2 corners occupied and both are the "back" corners (the two diagonals on the flat side of the T).
        - **No T-spin:** fewer than 2 corners occupied, or 2 corners occupied but they are not both back corners.
-       The "front" corners per rotation state (origin = T center): Spawn → (−1,−1) and (+1,−1); Right → (+1,+1) and (+1,−1); Reverse → (−1,+1) and (+1,+1); Left → (−1,+1) and (−1,−1).
+       The "front" corners per rotation state (origin = T center): Spawn → (−1,+1) and (+1,+1); Right → (+1,+1) and (+1,−1); Reverse → (−1,−1) and (+1,−1); Left → (−1,+1) and (−1,−1).
    - **Level progression** – 10 lines cleared advances one level; level cap at 100 (minimum tick interval of ~33 ms at level 100); combo counter resets after any piece placement that clears zero lines.
    - **Spawn position (Tetris Guideline standard):** pieces spawn centred horizontally in columns 4–5 (0-indexed), which places a standard 4-wide piece across columns 3–6. The visible playfield is rows 0–19 (row 0 = bottom); spawn occurs at rows 20–21 (above the visible area). J, L, S, Z, T spawn with their bounding box top at row 21; I spawns with its single-cell height row at row 21; O spawns across rows 20–21. If any cell of the spawn position is occupied, the game ends immediately (top-out).
    - **Top-out condition** – if a newly spawned piece overlaps occupied cells, the game ends immediately.

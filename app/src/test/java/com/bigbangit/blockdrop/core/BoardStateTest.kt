@@ -68,12 +68,9 @@ class BoardStateTest {
     fun tSpinDetectionIdentifiesFullTSpin() {
         val boardState = BoardState()
         // Set up a T-slot
-        // XXX
-        // X.X
-        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 3, originY = 0))
-        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 5, originY = 0))
         boardState.lock(ActivePiece(type = TetrominoType.O, originX = 3, originY = 2))
-        // T center at 4,1. Corners: 3,2 (occ), 5,2 (empty), 5,0 (occ), 3,0 (occ) -> 3 corners
+        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 5, originY = 2))
+        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 3, originY = 0))
 
         val piece = ActivePiece(type = TetrominoType.T, rotation = RotationState.Spawn, originX = 4, originY = 1)
         
@@ -83,9 +80,9 @@ class BoardStateTest {
     @Test
     fun tSpinDetectionIdentifiesMiniTSpin() {
         val boardState = BoardState()
-        // T center at 4,1. Rotation Spawn (pointing down). Back corners are 3,2 and 5,2.
-        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 3, originY = 2))
-        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 5, originY = 2))
+        // T center at 4,1. Rotation Spawn (pointing UP). Back corners are 3,0 and 5,0.
+        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 3, originY = 0))
+        boardState.lock(ActivePiece(type = TetrominoType.O, originX = 5, originY = 0))
 
         val piece = ActivePiece(type = TetrominoType.T, rotation = RotationState.Spawn, originX = 4, originY = 1)
         

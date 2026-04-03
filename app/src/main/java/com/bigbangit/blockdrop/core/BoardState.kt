@@ -83,16 +83,16 @@ class BoardState(
         if (occupiedCorners < 2) return TSpinType.None
 
         val frontCorners = when (piece.rotation) {
-            RotationState.Spawn -> listOf(CellOffset(-1, -1), CellOffset(1, -1))
+            RotationState.Spawn -> listOf(CellOffset(-1, 1), CellOffset(1, 1))
             RotationState.Right -> listOf(CellOffset(1, 1), CellOffset(1, -1))
-            RotationState.Reverse -> listOf(CellOffset(-1, 1), CellOffset(1, 1))
+            RotationState.Reverse -> listOf(CellOffset(-1, -1), CellOffset(1, -1))
             RotationState.Left -> listOf(CellOffset(-1, 1), CellOffset(-1, -1))
         }
 
         val backCorners = when (piece.rotation) {
-            RotationState.Spawn -> listOf(CellOffset(-1, 1), CellOffset(1, 1))
+            RotationState.Spawn -> listOf(CellOffset(-1, -1), CellOffset(1, -1))
             RotationState.Right -> listOf(CellOffset(-1, 1), CellOffset(-1, -1))
-            RotationState.Reverse -> listOf(CellOffset(-1, -1), CellOffset(1, -1))
+            RotationState.Reverse -> listOf(CellOffset(-1, 1), CellOffset(1, 1))
             RotationState.Left -> listOf(CellOffset(1, 1), CellOffset(1, -1))
         }
 

@@ -27,9 +27,9 @@ object TetrominoShapes {
         ),
         TetrominoType.T to tetromino(
             TetrominoType.T,
-            spawn = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(0, -1)),
+            spawn = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(0, 1)),
             right = listOf(CellOffset(0, 1), CellOffset(0, 0), CellOffset(0, -1), CellOffset(1, 0)),
-            reverse = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(0, 1)),
+            reverse = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(0, -1)),
             left = listOf(CellOffset(0, 1), CellOffset(0, 0), CellOffset(0, -1), CellOffset(-1, 0)),
         ),
         TetrominoType.S to tetromino(
@@ -48,16 +48,16 @@ object TetrominoShapes {
         ),
         TetrominoType.J to tetromino(
             TetrominoType.J,
-            spawn = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(-1, -1)),
+            spawn = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(-1, 1)),
             right = listOf(CellOffset(0, 1), CellOffset(0, 0), CellOffset(0, -1), CellOffset(1, 1)),
-            reverse = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(1, 1)),
+            reverse = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(1, -1)),
             left = listOf(CellOffset(0, 1), CellOffset(0, 0), CellOffset(0, -1), CellOffset(-1, -1)),
         ),
         TetrominoType.L to tetromino(
             TetrominoType.L,
-            spawn = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(1, -1)),
+            spawn = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(1, 1)),
             right = listOf(CellOffset(0, 1), CellOffset(0, 0), CellOffset(0, -1), CellOffset(1, -1)),
-            reverse = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(-1, 1)),
+            reverse = listOf(CellOffset(-1, 0), CellOffset(0, 0), CellOffset(1, 0), CellOffset(-1, -1)),
             left = listOf(CellOffset(0, 1), CellOffset(0, 0), CellOffset(0, -1), CellOffset(-1, 1)),
         ),
     )

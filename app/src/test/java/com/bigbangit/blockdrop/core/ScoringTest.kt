@@ -80,61 +80,61 @@ class ScoringTest {
     @Test
     fun testTSpinNoLines() = runTest {
         initGame(this, listOf(TetrominoType.T))
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise() 
-        boardState.set(5, 2, 1); boardState.set(5, 0, 1); boardState.set(3, 2, 1)
-        boardState.set(4, 0, 1) 
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        boardState.set(4, 2, 1); boardState.set(4, 0, 1); boardState.set(2, 2, 1)
+        boardState.set(3, 0, 1) 
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
-        assertEquals(420, snapshot!!.score)
+        assertEquals(421, snapshot!!.score)
     }
 
     @Test
     fun testTSpinSingle() = runTest {
         initGame(this, listOf(TetrominoType.T))
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise()
-        for (x in 0 until 10) if (x != 4) boardState.set(x, 0, 1)
-        boardState.set(5, 2, 1); boardState.set(3, 2, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        for (x in 0 until 10) if (x != 3) boardState.set(x, 0, 1)
+        boardState.set(4, 2, 1); boardState.set(2, 2, 1)
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
-        assertEquals(820, snapshot!!.score)
+        assertEquals(821, snapshot!!.score)
     }
 
     @Test
     fun testTSpinDouble() = runTest {
         initGame(this, listOf(TetrominoType.T))
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise()
-        for (y in 0..1) for (x in 0 until 10) if (x != 4 && x != 5) boardState.set(x, y, 1)
-        boardState.set(5, 2, 1); boardState.set(5, 0, 1); boardState.set(3, 2, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        for (y in 0..1) for (x in 0 until 10) if (x != 3 && x != 4) boardState.set(x, y, 1)
+        boardState.set(4, 2, 1); boardState.set(4, 0, 1); boardState.set(2, 2, 1)
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
-        assertEquals(1220, snapshot!!.score)
+        assertEquals(1221, snapshot!!.score)
     }
 
     @Test
     fun testMiniTSpinNoLines() = runTest {
         initGame(this, listOf(TetrominoType.T))
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise()
-        boardState.set(5, 2, 1); boardState.set(3, 2, 1); boardState.set(3, 0, 1)
-        boardState.set(4, 0, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        boardState.set(4, 2, 1); boardState.set(2, 2, 1); boardState.set(2, 0, 1)
+        boardState.set(3, 0, 1)
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
-        assertEquals(120, snapshot!!.score)
+        assertEquals(121, snapshot!!.score)
     }
 
     @Test
     fun testMiniTSpinSingle() = runTest {
         initGame(this, listOf(TetrominoType.T))
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise()
-        for (x in 0 until 10) if (x != 4 && x != 5) boardState.set(x, 0, 1)
-        boardState.set(5, 0, 1); boardState.set(3, 2, 1); boardState.set(3, 0, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        for (x in 0 until 10) if (x != 3 && x != 4) boardState.set(x, 0, 1)
+        boardState.set(4, 0, 1); boardState.set(2, 2, 1); boardState.set(2, 0, 1)
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
-        assertEquals(220, snapshot!!.score)
+        assertEquals(221, snapshot!!.score)
     }
 
     @Test
@@ -179,13 +179,11 @@ class ScoringTest {
     @Test
     fun testTSpinTripleAllClear() = runTest {
         initGame(this, listOf(TetrominoType.T))
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise()
-        gameLoop.rotateClockwise()
-        gameLoop.rotateClockwise() 
-        for (y in 0..2) for (x in 0 until 10) if (x != 4 && (y != 1 || x != 3)) boardState.set(x, y, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateCounterClockwise() // kicks to (5,1)
+        for (y in 0..2) for (x in 0 until 10) if (x != 5 && (y != 1 || x != 4)) boardState.set(x, y, 1)
         gameLoop.hardDrop()
-        assertEquals(1620, snapshot!!.score)
+        assertEquals(1621, snapshot!!.score)
     }
 
     @Test
@@ -208,26 +206,26 @@ class ScoringTest {
     fun testB2BTSpins() = runTest {
         initGame(this, listOf(TetrominoType.T, TetrominoType.T))
         
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise() 
-        for (y in 0..1) for (x in 0 until 10) if (x != 4 && x != 5) boardState.set(x, y, 1)
-        boardState.set(5, 2, 1); boardState.set(5, 0, 1); boardState.set(3, 2, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        for (y in 0..1) for (x in 0 until 10) if (x != 3 && x != 4) boardState.set(x, y, 1)
+        boardState.set(4, 2, 1); boardState.set(4, 0, 1); boardState.set(2, 2, 1)
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
         val score1 = snapshot!!.score 
-        assertEquals(1220, score1)
+        assertEquals(1221, score1)
 
         // Clear board for second piece but keep B2B
         boardState.clear()
 
-        while (gameLoop.softDrop()) {} // 20 pts
-        gameLoop.rotateClockwise()
-        for (y in 0..1) for (x in 0 until 10) if (x != 4 && x != 5) boardState.set(x, y, 1)
-        boardState.set(5, 2, 1); boardState.set(5, 0, 1); boardState.set(3, 2, 1)
+        while (gameLoop.softDrop()) {} // drops to (4,0)
+        gameLoop.rotateClockwise() // kicks to (3,1)
+        for (y in 0..1) for (x in 0 until 10) if (x != 3 && x != 4) boardState.set(x, y, 1)
+        boardState.set(4, 2, 1); boardState.set(4, 0, 1); boardState.set(2, 2, 1)
         boardState.set(0, 19, 1)
         gameLoop.hardDrop()
-        // 1200 * 1.5 (B2B) + 50 (Combo 1) + 20 (drop) = 1870
-        assertEquals(score1 + 1870, snapshot!!.score)
+        // 1200 * 1.5 (B2B) + 50 (Combo 1) + 21 (drop) = 1871
+        assertEquals(score1 + 1871, snapshot!!.score)
     }
 
     @Test
