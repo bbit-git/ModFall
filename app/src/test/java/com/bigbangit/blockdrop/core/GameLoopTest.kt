@@ -240,7 +240,7 @@ class GameLoopTest {
     }
 
     @Test
-    fun lockDelayEventuallyLocksGroundedPiece() = runTest {
+    fun hardDropImmediatelyLocksAndSpawnsNextPiece() = runTest {
         val boardState = BoardState()
         val gameLoop = GameLoop(
             boardState = boardState,
@@ -255,5 +255,30 @@ class GameLoopTest {
 
         assertNotNull(snapshot!!.activePiece)
         assertTrue(boardState.snapshot().cells.flatten().any { it != 0 })
+    }
+
+    @Test
+    fun dropDelayLimitedToOncePerPiece() = runTest {
+        val boardState = BoardState()
+        val gameLoop = GameLoop(
+            boardState = boardState,
+            pieceGenerator = PieceGenerator(kotlin.random.Random(4), initialQueue = listOf(TetrominoType.I, TetrominoType.O)),
+            effectBridge = EffectBridge(),
+            dispatcher = StandardTestDispatcher(testScheduler),
+        )
+        var snapshot: LoopSnapshot? = null
+
+        gameLoop.start(backgroundScope, onStateChanged = { snapshot = it })
+        assertTrue(snapshot!!.isDropDelayAvailable)
+
+        gameLoop.activateDropDelay()
+        assertFalse(snapshot!!.isDropDelayAvailable)
+
+        val currentPiece = snapshot!!.activePiece
+
+        // Call again
+        gameLoop.activateDropDelay()
+        assertFalse(snapshot!!.isDropDelayAvailable)
+        assertEquals(currentPiece, snapshot!!.activePiece)
     }
 }
