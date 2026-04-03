@@ -42,6 +42,8 @@ class SoundManager(
 
     private var muteJob: Job? = null
     private var effectJob: Job? = null
+
+    @Volatile
     private var hasAudioFocus: Boolean = false
 
     private val focusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -50,6 +52,7 @@ class SoundManager(
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> volumeScale = 0.25f
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
                 volumeScale = 0.5f
+                hasAudioFocus = false
                 stopActiveTracks()
             }
             AudioManager.AUDIOFOCUS_LOSS -> {
