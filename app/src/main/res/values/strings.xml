@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">Block Drop</string>
+    <string name="start_game">Start game</string>
+    <string name="game_state_label">State: %1$s</string>
+    <string name="score_label">Score: %1$d</string>
+    <string name="level_label">Level: %1$d</string>
+    <string name="hold_label">HOLD</string>
+    <string name="next_label_caps">NEXT</string>
+    <string name="lines_label">LINES</string>
+    <string name="score_label_caps">SCORE</string>
+    <string name="level_label_caps">LEVEL</string>
+    <string name="none_label">None</string>
+    <string name="move_left">Left</string>
+    <string name="move_right">Right</string>
+    <string name="rotate_ccw">Rotate CCW</string>
+    <string name="rotate_cw">Rotate CW</string>
+    <string name="soft_drop">Soft drop</string>
+    <string name="hard_drop">Hard drop</string>
+    <string name="hold_action">Hold</string>
+    <string name="drop_delay">Drop delay</string>
+
+    <!-- UI Overlays and Buttons -->
+    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="game_over_title">GAME OVER</string>
+    <string name="score_display">SCORE: %1$d</string>
+    <string name="paused_title">PAUSED</string>
+    <string name="resume_button">RESUME</string>
+    <string name="restart_button">RESTART</string>
+    <string name="quit_button">QUIT</string>
+    <string name="cancel_button">CANCEL</string>
+    <string name="exit_confirm_title">Quit Game?</string>
+    <string name="exit_confirm_message">Current progress will be lost.</string>
+    <string name="help_description">Help</string>
+    <string name="mute_description">Mute</string>
+
+    <!-- Control Surface Labels -->
+    <string name="hold_panel_label">HOLD: %1$s</string>
+    <string name="gesture_hint_label">Swipe/Drag to move, Tap to rotate</string>
+    <string name="debug_fallback_label">DEBUG CONTROLS</string>
+
+    <!-- Tutorial Overlay -->
+    <string name="tutorial_title">HOW TO PLAY</string>
+    <string name="tutorial_section_movement">MOVEMENT</string>
+    <string name="tutorial_section_dropping">DROPPING</string>
+    <string name="tutorial_section_strategy">STRATEGY</string>
+    <string name="tutorial_section_scoring">SCORING</string>
+    <string name="tutorial_got_it">GOT IT!</string>
+
+    <string name="tutorial_movement_grab_label">Grab Piece</string>
+    <string name="tutorial_movement_grab_desc">Touch active piece and drag horizontally to move it column-by-column.</string>
+    <string name="tutorial_movement_swipe_label">Swipe Move</string>
+    <string name="tutorial_movement_swipe_desc">Swipe anywhere else on the board to move pieces with DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Rotation</string>
+    <string name="tutorial_movement_rotation_desc">Tap the right half of the board to rotate clockwise, left half for counter-clockwise.</string>
+
+    <string name="tutorial_dropping_soft_label">Soft Drop</string>
+    <string name="tutorial_dropping_soft_desc">Slow drag downward anywhere else to drop faster (+1 pt/row).</string>
+    <string name="tutorial_dropping_hard_label">Hard Drop</string>
+    <string name="tutorial_dropping_hard_desc">Fast flick downward anywhere else to lock instantly (+2 pts/row).</string>
+    <string name="tutorial_dropping_delay_label">Drop Delay</string>
+    <string name="tutorial_dropping_delay_desc">Swipe upward to freeze gravity temporarily (once per piece).</string>
+
+    <string name="tutorial_strategy_hold_label">Hold</string>
+    <string name="tutorial_strategy_hold_desc">Tap the HOLD panel or button to swap the active piece for later use.</string>
+    <string name="tutorial_strategy_ghost_label">Ghost Piece</string>
+    <string name="tutorial_strategy_ghost_desc">Watch the projection on the floor to see exactly where your piece will land.</string>
+    <string name="tutorial_strategy_queue_label">Next Queue</string>
+    <string name="tutorial_strategy_queue_desc">The queue on the right shows upcoming pieces. It shrinks as you level up!</string>
+
+    <string name="tutorial_scoring_lines_label">Line Clears</string>
+    <string name="tutorial_scoring_lines_desc">Clear rows to score! Level multiplier applies to all clears.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spins</string>
+    <string name="tutorial_scoring_tspin_desc">Rotate a T-piece into a tight spot for massive bonus points.</string>
+    <string name="tutorial_scoring_combos_label">Combos</string>
+    <string name="tutorial_scoring_combos_desc">Clear lines in consecutive placements to build a combo multiplier.</string>
+    <string name="tutorial_scoring_allclear_label">All Clear</string>
+    <string name="tutorial_scoring_allclear_desc">Empty the entire board for the ultimate score reward.</string>
+</resources>
