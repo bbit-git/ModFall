@@ -8,4 +8,13 @@
             <solid android:color="#29BFFF" />
         </shape>
     </item>
+    <item
+        android:left="120dp"
+        android:top="250dp"
+        android:right="120dp"
+        android:bottom="250dp">
+        <bitmap
+            android:src="@drawable/splashscreen"
+            android:gravity="center" />
+    </item>
 </layer-list>
