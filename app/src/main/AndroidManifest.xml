@@ -14,7 +14,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BlockDrop">
+            android:theme="@style/Theme.BlockDrop.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

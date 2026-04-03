@@ -27,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 
+import androidx.compose.foundation.layout.safeDrawingPadding
+
 @Composable
 fun TutorialOverlay(
     onDismiss: () -> Unit
@@ -38,12 +40,13 @@ fun TutorialOverlay(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.9f)),
+                .background(Color.Black.copy(alpha = 0.95f)),
             color = Color.Transparent
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .safeDrawingPadding()
                     .padding(24.dp)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally

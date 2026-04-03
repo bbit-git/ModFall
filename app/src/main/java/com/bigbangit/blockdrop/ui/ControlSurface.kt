@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -34,6 +35,7 @@ fun ControlSurface(
     modifier: Modifier = Modifier,
 ) {
     var boardSize by remember { mutableStateOf(IntSize.Zero) }
+    val currentUiModel = rememberUpdatedState(uiModel)
     val density = LocalDensity.current
 
     val hardDropThresholdPxPerSec = with(density) { GameConstants.HARD_DROP_VELOCITY_DP_PER_SEC.dp.toPx() }
@@ -44,7 +46,7 @@ fun ControlSurface(
     Box(
         modifier = modifier
             .onSizeChanged { boardSize = it }
-            .pointerInput(uiModel, boardSize) {
+            .pointerInput(boardSize) {
                 val width = boardSize.width.toFloat().takeIf { it > 0f } ?: return@pointerInput
                 val height = boardSize.height.toFloat().takeIf { it > 0f } ?: return@pointerInput
                 val cellWidth = width / GameConstants.BOARD_WIDTH
@@ -53,11 +55,11 @@ fun ControlSurface(
                 awaitPointerEventScope {
                     while (true) {
                         val down = awaitFirstDown()
-                        if (uiModel.state != GameState.Running) continue
+                        if (currentUiModel.value.state != GameState.Running) continue
 
                         val startOffset = down.position
                         val startTime = System.currentTimeMillis()
-                        val startedOnPiece = uiModel.activePiece?.contains(startOffset, boardSize, grabSlopPx) == true
+                        val startedOnPiece = currentUiModel.value.activePiece?.contains(startOffset, boardSize, grabSlopPx) == true
 
                         var grabActive = false
                         var totalDrag = Offset.Zero
@@ -65,6 +67,7 @@ fun ControlSurface(
                         var downwardSteps = 0
                         var lastMoveTime = startTime
                         var isDasActive = false
+                        var dasServed = false
                         var lastVelocity = 0f
                         var lastEventTime = down.uptimeMillis
 
@@ -77,7 +80,7 @@ fun ControlSurface(
 
                             if (pointerChange == null || !pointerChange.pressed) {
                                 if (totalDrag.getDistance() < 10f) {
-                                    val piece = uiModel.activePiece
+                                    val piece = currentUiModel.value.activePiece
                                     if (piece != null && piece.contains(startOffset, boardSize, grabSlopPx)) {
                                         val pieceCenterX = piece.centerX(boardSize)
                                         if (startOffset.x < pieceCenterX) onRotateCounterClockwise() else onRotateClockwise()
@@ -133,10 +136,11 @@ fun ControlSurface(
                                                 isDasActive = true
                                             }
                                         } else {
-                                            val threshold = if (currentTime - startTime > dasMs) arrMs else dasMs
+                                            val threshold = if (dasServed) arrMs else dasMs
                                             if (timeSinceLast > threshold) {
                                                 if (direction > 0) onMoveRight() else onMoveLeft()
                                                 lastMoveTime = currentTime
+                                                dasServed = true
                                             }
                                         }
                                     }

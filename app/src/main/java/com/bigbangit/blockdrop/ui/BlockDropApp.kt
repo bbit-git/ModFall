@@ -1,6 +1,11 @@
 package com.bigbangit.blockdrop.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +19,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,6 +50,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,13 +64,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.core.GameState
 import com.bigbangit.blockdrop.ui.model.GameUiModel
@@ -79,29 +89,50 @@ private const val HardDropButtonTag = "hard-drop-button"
 @Composable
 fun BlockDropApp(viewModel: GameViewModel) {
     val uiModel by viewModel.uiModel.collectAsState()
+    var showSplash by remember { mutableStateOf(true) }
 
-    BlockDropScreen(
-        uiModel = uiModel,
-        onStartGame = viewModel::startGame,
-        onPause = viewModel::pauseGame,
-        onResume = viewModel::resumeGame,
-        onQuit = viewModel::quitGame,
-        onMuteToggle = viewModel::toggleMute,
-        onShowTutorial = viewModel::showTutorial,
-        onDismissTutorial = viewModel::dismissTutorial,
-        onMoveLeft = viewModel::moveLeft,
-        onMoveRight = viewModel::moveRight,
-        onRotateClockwise = viewModel::rotateClockwise,
-        onRotateCounterClockwise = viewModel::rotateCounterClockwise,
-        onSoftDrop = viewModel::softDrop,
-        onHardDrop = viewModel::hardDrop,
-        onHold = viewModel::hold,
-        onDropDelay = viewModel::activateDropDelay,
-        onNicknameChanged = viewModel::updateNickname,
-        onSubmitScore = viewModel::submitScore,
-        onShowScoreboard = viewModel::showScoreboard,
-        onDismissScoreboard = viewModel::dismissScoreboard,
-    )
+    LaunchedEffect(Unit) {
+        delay(2_000L)
+        showSplash = false
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        BlockDropScreen(
+            uiModel = uiModel,
+            onStartGame = viewModel::startGame,
+            onPause = viewModel::pauseGame,
+            onResume = viewModel::resumeGame,
+            onQuit = viewModel::quitGame,
+            onMuteToggle = viewModel::toggleMute,
+            onShowTutorial = viewModel::showTutorial,
+            onDismissTutorial = viewModel::dismissTutorial,
+            onMoveLeft = viewModel::moveLeft,
+            onMoveRight = viewModel::moveRight,
+            onRotateClockwise = viewModel::rotateClockwise,
+            onRotateCounterClockwise = viewModel::rotateCounterClockwise,
+            onSoftDrop = viewModel::softDrop,
+            onHardDrop = viewModel::hardDrop,
+            onHold = viewModel::hold,
+            onDropDelay = viewModel::activateDropDelay,
+            onNicknameChanged = viewModel::updateNickname,
+            onSubmitScore = viewModel::submitScore,
+            onShowScoreboard = viewModel::showScoreboard,
+            onDismissScoreboard = viewModel::dismissScoreboard,
+        )
+
+        AnimatedVisibility(
+            visible = showSplash,
+            enter = EnterTransition.None,
+            exit = fadeOut(animationSpec = tween(durationMillis = 300)),
+        ) {
+            Image(
+                painter = painterResource(R.drawable.splashscreen),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+    }
 }
 
 @Composable
@@ -170,6 +201,7 @@ fun BlockDropScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .safeDrawingPadding()
                 .padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
@@ -209,10 +241,6 @@ fun BlockDropScreen(
 
             BottomControlsRow(
                 enabled = uiModel.state == GameState.Running,
-                onMoveLeft = onMoveLeft,
-                onMoveRight = onMoveRight,
-                onRotateClockwise = onRotateClockwise,
-                onSoftDrop = onSoftDrop,
                 onHardDrop = onHardDrop,
             )
         }
@@ -395,71 +423,19 @@ private fun GameBoardStage(
 @Composable
 private fun BottomControlsRow(
     enabled: Boolean,
-    onMoveLeft: () -> Unit,
-    onMoveRight: () -> Unit,
-    onRotateClockwise: () -> Unit,
-    onSoftDrop: () -> Unit,
     onHardDrop: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        GameplayControlButton(
-            onClick = onMoveLeft,
-            enabled = enabled,
-            contentDescription = stringResource(R.string.move_left),
-            modifier = Modifier.weight(1f),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = stringResource(R.string.move_left),
-            )
-        }
-
-        GameplayControlButton(
-            onClick = onRotateClockwise,
-            enabled = enabled,
-            contentDescription = stringResource(R.string.rotate_cw),
-            modifier = Modifier.weight(1f),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.RotateRight,
-                contentDescription = stringResource(R.string.rotate_cw),
-            )
-        }
-
-        GameplayControlButton(
-            onClick = onMoveRight,
-            enabled = enabled,
-            contentDescription = stringResource(R.string.move_right),
-            modifier = Modifier.weight(1f),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = stringResource(R.string.move_right),
-            )
-        }
-
-        GameplayControlButton(
-            onClick = onSoftDrop,
-            enabled = enabled,
-            contentDescription = stringResource(R.string.soft_drop),
-            modifier = Modifier.weight(1f),
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowDownward,
-                contentDescription = stringResource(R.string.soft_drop),
-            )
-        }
-
         GameplayControlButton(
             onClick = onHardDrop,
             enabled = enabled,
             contentDescription = stringResource(R.string.hard_drop),
             modifier = Modifier
-                .weight(1.45f)
+                .weight(1f)
                 .testTag(HardDropButtonTag),
             label = stringResource(R.string.hard_drop_short),
             emphasize = true,
@@ -567,7 +543,7 @@ private fun GameOverOverlayCard(
     Column(
         modifier = Modifier
             .width(width)
-            .background(Color.White.copy(alpha = 0.16f), RoundedCornerShape(24.dp))
+            .background(AppBackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(24.dp))
             .border(1.dp, Color.White.copy(alpha = 0.22f), RoundedCornerShape(24.dp))
             .padding(horizontal = 20.dp, vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -659,7 +635,7 @@ private fun CompactOverlayCard(
     Column(
         modifier = Modifier
             .width(width)
-            .background(Color.White.copy(alpha = 0.16f), RoundedCornerShape(24.dp))
+            .background(AppBackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(24.dp))
             .border(1.dp, Color.White.copy(alpha = 0.22f), RoundedCornerShape(24.dp))
             .padding(horizontal = 20.dp, vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
