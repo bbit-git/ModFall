@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Block Drop</string>
+    <string name="start_game">Почати гру</string>
+    <string name="game_state_label">Стан: %1$s</string>
+    <string name="score_label">Рахунок: %1$d</string>
+    <string name="level_label">Рівень: %1$d</string>
+    <string name="hold_label">УТРИМАТИ</string>
+    <string name="next_label_caps">ДАЛІ</string>
+    <string name="lines_label">Ряди</string>
+    <string name="score_label_caps">РАХУНОК</string>
+    <string name="level_label_caps">РІВЕНЬ</string>
+    <string name="score_stat_compact">РАХУНОК %1$d</string>
+    <string name="level_stat_compact">РІВЕНЬ %1$d</string>
+    <string name="lines_stat_compact">РЯДИ %1$d</string>
+    <string name="none_label">Немає</string>
+    <string name="move_left">Вліво</string>
+    <string name="move_right">Вправо</string>
+    <string name="rotate_ccw">Повернути проти годинника</string>
+    <string name="rotate_cw">Повернути за годинником</string>
+    <string name="soft_drop">М’який спуск</string>
+    <string name="hard_drop">Жорсткий спуск</string>
+    <string name="hard_drop_short">ЖОРСТКИЙ СПУСК</string>
+    <string name="hold_action">Утримати</string>
+    <string name="drop_delay">Затримка падіння</string>
+
+    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="game_over_title">ГРА ЗАВЕРШЕНА</string>
+    <string name="score_display">РАХУНОК: %1$d</string>
+    <string name="paused_title">ПАУЗА</string>
+    <string name="pause_menu_subtitle">Продовжити, перезапустити або вийти до меню.</string>
+    <string name="resume_button">ПРОДОВЖИТИ</string>
+    <string name="restart_button">ПЕРЕЗАПУСТИТИ</string>
+    <string name="menu_button">МЕНЮ</string>
+    <string name="quit_button">ВИЙТИ</string>
+    <string name="cancel_button">СКАСУВАТИ</string>
+    <string name="close_button">ЗАКРИТИ</string>
+    <string name="exit_confirm_title">Покинути гру?</string>
+    <string name="exit_confirm_message">Поточний прогрес буде втрачено.</string>
+    <string name="help_description">Допомога</string>
+    <string name="mute_description">Вимкнути звук</string>
+    <string name="nickname_label">Псевдонім</string>
+    <string name="nickname_placeholder">До 12 символів</string>
+    <string name="nickname_required">Введіть псевдонім, щоб зберегти рахунок.</string>
+    <string name="save_score_button">ЗБЕРЕГТИ РАХУНОК</string>
+    <string name="score_saved">Рахунок збережено.</string>
+    <string name="score_saved_ranked">Місце #%1$d у локальній таблиці.</string>
+    <string name="not_in_top_ten">Рахунок не потрапив до топ-10.</string>
+    <string name="scoreboard_button">ТАБЛИЦЯ</string>
+    <string name="scoreboard_title">ЛОКАЛЬНА ТАБЛИЦЯ</string>
+    <string name="scoreboard_empty">Ще немає збережених рахунків.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">ІМ’Я</string>
+    <string name="scoreboard_score_header">РАХУНОК</string>
+    <string name="scoreboard_level_header">РІВЕНЬ</string>
+    <string name="scoreboard_lines_header">РЯДИ</string>
+
+    <string name="tutorial_title">ЯК ГРАТИ</string>
+    <string name="tutorial_section_movement">РУХ</string>
+    <string name="tutorial_section_dropping">ПАДІННЯ</string>
+    <string name="tutorial_section_strategy">СТРАТЕГІЯ</string>
+    <string name="tutorial_section_scoring">НАРАХУВАННЯ</string>
+    <string name="tutorial_got_it">ЗРОЗУМІЛО</string>
+
+    <string name="tutorial_movement_grab_label">Схопити фігуру</string>
+    <string name="tutorial_movement_grab_desc">Доторкніться до активної фігури і перетягніть горизонтально, щоб перемістити по колонках.</string>
+    <string name="tutorial_movement_swipe_label">Проведіть пальцем</string>
+    <string name="tutorial_movement_swipe_desc">Проведіть деінде по полі, щоб рухатися з DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Обертання</string>
+    <string name="tutorial_movement_rotation_desc">Торкніться правої половини поля, щоб повернути за годинником, лівої - проти.</string>
+
+    <string name="tutorial_dropping_soft_label">М’який спуск</string>
+    <string name="tutorial_dropping_soft_desc">Повільно потягніть вниз деінде, щоб прискорити падіння (+1 бал/ряд).</string>
+    <string name="tutorial_dropping_hard_label">Жорсткий спуск</string>
+    <string name="tutorial_dropping_hard_desc">Швидко проведiть вниз, щоб негайно зафіксувати (+2 бали/ряд).</string>
+    <string name="tutorial_dropping_delay_label">Затримка падіння</string>
+    <string name="tutorial_dropping_delay_desc">Проведіть угору, щоб тимчасово призупинити гравітацію (раз на фігуру).</string>
+
+    <string name="tutorial_strategy_hold_label">Утримання</string>
+    <string name="tutorial_strategy_hold_desc">Торкніться панелі УТРИМАТИ або кнопки, щоб замінити активну фігуру.</string>
+    <string name="tutorial_strategy_ghost_label">Привид</string>
+    <string name="tutorial_strategy_ghost_desc">Слідкуйте за проекцією на підлозі, щоб знати, куди приземлиться фігура.</string>
+    <string name="tutorial_strategy_queue_label">Черга</string>
+    <string name="tutorial_strategy_queue_desc">Черга праворуч показує наступні фігури. Вона зменшується, коли підвищується рівень.</string>
+
+    <string name="tutorial_scoring_lines_label">Чищення рядів</string>
+    <string name="tutorial_scoring_lines_desc">Очистіть ряди для бала! Множник рівня застосовується до всіх.</string>
+    <string name="tutorial_scoring_tspin_label">T-спіни</string>
+    <string name="tutorial_scoring_tspin_desc">Вставте фігуру T у вузьке місце для великого бонусу.</string>
+    <string name="tutorial_scoring_combos_label">Комбінації</string>
+    <string name="tutorial_scoring_combos_desc">Очищайте ряди підряд, щоб збільшити множник комбо.</string>
+    <string name="tutorial_scoring_allclear_label">Повне очищення</string>
+    <string name="tutorial_scoring_allclear_desc">Очистіть усю дошку для максимального бонусу.</string>
+</resources>

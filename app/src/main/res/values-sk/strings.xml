@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Block Drop</string>
+    <string name="start_game">Spustiť hru</string>
+    <string name="game_state_label">Stav: %1$s</string>
+    <string name="score_label">Skóre: %1$d</string>
+    <string name="level_label">Úroveň: %1$d</string>
+    <string name="hold_label">DRŽAŤ</string>
+    <string name="next_label_caps">ĎALEJ</string>
+    <string name="lines_label">Riadky</string>
+    <string name="score_label_caps">SKÓRE</string>
+    <string name="level_label_caps">ÚROVEŇ</string>
+    <string name="score_stat_compact">SKÓRE %1$d</string>
+    <string name="level_stat_compact">ÚROVEŇ %1$d</string>
+    <string name="lines_stat_compact">RIADKY %1$d</string>
+    <string name="none_label">Žiadny</string>
+    <string name="move_left">Doľava</string>
+    <string name="move_right">Doprava</string>
+    <string name="rotate_ccw">Otočiť proti smeru hodiniek</string>
+    <string name="rotate_cw">Otočiť po smere hodiniek</string>
+    <string name="soft_drop">Mäkký pád</string>
+    <string name="hard_drop">Tvrdý pád</string>
+    <string name="hard_drop_short">TVRDÝ PÁD</string>
+    <string name="hold_action">Držať</string>
+    <string name="drop_delay">Oneskorenie pádu</string>
+
+    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="game_over_title">KONIEC HRY</string>
+    <string name="score_display">SKÓRE: %1$d</string>
+    <string name="paused_title">PAUZA</string>
+    <string name="pause_menu_subtitle">Pokračuj, reštartuj alebo odíď do menu.</string>
+    <string name="resume_button">POKRAČOVAŤ</string>
+    <string name="restart_button">REŠTART</string>
+    <string name="menu_button">MENU</string>
+    <string name="quit_button">ODÍSŤ</string>
+    <string name="cancel_button">ZRUŠIŤ</string>
+    <string name="close_button">Zatvoriť</string>
+    <string name="exit_confirm_title">Opustiť hru?</string>
+    <string name="exit_confirm_message">Aktuálny postup bude stratený.</string>
+    <string name="help_description">Pomoc</string>
+    <string name="mute_description">Stíšiť</string>
+    <string name="nickname_label">Prezývka</string>
+    <string name="nickname_placeholder">Až 12 znakov</string>
+    <string name="nickname_required">Zadaj prezývku na uloženie skóre.</string>
+    <string name="save_score_button">ULOŽIŤ SKÓRE</string>
+    <string name="score_saved">Skóre uložené.</string>
+    <string name="score_saved_ranked">Umiestnenie #%1$d v lokálnej tabuľke.</string>
+    <string name="not_in_top_ten">Skóre sa nevošlo do top 10.</string>
+    <string name="scoreboard_button">TABUĽKA</string>
+    <string name="scoreboard_title">LOKÁLNA TABUĽKA</string>
+    <string name="scoreboard_empty">Zatiaľ žiadne uložené skóre.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">MENO</string>
+    <string name="scoreboard_score_header">SKÓRE</string>
+    <string name="scoreboard_level_header">ÚROVEŇ</string>
+    <string name="scoreboard_lines_header">RIADKY</string>
+
+    <string name="tutorial_title">AKO HRAŤ</string>
+    <string name="tutorial_section_movement">POHYB</string>
+    <string name="tutorial_section_dropping">PÁD</string>
+    <string name="tutorial_section_strategy">STRATÉGIA</string>
+    <string name="tutorial_section_scoring">BODOVANIE</string>
+    <string name="tutorial_got_it">ROZUMIEM!</string>
+
+    <string name="tutorial_movement_grab_label">Chytenie bloku</string>
+    <string name="tutorial_movement_grab_desc">Dotkni sa aktívneho bloku a potiahni vodorovne pre pohyb po stĺpcoch.</string>
+    <string name="tutorial_movement_swipe_label">Posuň prstom</string>
+    <string name="tutorial_movement_swipe_desc">Prejdi inde po doske, aby si sa pohyboval pomocou DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Otáčanie</string>
+    <string name="tutorial_movement_rotation_desc">Ťukni do pravej polovice, aby si otočil po smere hodiniek, do ľavej v protismere.</string>
+
+    <string name="tutorial_dropping_soft_label">Mäkký pád</string>
+    <string name="tutorial_dropping_soft_desc">Pomaly ťahaj nadol inde, aby si zrýchlil pád (+1 bod/riadok).</string>
+    <string name="tutorial_dropping_hard_label">Tvrdý pád</string>
+    <string name="tutorial_dropping_hard_desc">Rýchlo pritiahnuté nadol, aby si okamžite zamkol (+2 body/riadok).</string>
+    <string name="tutorial_dropping_delay_label">Oneskorenie pádu</string>
+    <string name="tutorial_dropping_delay_desc">Prejdi hore, aby si dočasne zastavil gravitáciu (raz na blok).</string>
+
+    <string name="tutorial_strategy_hold_label">Držanie</string>
+    <string name="tutorial_strategy_hold_desc">Ťukni na panel DRŽAŤ alebo tlačidlo pre výmenu aktívneho bloku.</string>
+    <string name="tutorial_strategy_ghost_label">Duch</string>
+    <string name="tutorial_strategy_ghost_desc">Sleduj projekciu na podlahe, aby si vedel, kam figúra dopadne.</string>
+    <string name="tutorial_strategy_queue_label">Rada</string>
+    <string name="tutorial_strategy_queue_desc">Pravá rada ukazuje ďalšie figúry. Zmenšuje sa s postupom úrovní.</string>
+
+    <string name="tutorial_scoring_lines_label">Vyčistené riadky</string>
+    <string name="tutorial_scoring_lines_desc">Vyčisti riadky pre skóre! Násobič úrovne platí na všetky.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spiny</string>
+    <string name="tutorial_scoring_tspin_desc">Vsuň T-figúru do úzkeho priestoru pre obrovský bonus.</string>
+    <string name="tutorial_scoring_combos_label">Kombinácie</string>
+    <string name="tutorial_scoring_combos_desc">Vymaž riadky za sebou a buduj násobič komb.</string>
+    <string name="tutorial_scoring_allclear_label">Vyčistenie</string>
+    <string name="tutorial_scoring_allclear_desc">Vyprázdni celú dosku pre maximálny bonus.</string>
+</resources>
