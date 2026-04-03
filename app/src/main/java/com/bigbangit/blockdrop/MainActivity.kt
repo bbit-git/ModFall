@@ -13,7 +13,7 @@ import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 import com.bigbangit.blockdrop.ui.viewmodel.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
-    private val appContainer by lazy { AppContainer() }
+    private val appContainer by lazy { AppContainer(applicationContext) }
     private val gameViewModel by viewModels<com.bigbangit.blockdrop.ui.viewmodel.GameViewModel> {
         ViewModelFactory(appContainer)
     }
@@ -37,11 +37,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        appContainer.soundManager.start()
+        appContainer.vibrationManager.start()
         gameViewModel.onForegrounded()
     }
 
     override fun onStop() {
         gameViewModel.onBackgrounded()
+        appContainer.soundManager.stop()
+        appContainer.vibrationManager.stop()
         super.onStop()
     }
 }

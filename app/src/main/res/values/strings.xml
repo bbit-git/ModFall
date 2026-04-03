@@ -28,15 +28,32 @@
     <string name="game_over_title">GAME OVER</string>
     <string name="score_display">SCORE: %1$d</string>
     <string name="paused_title">PAUSED</string>
+    <string name="pause_menu_subtitle">Resume, restart, or exit to the menu.</string>
     <string name="resume_button">RESUME</string>
     <string name="restart_button">RESTART</string>
     <string name="menu_button">MENU</string>
     <string name="quit_button">QUIT</string>
     <string name="cancel_button">CANCEL</string>
+    <string name="close_button">CLOSE</string>
     <string name="exit_confirm_title">Quit Game?</string>
     <string name="exit_confirm_message">Current progress will be lost.</string>
     <string name="help_description">Help</string>
     <string name="mute_description">Mute</string>
+    <string name="nickname_label">Nickname</string>
+    <string name="nickname_placeholder">Up to 12 characters</string>
+    <string name="nickname_required">Enter a nickname to save the score.</string>
+    <string name="save_score_button">SAVE SCORE</string>
+    <string name="score_saved">Score saved.</string>
+    <string name="score_saved_ranked">Ranked #%1$d on the local board.</string>
+    <string name="not_in_top_ten">Score did not make the top 10.</string>
+    <string name="scoreboard_button">SCOREBOARD</string>
+    <string name="scoreboard_title">LOCAL SCOREBOARD</string>
+    <string name="scoreboard_empty">No scores saved yet.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">NAME</string>
+    <string name="scoreboard_score_header">SCORE</string>
+    <string name="scoreboard_level_header">LVL</string>
+    <string name="scoreboard_lines_header">LINES</string>
 
     <!-- Tutorial Overlay -->
     <string name="tutorial_title">HOW TO PLAY</string>

@@ -40,6 +40,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -79,19 +80,15 @@ private const val HardDropButtonTag = "hard-drop-button"
 fun BlockDropApp(viewModel: GameViewModel) {
     val uiModel by viewModel.uiModel.collectAsState()
 
-    var isMuted by remember { mutableStateOf(false) }
-    var showTutorial by remember { mutableStateOf(false) }
-
     BlockDropScreen(
         uiModel = uiModel,
-        isMuted = isMuted,
-        showTutorial = showTutorial,
         onStartGame = viewModel::startGame,
         onPause = viewModel::pauseGame,
         onResume = viewModel::resumeGame,
         onQuit = viewModel::quitGame,
-        onMuteToggle = { isMuted = !isMuted },
-        onTutorialToggle = { showTutorial = !showTutorial },
+        onMuteToggle = viewModel::toggleMute,
+        onShowTutorial = viewModel::showTutorial,
+        onDismissTutorial = viewModel::dismissTutorial,
         onMoveLeft = viewModel::moveLeft,
         onMoveRight = viewModel::moveRight,
         onRotateClockwise = viewModel::rotateClockwise,
@@ -100,20 +97,23 @@ fun BlockDropApp(viewModel: GameViewModel) {
         onHardDrop = viewModel::hardDrop,
         onHold = viewModel::hold,
         onDropDelay = viewModel::activateDropDelay,
+        onNicknameChanged = viewModel::updateNickname,
+        onSubmitScore = viewModel::submitScore,
+        onShowScoreboard = viewModel::showScoreboard,
+        onDismissScoreboard = viewModel::dismissScoreboard,
     )
 }
 
 @Composable
 fun BlockDropScreen(
     uiModel: GameUiModel,
-    isMuted: Boolean,
-    showTutorial: Boolean,
     onStartGame: () -> Unit,
     onPause: () -> Unit,
     onResume: () -> Unit,
     onQuit: () -> Unit,
     onMuteToggle: () -> Unit,
-    onTutorialToggle: () -> Unit,
+    onShowTutorial: () -> Unit,
+    onDismissTutorial: () -> Unit,
     onMoveLeft: () -> Unit,
     onMoveRight: () -> Unit,
     onRotateClockwise: () -> Unit,
@@ -122,6 +122,10 @@ fun BlockDropScreen(
     onHardDrop: () -> Unit,
     onHold: () -> Unit,
     onDropDelay: () -> Unit,
+    onNicknameChanged: (String) -> Unit,
+    onSubmitScore: () -> Unit,
+    onShowScoreboard: () -> Unit,
+    onDismissScoreboard: () -> Unit,
 ) {
     var showExitConfirm by remember { mutableStateOf(false) }
 
@@ -173,8 +177,8 @@ fun BlockDropScreen(
                 score = uiModel.score,
                 level = uiModel.level,
                 lines = uiModel.lines,
-                isMuted = isMuted,
-                onTutorialToggle = onTutorialToggle,
+                isMuted = uiModel.isMuted,
+                onTutorialToggle = onShowTutorial,
                 onMuteToggle = onMuteToggle,
             )
 
@@ -197,6 +201,9 @@ fun BlockDropScreen(
                     onHardDrop = onHardDrop,
                     onHold = onHold,
                     onDropDelay = onDropDelay,
+                    onNicknameChanged = onNicknameChanged,
+                    onSubmitScore = onSubmitScore,
+                    onShowScoreboard = onShowScoreboard,
                 )
             }
 
@@ -210,8 +217,15 @@ fun BlockDropScreen(
             )
         }
 
-        if (showTutorial) {
-            TutorialOverlay(onDismiss = onTutorialToggle)
+        if (uiModel.showTutorial) {
+            TutorialOverlay(onDismiss = onDismissTutorial)
+        }
+
+        if (uiModel.isScoreboardVisible) {
+            ScoreboardOverlay(
+                entries = uiModel.scoreboardEntries,
+                onDismiss = onDismissScoreboard,
+            )
         }
     }
 }
@@ -277,6 +291,9 @@ private fun GameBoardStage(
     onHardDrop: () -> Unit,
     onHold: () -> Unit,
     onDropDelay: () -> Unit,
+    onNicknameChanged: (String) -> Unit,
+    onSubmitScore: () -> Unit,
+    onShowScoreboard: () -> Unit,
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),
@@ -347,24 +364,26 @@ private fun GameBoardStage(
                     onPrimaryClick = onStartGame,
                 )
 
-                GameState.GameOver -> CompactOverlayCard(
-                    title = stringResource(R.string.game_over_title),
-                    subtitle = stringResource(R.string.score_display, uiModel.score),
-                    width = (boardWidth.value * 0.78f).dp,
-                    primaryLabel = stringResource(R.string.restart_button),
+                GameState.GameOver -> GameOverOverlayCard(
+                    uiModel = uiModel,
+                    width = (boardWidth.value * 0.84f).dp,
                     onPrimaryClick = onStartGame,
-                    secondaryLabel = stringResource(R.string.menu_button),
                     onSecondaryClick = onQuit,
+                    onNicknameChanged = onNicknameChanged,
+                    onSubmitScore = onSubmitScore,
+                    onShowScoreboard = onShowScoreboard,
                 )
 
                 GameState.Paused -> CompactOverlayCard(
                     title = stringResource(R.string.paused_title),
-                    subtitle = null,
-                    width = (boardWidth.value * 0.74f).dp,
+                    subtitle = stringResource(R.string.pause_menu_subtitle),
+                    width = (boardWidth.value * 0.8f).dp,
                     primaryLabel = stringResource(R.string.resume_button),
                     onPrimaryClick = onResume,
-                    secondaryLabel = stringResource(R.string.menu_button),
-                    onSecondaryClick = onQuit,
+                    secondaryLabel = stringResource(R.string.restart_button),
+                    onSecondaryClick = onStartGame,
+                    tertiaryLabel = stringResource(R.string.menu_button),
+                    onTertiaryClick = onQuit,
                 )
 
                 else -> Unit
@@ -536,6 +555,96 @@ private fun GameplayControlButton(
 }
 
 @Composable
+private fun GameOverOverlayCard(
+    uiModel: GameUiModel,
+    width: Dp,
+    onPrimaryClick: () -> Unit,
+    onSecondaryClick: () -> Unit,
+    onNicknameChanged: (String) -> Unit,
+    onSubmitScore: () -> Unit,
+    onShowScoreboard: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .width(width)
+            .background(Color.White.copy(alpha = 0.16f), RoundedCornerShape(24.dp))
+            .border(1.dp, Color.White.copy(alpha = 0.22f), RoundedCornerShape(24.dp))
+            .padding(horizontal = 20.dp, vertical = 18.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.game_over_title),
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Black,
+            color = TextWhite,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = stringResource(R.string.score_display, uiModel.score),
+            style = MaterialTheme.typography.titleMedium,
+            color = TextWhite.copy(alpha = 0.92f),
+            textAlign = TextAlign.Center,
+        )
+
+        if (!uiModel.hasSubmittedScore) {
+            OutlinedTextField(
+                value = uiModel.pendingNickname,
+                onValueChange = onNicknameChanged,
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                label = { Text(stringResource(R.string.nickname_label)) },
+                placeholder = { Text(stringResource(R.string.nickname_placeholder)) },
+                isError = uiModel.nicknameError != null,
+                supportingText = {
+                    if (uiModel.nicknameError != null) {
+                        Text(stringResource(R.string.nickname_required))
+                    }
+                },
+            )
+
+            Button(
+                onClick = onSubmitScore,
+                enabled = !uiModel.isSubmittingScore,
+            ) {
+                Text(stringResource(R.string.save_score_button))
+            }
+        } else {
+            val submissionText = when {
+                uiModel.didQualifyForScoreboard == true && uiModel.qualifiedRank != null ->
+                    stringResource(R.string.score_saved_ranked, uiModel.qualifiedRank)
+                uiModel.didQualifyForScoreboard == true ->
+                    stringResource(R.string.score_saved)
+                else ->
+                    stringResource(R.string.not_in_top_ten)
+            }
+            Text(
+                text = submissionText,
+                style = MaterialTheme.typography.bodyMedium,
+                color = TextWhite.copy(alpha = 0.92f),
+                textAlign = TextAlign.Center,
+            )
+            FilledTonalButton(onClick = onShowScoreboard) {
+                Text(stringResource(R.string.scoreboard_button))
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Button(onClick = onPrimaryClick) {
+                Text(stringResource(R.string.restart_button))
+            }
+            FilledTonalButton(onClick = onSecondaryClick) {
+                Text(stringResource(R.string.menu_button))
+            }
+        }
+    }
+}
+
+@Composable
 private fun CompactOverlayCard(
     title: String,
     subtitle: String?,
@@ -544,6 +653,8 @@ private fun CompactOverlayCard(
     onPrimaryClick: () -> Unit,
     secondaryLabel: String? = null,
     onSecondaryClick: (() -> Unit)? = null,
+    tertiaryLabel: String? = null,
+    onTertiaryClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = Modifier
@@ -582,6 +693,11 @@ private fun CompactOverlayCard(
                     Text(secondaryLabel)
                 }
             }
+            if (tertiaryLabel != null && onTertiaryClick != null) {
+                TextButton(onClick = onTertiaryClick) {
+                    Text(tertiaryLabel)
+                }
+            }
         }
     }
 }
@@ -592,14 +708,13 @@ private fun BlockDropScreenPreview() {
     BlockDropTheme {
         BlockDropScreen(
             uiModel = GameUiModel(state = GameState.Running),
-            isMuted = false,
-            showTutorial = false,
             onStartGame = {},
             onPause = {},
             onResume = {},
             onQuit = {},
             onMuteToggle = {},
-            onTutorialToggle = {},
+            onShowTutorial = {},
+            onDismissTutorial = {},
             onMoveLeft = {},
             onMoveRight = {},
             onRotateClockwise = {},
@@ -608,6 +723,10 @@ private fun BlockDropScreenPreview() {
             onHardDrop = {},
             onHold = {},
             onDropDelay = {},
+            onNicknameChanged = {},
+            onSubmitScore = {},
+            onShowScoreboard = {},
+            onDismissScoreboard = {},
         )
     }
 }

@@ -12,6 +12,11 @@ class ViewModelFactory(
         require(modelClass.isAssignableFrom(GameViewModel::class.java)) {
             "Unsupported ViewModel class: ${modelClass.name}"
         }
-        return GameViewModel(appContainer.gameLoop) as T
+        return GameViewModel(
+            gameLoop = appContainer.gameLoop,
+            effectBridge = appContainer.effectBridge,
+            settingsRepository = appContainer.settingsRepository,
+            scoreboardRepository = appContainer.scoreboardRepository,
+        ) as T
     }
 }

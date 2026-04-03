@@ -31,14 +31,13 @@ class BlockDropScreenTest {
                         level = 4,
                         lines = 34,
                     ),
-                    isMuted = false,
-                    showTutorial = false,
                     onStartGame = {},
                     onPause = {},
                     onResume = {},
                     onQuit = {},
                     onMuteToggle = {},
-                    onTutorialToggle = {},
+                    onShowTutorial = {},
+                    onDismissTutorial = {},
                     onMoveLeft = {},
                     onMoveRight = {},
                     onRotateClockwise = {},
@@ -47,6 +46,10 @@ class BlockDropScreenTest {
                     onHardDrop = { hardDropClicks += 1 },
                     onHold = {},
                     onDropDelay = {},
+                    onNicknameChanged = {},
+                    onSubmitScore = {},
+                    onShowScoreboard = {},
+                    onDismissScoreboard = {},
                 )
             }
         }
