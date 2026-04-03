@@ -6,6 +6,7 @@ import com.bigbangit.blockdrop.core.ActivePiece
 import com.bigbangit.blockdrop.core.GameLoop
 import com.bigbangit.blockdrop.core.GameState
 import com.bigbangit.blockdrop.core.LoopSnapshot
+import com.bigbangit.blockdrop.data.SettingsRepository
 import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.GameUiModel
@@ -14,12 +15,51 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class GameViewModel(
     private val gameLoop: GameLoop,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
     private val _uiModel = MutableStateFlow(GameUiModel())
     val uiModel: StateFlow<GameUiModel> = _uiModel.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            settingsRepository.isMuted.collect { isMuted ->
+                _uiModel.update { current -> current.copy(isMuted = isMuted) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.shouldShowTutorialOnLaunch.collect { shouldShowTutorial ->
+                _uiModel.update { current ->
+                    if (!current.showTutorial && shouldShowTutorial) {
+                        current.copy(showTutorial = true)
+                    } else {
+                        current
+                    }
+                }
+            }
+        }
+    }
+
+    fun toggleMute() {
+        val nextValue = !_uiModel.value.isMuted
+        viewModelScope.launch {
+            settingsRepository.setMuted(nextValue)
+        }
+    }
+
+    fun showTutorial() {
+        _uiModel.update { current -> current.copy(showTutorial = true) }
+    }
+
+    fun dismissTutorial() {
+        _uiModel.update { current -> current.copy(showTutorial = false) }
+        viewModelScope.launch {
+            settingsRepository.markTutorialSeen()
+        }
+    }
 
     fun onForegrounded() {
         var shouldResume = false

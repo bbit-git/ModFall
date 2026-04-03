@@ -22,4 +22,6 @@ data class GameUiModel(
     val canUseDropDelay: Boolean = true,
     val lockResetCount: Int = 0,
     val isGrounded: Boolean = false,
+    val isMuted: Boolean = false,
+    val showTutorial: Boolean = false,
 )
