@@ -1,6 +1,6 @@
 # M5 — Localisation, Testing & Launch Prep
 
-**Status:** Not started
+**Status:** Completed
 **Depends on:** M2b (for test targets); can run **in parallel** with M3 / M4
 **Parallelisable:** Yes — localisation and test authoring are independent of UI/effects work
 

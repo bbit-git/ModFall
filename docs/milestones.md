@@ -8,7 +8,7 @@
 | [M3](milestones/m3-rendering.md) | Board Rendering & Controls | M2b | Completed |
 | [Gate](milestones/playtest-gate.md) | Playtest — developer go/no-go | M3 | Not started |
 | [M4](milestones/m4-polish.md) | Effects, Polish, Tutorial, Scoreboard & Game Over | Gate | Transferable |
-| [M5](milestones/m5-localisation.md) | Localisation, Testing & Launch Prep | M2b; **parallel** with M3/M4 | Not started |
+| [M5](milestones/m5-localisation.md) | Localisation, Testing & Launch Prep | M2b; **parallel** with M3/M4 | Completed |
 
 ```
 M1 → M2a → M2b → M3 → Playtest Gate → M4
