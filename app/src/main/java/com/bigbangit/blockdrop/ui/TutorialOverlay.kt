@@ -23,7 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.tooling.preview.Preview
 import com.bigbangit.blockdrop.R
+import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 
 @Composable
 fun TutorialOverlay(
@@ -172,5 +174,15 @@ private fun TutorialItem(
             style = MaterialTheme.typography.bodyMedium,
             color = Color.White.copy(alpha = 0.7f)
         )
+    }
+}
+
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "en")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "ar")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "zh-rCN")
+@Composable
+fun TutorialOverlayPreview() {
+    BlockDropTheme {
+        TutorialOverlay(onDismiss = {})
     }
 }

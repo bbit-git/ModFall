@@ -702,7 +702,11 @@ private fun CompactOverlayCard(
     }
 }
 
-@Preview(showBackground = true, device = "spec:width=411dp,height=891dp")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "en")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "ar")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "zh-rCN")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "de")
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "ru")
 @Composable
 private fun BlockDropScreenPreview() {
     BlockDropTheme {

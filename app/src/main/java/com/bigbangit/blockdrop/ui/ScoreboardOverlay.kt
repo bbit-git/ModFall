@@ -21,9 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.data.RankedScoreboardEntry
+import com.bigbangit.blockdrop.data.ScoreboardEntry
+import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 import com.bigbangit.blockdrop.ui.theme.TextWhite
 
 @Composable
@@ -115,4 +118,20 @@ private fun RowScope.ScoreboardCell(
         color = if (emphasized) TextWhite else TextWhite.copy(alpha = 0.9f),
         fontWeight = if (emphasized) FontWeight.Bold else FontWeight.Medium,
     )
+}
+
+@Preview(showBackground = true, locale = "en")
+@Preview(showBackground = true, locale = "ar")
+@Preview(showBackground = true, locale = "zh-rCN")
+@Composable
+fun ScoreboardOverlayPreview() {
+    BlockDropTheme {
+        ScoreboardOverlay(
+            entries = listOf(
+                RankedScoreboardEntry(1, ScoreboardEntry("Player1", 10000, 10, 100)),
+                RankedScoreboardEntry(2, ScoreboardEntry("Player2", 8000, 8, 80)),
+            ),
+            onDismiss = {}
+        )
+    }
 }
