@@ -9,6 +9,8 @@ import com.bigbangit.blockdrop.data.ScoreboardRepository
 import com.bigbangit.blockdrop.data.SettingsRepository
 import com.bigbangit.blockdrop.effects.SoundManager
 import com.bigbangit.blockdrop.effects.VibrationManager
+import com.bigbangit.blockdrop.music.DefaultModMusicService
+import com.bigbangit.blockdrop.music.ModMusicService
 
 class AppContainer(
     context: Context,
@@ -30,6 +32,7 @@ class AppContainer(
         effectBridge = effectBridge,
         isMuted = settingsRepository.isMuted,
     )
+    val modMusicService: ModMusicService = DefaultModMusicService(context = applicationContext)
     val gameLoop: GameLoop = GameLoop(
         boardState = boardState,
         pieceGenerator = pieceGenerator,

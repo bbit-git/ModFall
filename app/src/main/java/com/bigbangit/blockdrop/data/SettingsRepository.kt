@@ -2,6 +2,7 @@ package com.bigbangit.blockdrop.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,10 @@ class SettingsRepository(
         !(preferences[TutorialSeenKey] ?: false)
     }
 
+    val musicFolderUri: Flow<String?> = context.blockDropPreferences.data.map { preferences ->
+        preferences[MusicFolderUriKey]
+    }
+
     suspend fun setMuted(isMuted: Boolean) {
         context.blockDropPreferences.edit { preferences ->
             preferences[IsMutedKey] = isMuted
@@ -32,8 +37,19 @@ class SettingsRepository(
         }
     }
 
+    suspend fun setMusicFolderUri(uri: String?) {
+        context.blockDropPreferences.edit { preferences ->
+            if (uri.isNullOrBlank()) {
+                preferences.remove(MusicFolderUriKey)
+            } else {
+                preferences[MusicFolderUriKey] = uri
+            }
+        }
+    }
+
     private companion object {
         val IsMutedKey = booleanPreferencesKey("is_muted")
         val TutorialSeenKey = booleanPreferencesKey("tutorial_seen")
+        val MusicFolderUriKey = stringPreferencesKey("music_folder_uri")
     }
 }

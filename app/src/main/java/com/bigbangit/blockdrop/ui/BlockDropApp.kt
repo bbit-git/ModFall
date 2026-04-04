@@ -1,14 +1,29 @@
 package com.bigbangit.blockdrop.ui
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -65,6 +80,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -73,6 +89,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.delay
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.core.GameState
@@ -87,13 +104,60 @@ import com.bigbangit.blockdrop.ui.viewmodel.GameViewModel
 private const val HardDropButtonTag = "hard-drop-button"
 
 @Composable
-fun BlockDropApp(viewModel: GameViewModel) {
+fun BlockDropApp(
+    viewModel: GameViewModel,
+    splashDurationMs: Long = 2_000L,
+) {
+    val context = LocalContext.current
     val uiModel by viewModel.uiModel.collectAsState()
-    var showSplash by remember { mutableStateOf(true) }
+    var showSplash by remember(splashDurationMs) { mutableStateOf(splashDurationMs > 0L) }
+    var hasRequestedMusicPermission by remember { mutableStateOf(false) }
+    val musicPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        if (granted) {
+            viewModel.refreshMusicLibrary()
+        }
+    }
+    val musicFolderLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocumentTree(),
+    ) { uri ->
+        if (uri != null) {
+            context.contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION,
+            )
+            viewModel.setMusicFolderUri(uri.toString())
+            viewModel.refreshMusicLibrary()
+        }
+    }
+    val musicFolderInitialUri = remember {
+        @Suppress("DEPRECATION")
+        Uri.fromFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
+    }
+    val needsMusicPermission = Build.VERSION.SDK_INT <= 32 &&
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+        ) != PackageManager.PERMISSION_GRANTED
 
-    LaunchedEffect(Unit) {
-        delay(2_000L)
+    LaunchedEffect(splashDurationMs) {
+        if (splashDurationMs <= 0L) return@LaunchedEffect
+        delay(splashDurationMs)
         showSplash = false
+    }
+
+    LaunchedEffect(needsMusicPermission) {
+        if (!needsMusicPermission) {
+            viewModel.refreshMusicLibrary()
+        }
+    }
+
+    LaunchedEffect(needsMusicPermission, uiModel.isMuted, hasRequestedMusicPermission) {
+        if (needsMusicPermission && !uiModel.isMuted && !hasRequestedMusicPermission) {
+            hasRequestedMusicPermission = true
+            musicPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -104,6 +168,14 @@ fun BlockDropApp(viewModel: GameViewModel) {
             onResume = viewModel::resumeGame,
             onQuit = viewModel::quitGame,
             onMuteToggle = viewModel::toggleMute,
+            onOpenMusicLibrary = viewModel::openMusicLibrary,
+            onCloseMusicLibrary = viewModel::closeMusicLibrary,
+            onRefreshMusicLibrary = viewModel::refreshMusicLibrary,
+            onPickMusicFolder = { musicFolderLauncher.launch(musicFolderInitialUri) },
+            onSelectTrack = viewModel::selectTrack,
+            onPauseMusic = viewModel::pauseMusic,
+            onResumeMusic = viewModel::resumeMusic,
+            onStopMusic = viewModel::stopMusic,
             onShowTutorial = viewModel::showTutorial,
             onDismissTutorial = viewModel::dismissTutorial,
             onMoveLeft = viewModel::moveLeft,
@@ -119,6 +191,17 @@ fun BlockDropApp(viewModel: GameViewModel) {
             onShowScoreboard = viewModel::showScoreboard,
             onDismissScoreboard = viewModel::dismissScoreboard,
         )
+
+        if (!uiModel.isMuted && !uiModel.showMusicLibrary) {
+            TrackInfoOverlay(
+                trackDisplay = uiModel.trackDisplay,
+                trackDisplayKey = uiModel.trackDisplayKey,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .safeDrawingPadding()
+                    .padding(bottom = 4.dp),
+            )
+        }
 
         AnimatedVisibility(
             visible = showSplash,
@@ -143,6 +226,14 @@ fun BlockDropScreen(
     onResume: () -> Unit,
     onQuit: () -> Unit,
     onMuteToggle: () -> Unit,
+    onOpenMusicLibrary: () -> Unit,
+    onCloseMusicLibrary: () -> Unit,
+    onRefreshMusicLibrary: () -> Unit,
+    onPickMusicFolder: () -> Unit,
+    onSelectTrack: (com.bigbangit.blockdrop.music.ModTrackInfo) -> Unit,
+    onPauseMusic: () -> Unit,
+    onResumeMusic: () -> Unit,
+    onStopMusic: () -> Unit,
     onShowTutorial: () -> Unit,
     onDismissTutorial: () -> Unit,
     onMoveLeft: () -> Unit,
@@ -160,7 +251,9 @@ fun BlockDropScreen(
 ) {
     var showExitConfirm by remember { mutableStateOf(false) }
 
-    if (uiModel.state == GameState.Running) {
+    if (uiModel.showMusicLibrary) {
+        BackHandler { onCloseMusicLibrary() }
+    } else if (uiModel.state == GameState.Running) {
         BackHandler { onPause() }
     } else if (uiModel.state == GameState.Paused) {
         BackHandler { showExitConfirm = true }
@@ -198,33 +291,59 @@ fun BlockDropScreen(
                 ),
             ),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .safeDrawingPadding()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            TopBar(
-                score = uiModel.score,
-                level = uiModel.level,
-                lines = uiModel.lines,
-                isMuted = uiModel.isMuted,
-                onTutorialToggle = onShowTutorial,
-                onMuteToggle = onMuteToggle,
-            )
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
-                GameBoardStage(
+        AnimatedContent(
+            targetState = uiModel.showMusicLibrary,
+            transitionSpec = {
+                if (targetState) {
+                    ContentTransform(
+                        targetContentEnter = slideInHorizontally(
+                            animationSpec = tween(260),
+                            initialOffsetX = { fullWidth -> fullWidth },
+                        ) + fadeIn(animationSpec = tween(260)),
+                        initialContentExit = slideOutHorizontally(
+                            animationSpec = tween(260),
+                            targetOffsetX = { fullWidth -> -fullWidth / 4 },
+                        ) + fadeOut(animationSpec = tween(220)),
+                    )
+                } else {
+                    ContentTransform(
+                        targetContentEnter = fadeIn(animationSpec = tween(180)),
+                        initialContentExit = slideOutHorizontally(
+                            animationSpec = tween(260),
+                            targetOffsetX = { fullWidth -> fullWidth },
+                        ) + fadeOut(animationSpec = tween(220)),
+                    )
+                }
+            },
+            label = "music-library-screen",
+        ) { showMusicLibrary ->
+            if (showMusicLibrary) {
+                MusicLibraryScreen(
+                    isMuted = uiModel.isMuted,
+                    availableTracks = uiModel.availableTracks,
+                    currentTrack = uiModel.currentTrack,
+                    isMusicPlaying = uiModel.isMusicPlaying,
+                    musicFolderUri = uiModel.musicFolderUri,
+                    trackLoadError = uiModel.trackLoadError,
+                    onBack = onCloseMusicLibrary,
+                    onRefresh = onRefreshMusicLibrary,
+                    onPickMusicFolder = onPickMusicFolder,
+                    onSelectTrack = onSelectTrack,
+                    onPauseMusic = onPauseMusic,
+                    onResumeMusic = onResumeMusic,
+                    onStopMusic = onStopMusic,
+                    modifier = Modifier.safeDrawingPadding(),
+                )
+            } else {
+                GameScreenContent(
                     uiModel = uiModel,
                     onStartGame = onStartGame,
                     onResume = onResume,
                     onQuit = onQuit,
+                    onMuteToggle = onMuteToggle,
+                    onOpenMusicLibrary = onOpenMusicLibrary,
+                    onShowTutorial = onShowTutorial,
+                    onDismissTutorial = onDismissTutorial,
                     onMoveLeft = onMoveLeft,
                     onMoveRight = onMoveRight,
                     onRotateClockwise = onRotateClockwise,
@@ -236,25 +355,93 @@ fun BlockDropScreen(
                     onNicknameChanged = onNicknameChanged,
                     onSubmitScore = onSubmitScore,
                     onShowScoreboard = onShowScoreboard,
+                    onDismissScoreboard = onDismissScoreboard,
                 )
             }
+        }
+    }
+}
 
-            BottomControlsRow(
-                enabled = uiModel.state == GameState.Running,
+@Composable
+private fun GameScreenContent(
+    uiModel: GameUiModel,
+    onStartGame: () -> Unit,
+    onResume: () -> Unit,
+    onQuit: () -> Unit,
+    onMuteToggle: () -> Unit,
+    onOpenMusicLibrary: () -> Unit,
+    onShowTutorial: () -> Unit,
+    onDismissTutorial: () -> Unit,
+    onMoveLeft: () -> Unit,
+    onMoveRight: () -> Unit,
+    onRotateClockwise: () -> Unit,
+    onRotateCounterClockwise: () -> Unit,
+    onSoftDrop: () -> Unit,
+    onHardDrop: () -> Unit,
+    onHold: () -> Unit,
+    onDropDelay: () -> Unit,
+    onNicknameChanged: (String) -> Unit,
+    onSubmitScore: () -> Unit,
+    onShowScoreboard: () -> Unit,
+    onDismissScoreboard: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        TopBar(
+            score = uiModel.score,
+            level = uiModel.level,
+            lines = uiModel.lines,
+            isMuted = uiModel.isMuted,
+            onTutorialToggle = onShowTutorial,
+            onMuteToggle = onMuteToggle,
+            onOpenMusicLibrary = onOpenMusicLibrary,
+        )
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            GameBoardStage(
+                uiModel = uiModel,
+                onStartGame = onStartGame,
+                onResume = onResume,
+                onQuit = onQuit,
+                onMoveLeft = onMoveLeft,
+                onMoveRight = onMoveRight,
+                onRotateClockwise = onRotateClockwise,
+                onRotateCounterClockwise = onRotateCounterClockwise,
+                onSoftDrop = onSoftDrop,
                 onHardDrop = onHardDrop,
+                onHold = onHold,
+                onDropDelay = onDropDelay,
+                onNicknameChanged = onNicknameChanged,
+                onSubmitScore = onSubmitScore,
+                onShowScoreboard = onShowScoreboard,
             )
         }
 
-        if (uiModel.showTutorial) {
-            TutorialOverlay(onDismiss = onDismissTutorial)
-        }
+        BottomControlsRow(
+            enabled = uiModel.state == GameState.Running,
+            onHardDrop = onHardDrop,
+        )
+    }
 
-        if (uiModel.isScoreboardVisible) {
-            ScoreboardOverlay(
-                entries = uiModel.scoreboardEntries,
-                onDismiss = onDismissScoreboard,
-            )
-        }
+    if (uiModel.showTutorial) {
+        TutorialOverlay(onDismiss = onDismissTutorial)
+    }
+
+    if (uiModel.isScoreboardVisible) {
+        ScoreboardOverlay(
+            entries = uiModel.scoreboardEntries,
+            onDismiss = onDismissScoreboard,
+        )
     }
 }
 
@@ -266,6 +453,7 @@ private fun TopBar(
     isMuted: Boolean,
     onTutorialToggle: () -> Unit,
     onMuteToggle: () -> Unit,
+    onOpenMusicLibrary: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -294,6 +482,7 @@ private fun TopBar(
 
         CompactChromeButton(
             onClick = onMuteToggle,
+            onLongClick = onOpenMusicLibrary,
             contentDescription = stringResource(R.string.mute_description),
         ) {
             Icon(
@@ -449,8 +638,10 @@ private fun BottomControlsRow(
 }
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 private fun CompactChromeButton(
     onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     contentDescription: String,
     content: @Composable () -> Unit,
 ) {
@@ -459,13 +650,15 @@ private fun CompactChromeButton(
             .size(40.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(Color.White.copy(alpha = 0.12f))
-            .border(1.dp, Color.White.copy(alpha = 0.16f), RoundedCornerShape(20.dp)),
+            .border(1.dp, Color.White.copy(alpha = 0.16f), RoundedCornerShape(20.dp))
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick,
+            ),
         contentAlignment = Alignment.Center,
     ) {
-        IconButton(onClick = onClick) {
-            Box(modifier = Modifier.size(20.dp), contentAlignment = Alignment.Center) {
-                content()
-            }
+        Box(modifier = Modifier.size(20.dp), contentAlignment = Alignment.Center) {
+            content()
         }
     }
 }
@@ -693,6 +886,14 @@ private fun BlockDropScreenPreview() {
             onResume = {},
             onQuit = {},
             onMuteToggle = {},
+            onOpenMusicLibrary = {},
+            onCloseMusicLibrary = {},
+            onRefreshMusicLibrary = {},
+            onPickMusicFolder = {},
+            onSelectTrack = {},
+            onPauseMusic = {},
+            onResumeMusic = {},
+            onStopMusic = {},
             onShowTutorial = {},
             onDismissTutorial = {},
             onMoveLeft = {},

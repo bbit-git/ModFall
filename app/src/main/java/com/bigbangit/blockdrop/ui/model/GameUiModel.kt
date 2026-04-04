@@ -5,6 +5,7 @@ import com.bigbangit.blockdrop.core.GameConstants
 import com.bigbangit.blockdrop.core.GameState
 import com.bigbangit.blockdrop.core.TetrominoType
 import com.bigbangit.blockdrop.data.RankedScoreboardEntry
+import com.bigbangit.blockdrop.music.ModTrackInfo
 
 data class GameUiModel(
     val state: GameState = GameState.Idle,
@@ -40,4 +41,12 @@ data class GameUiModel(
     val levelUpAnimationKey: Int = 0,
     val celebrationType: CelebrationType? = null,
     val celebrationAnimationKey: Int = 0,
+    val trackDisplay: String? = null,
+    val trackDisplayKey: Int = 0,
+    val showMusicLibrary: Boolean = false,
+    val availableTracks: List<ModTrackInfo> = emptyList(),
+    val currentTrack: ModTrackInfo? = null,
+    val isMusicPlaying: Boolean = false,
+    val musicFolderUri: String? = null,
+    val trackLoadError: String? = null,
 )

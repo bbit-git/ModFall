@@ -4,8 +4,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bigbangit.blockdrop.core.GameState
+import com.bigbangit.blockdrop.music.ModTrackInfo
 import com.bigbangit.blockdrop.ui.model.GameUiModel
 import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 import org.junit.Assert.assertEquals
@@ -36,6 +38,14 @@ class BlockDropScreenTest {
                     onResume = {},
                     onQuit = {},
                     onMuteToggle = {},
+                    onOpenMusicLibrary = {},
+                    onCloseMusicLibrary = {},
+                    onRefreshMusicLibrary = {},
+                    onPickMusicFolder = {},
+                    onSelectTrack = {},
+                    onPauseMusic = {},
+                    onResumeMusic = {},
+                    onStopMusic = {},
                     onShowTutorial = {},
                     onDismissTutorial = {},
                     onMoveLeft = {},
@@ -60,5 +70,203 @@ class BlockDropScreenTest {
         composeRule.onNodeWithText("HARD DROP").assertIsDisplayed().performClick()
 
         assertEquals(1, hardDropClicks)
+    }
+
+    @Test
+    fun musicLibraryShowsCurrentTrackAndAvailableTracks() {
+        val currentTrack = ModTrackInfo(
+            title = "Nebula",
+            fileName = "nebula.mod",
+            format = "MOD",
+            pathOrUri = "/tmp/nebula.mod",
+        )
+        val otherTrack = ModTrackInfo(
+            title = "Orbit",
+            fileName = "orbit.xm",
+            format = "XM",
+            pathOrUri = "/tmp/orbit.xm",
+        )
+
+        composeRule.setContent {
+            BlockDropTheme {
+                BlockDropScreen(
+                    uiModel = GameUiModel(
+                        state = GameState.Paused,
+                        showMusicLibrary = true,
+                        availableTracks = listOf(currentTrack, otherTrack),
+                        currentTrack = currentTrack,
+                        isMusicPlaying = true,
+                    ),
+                    onStartGame = {},
+                    onPause = {},
+                    onResume = {},
+                    onQuit = {},
+                    onMuteToggle = {},
+                    onOpenMusicLibrary = {},
+                    onCloseMusicLibrary = {},
+                    onRefreshMusicLibrary = {},
+                    onPickMusicFolder = {},
+                    onSelectTrack = {},
+                    onPauseMusic = {},
+                    onResumeMusic = {},
+                    onStopMusic = {},
+                    onShowTutorial = {},
+                    onDismissTutorial = {},
+                    onMoveLeft = {},
+                    onMoveRight = {},
+                    onRotateClockwise = {},
+                    onRotateCounterClockwise = {},
+                    onSoftDrop = {},
+                    onHardDrop = {},
+                    onHold = {},
+                    onDropDelay = {},
+                    onNicknameChanged = {},
+                    onSubmitScore = {},
+                    onShowScoreboard = {},
+                    onDismissScoreboard = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("Music Library").assertIsDisplayed()
+        composeRule.onNodeWithText(currentTrack.displayString()).assertIsDisplayed()
+        composeRule.onNodeWithText(otherTrack.displayString()).assertIsDisplayed()
+    }
+
+    @Test
+    fun musicLibraryShowsEmptyStateWhenNoTracksExist() {
+        composeRule.setContent {
+            BlockDropTheme {
+                BlockDropScreen(
+                    uiModel = GameUiModel(
+                        state = GameState.Paused,
+                        showMusicLibrary = true,
+                    ),
+                    onStartGame = {},
+                    onPause = {},
+                    onResume = {},
+                    onQuit = {},
+                    onMuteToggle = {},
+                    onOpenMusicLibrary = {},
+                    onCloseMusicLibrary = {},
+                    onRefreshMusicLibrary = {},
+                    onPickMusicFolder = {},
+                    onSelectTrack = {},
+                    onPauseMusic = {},
+                    onResumeMusic = {},
+                    onStopMusic = {},
+                    onShowTutorial = {},
+                    onDismissTutorial = {},
+                    onMoveLeft = {},
+                    onMoveRight = {},
+                    onRotateClockwise = {},
+                    onRotateCounterClockwise = {},
+                    onSoftDrop = {},
+                    onHardDrop = {},
+                    onHold = {},
+                    onDropDelay = {},
+                    onNicknameChanged = {},
+                    onSubmitScore = {},
+                    onShowScoreboard = {},
+                    onDismissScoreboard = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("No music files found").assertIsDisplayed()
+        composeRule.onNodeWithText("Place .mod / .xm / .s3m / .it files in Download/Mods/").assertIsDisplayed()
+    }
+
+    @Test
+    fun musicLibraryRefreshButtonInvokesCallback() {
+        var refreshClicks = 0
+
+        composeRule.setContent {
+            BlockDropTheme {
+                BlockDropScreen(
+                    uiModel = GameUiModel(
+                        state = GameState.Paused,
+                        showMusicLibrary = true,
+                    ),
+                    onStartGame = {},
+                    onPause = {},
+                    onResume = {},
+                    onQuit = {},
+                    onMuteToggle = {},
+                    onOpenMusicLibrary = {},
+                    onCloseMusicLibrary = {},
+                    onRefreshMusicLibrary = { refreshClicks += 1 },
+                    onPickMusicFolder = {},
+                    onSelectTrack = {},
+                    onPauseMusic = {},
+                    onResumeMusic = {},
+                    onStopMusic = {},
+                    onShowTutorial = {},
+                    onDismissTutorial = {},
+                    onMoveLeft = {},
+                    onMoveRight = {},
+                    onRotateClockwise = {},
+                    onRotateCounterClockwise = {},
+                    onSoftDrop = {},
+                    onHardDrop = {},
+                    onHold = {},
+                    onDropDelay = {},
+                    onNicknameChanged = {},
+                    onSubmitScore = {},
+                    onShowScoreboard = {},
+                    onDismissScoreboard = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithContentDescription("Refresh music library").assertIsDisplayed().performClick()
+
+        assertEquals(1, refreshClicks)
+    }
+
+    @Test
+    fun musicLibrarySetFolderButtonInvokesCallback() {
+        var pickFolderClicks = 0
+
+        composeRule.setContent {
+            BlockDropTheme {
+                BlockDropScreen(
+                    uiModel = GameUiModel(
+                        state = GameState.Paused,
+                        showMusicLibrary = true,
+                    ),
+                    onStartGame = {},
+                    onPause = {},
+                    onResume = {},
+                    onQuit = {},
+                    onMuteToggle = {},
+                    onOpenMusicLibrary = {},
+                    onCloseMusicLibrary = {},
+                    onRefreshMusicLibrary = {},
+                    onPickMusicFolder = { pickFolderClicks += 1 },
+                    onSelectTrack = {},
+                    onPauseMusic = {},
+                    onResumeMusic = {},
+                    onStopMusic = {},
+                    onShowTutorial = {},
+                    onDismissTutorial = {},
+                    onMoveLeft = {},
+                    onMoveRight = {},
+                    onRotateClockwise = {},
+                    onRotateCounterClockwise = {},
+                    onSoftDrop = {},
+                    onHardDrop = {},
+                    onHold = {},
+                    onDropDelay = {},
+                    onNicknameChanged = {},
+                    onSubmitScore = {},
+                    onShowScoreboard = {},
+                    onDismissScoreboard = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("Set music folder").assertIsDisplayed().performClick()
+        assertEquals(1, pickFolderClicks)
     }
 }

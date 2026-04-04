@@ -17,6 +17,7 @@ class ViewModelFactory(
             effectBridge = appContainer.effectBridge,
             settingsRepository = appContainer.settingsRepository,
             scoreboardRepository = appContainer.scoreboardRepository,
+            modMusicService = appContainer.modMusicService,
         ) as T
     }
 }

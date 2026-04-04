@@ -13,6 +13,9 @@ import com.bigbangit.blockdrop.data.ScoreSubmissionResult
 import com.bigbangit.blockdrop.data.ScoreboardEntry
 import com.bigbangit.blockdrop.data.ScoreboardRepository
 import com.bigbangit.blockdrop.data.SettingsRepository
+import com.bigbangit.blockdrop.music.DefaultModMusicService
+import com.bigbangit.blockdrop.music.ModTrackInfo
+import com.bigbangit.blockdrop.music.ModMusicService
 import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.CelebrationType
@@ -23,20 +26,36 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GameViewModel(
     private val gameLoop: GameLoop,
     private val effectBridge: EffectBridge,
     private val settingsRepository: SettingsRepository,
     private val scoreboardRepository: ScoreboardRepository,
+    private val modMusicService: ModMusicService = DefaultModMusicService(),
 ) : ViewModel() {
     private val _uiModel = MutableStateFlow(GameUiModel())
     val uiModel: StateFlow<GameUiModel> = _uiModel.asStateFlow()
+    private var musicPausedForBackground = false
 
     init {
         viewModelScope.launch {
+            modMusicService.trackChanges.collect { trackInfo ->
+                _uiModel.update { current ->
+                    current.copy(
+                        trackDisplay = trackInfo.displayString(),
+                        trackDisplayKey = current.trackDisplayKey + 1,
+                    )
+                }
+                refreshMusicState()
+            }
+        }
+        viewModelScope.launch {
             settingsRepository.isMuted.collect { isMuted ->
-                _uiModel.update { current -> current.copy(isMuted = isMuted) }
+                modMusicService.setEnabled(!isMuted)
+                refreshMusicState(isMutedOverride = isMuted)
             }
         }
         viewModelScope.launch {
@@ -48,6 +67,13 @@ class GameViewModel(
                         current
                     }
                 }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.musicFolderUri.collect { musicFolderUri ->
+                modMusicService.setLibraryTreeUri(musicFolderUri)
+                _uiModel.update { current -> current.copy(musicFolderUri = musicFolderUri) }
+                refreshMusicState()
             }
         }
         viewModelScope.launch {
@@ -63,6 +89,7 @@ class GameViewModel(
     }
 
     fun onForegrounded() {
+        modMusicService.rescanLibrary()
         var shouldResume = false
         _uiModel.update { current ->
             if (current.state == GameState.Paused && current.pauseReason == PauseReason.Lifecycle) {
@@ -72,10 +99,18 @@ class GameViewModel(
                 current
             }
         }
-        if (shouldResume) gameLoop.resume()
+        if (shouldResume) {
+            gameLoop.resume()
+        }
+        resumeMusicIfNeededAfterBackground()
+        refreshMusicState()
     }
 
     fun onBackgrounded() {
+        musicPausedForBackground = modMusicService.isPlaying()
+        if (musicPausedForBackground) {
+            modMusicService.pause()
+        }
         var shouldPause = false
         _uiModel.update { current ->
             if (current.state == GameState.Running) {
@@ -85,7 +120,10 @@ class GameViewModel(
                 current
             }
         }
-        if (shouldPause) gameLoop.pause()
+        if (shouldPause) {
+            gameLoop.pause()
+        }
+        refreshMusicState()
     }
 
     fun pauseGame() {
@@ -98,7 +136,10 @@ class GameViewModel(
                 current
             }
         }
-        if (shouldPause) gameLoop.pause()
+        if (shouldPause) {
+            gameLoop.pause()
+            modMusicService.pause()
+        }
     }
 
     fun resumeGame() {
@@ -111,15 +152,21 @@ class GameViewModel(
                 current
             }
         }
-        if (shouldResume) gameLoop.resume()
+        if (shouldResume) {
+            gameLoop.resume()
+            modMusicService.resume()
+        }
     }
 
     fun startGame() {
+        modMusicService.stop()
         gameLoop.start(scope = viewModelScope, onStateChanged = ::consumeSnapshot)
+        modMusicService.start()
     }
 
     fun quitGame() {
         gameLoop.stop()
+        modMusicService.stop()
     }
 
     fun moveLeft() = gameLoop.moveLeft()
@@ -135,6 +182,73 @@ class GameViewModel(
         val nextValue = !_uiModel.value.isMuted
         viewModelScope.launch {
             settingsRepository.setMuted(nextValue)
+        }
+    }
+
+    fun refreshMusicLibrary() {
+        modMusicService.rescanLibrary()
+        refreshMusicState()
+    }
+
+    fun openMusicLibrary() {
+        modMusicService.rescanLibrary()
+        var shouldPause = false
+        _uiModel.update { current ->
+            current.copy(
+                showMusicLibrary = true,
+                pauseReason = if (current.state == GameState.Running) {
+                    shouldPause = true
+                    PauseReason.MusicLibrary
+                } else {
+                    current.pauseReason
+                },
+            )
+        }
+        if (shouldPause) {
+            gameLoop.pause()
+        }
+        refreshMusicState()
+    }
+
+    fun closeMusicLibrary() {
+        _uiModel.update { current -> current.copy(showMusicLibrary = false) }
+    }
+
+    fun selectTrack(track: ModTrackInfo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            modMusicService.playTrack(track)
+            val trackLoadError = if (modMusicService.currentTrackInfo()?.pathOrUri == track.pathOrUri) {
+                null
+            } else {
+                track.fileName
+            }
+            withContext(Dispatchers.Main) {
+                refreshMusicState(trackLoadError = trackLoadError)
+            }
+        }
+    }
+
+    fun pauseMusic() {
+        modMusicService.pause()
+        refreshMusicState()
+    }
+
+    fun resumeMusic() {
+        modMusicService.resume()
+        if (!modMusicService.isPlaying()) {
+            modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
+        }
+        refreshMusicState()
+    }
+
+    fun stopMusic() {
+        modMusicService.stopPlayback()
+        refreshMusicState()
+    }
+
+    fun setMusicFolderUri(treeUri: String?) {
+        viewModelScope.launch {
+            settingsRepository.setMusicFolderUri(treeUri)
         }
     }
 
@@ -204,6 +318,7 @@ class GameViewModel(
 
     override fun onCleared() {
         gameLoop.stop()
+        modMusicService.close()
         super.onCleared()
     }
 
@@ -309,5 +424,32 @@ class GameViewModel(
 
     private fun toBoardCell(cell: com.bigbangit.blockdrop.core.PieceCell): BoardCell {
         return BoardCell(x = cell.x, y = cell.y)
+    }
+
+    private fun refreshMusicState(
+        isMutedOverride: Boolean? = null,
+        trackLoadError: String? = null,
+    ) {
+        val tracks = modMusicService.tracks()
+        val currentTrack = modMusicService.currentTrackInfo()
+        val isPlaying = modMusicService.isPlaying()
+        _uiModel.update { current ->
+            current.copy(
+                isMuted = isMutedOverride ?: current.isMuted,
+                availableTracks = tracks,
+                currentTrack = currentTrack,
+                isMusicPlaying = isPlaying,
+                trackLoadError = trackLoadError,
+            )
+        }
+    }
+
+    private fun resumeMusicIfNeededAfterBackground() {
+        if (!musicPausedForBackground) return
+        musicPausedForBackground = false
+        modMusicService.resume()
+        if (!modMusicService.isPlaying()) {
+            modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
+        }
     }
 }
