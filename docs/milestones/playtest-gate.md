@@ -1,6 +1,6 @@
 # Playtest Gate
 
-**Status:** Not started
+**Status:** Completed
 **Depends on:** M3
 **Type:** Developer go/no-go checkpoint
 

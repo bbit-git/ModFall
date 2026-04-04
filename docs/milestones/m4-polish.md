@@ -1,6 +1,6 @@
 # M4 — Effects, Polish, Tutorial, Scoreboard & Game Over
 
-**Status:** Transferable
+**Status:** Completed
 **Depends on:** Playtest Gate
 
 ## Scope
