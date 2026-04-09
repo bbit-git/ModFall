@@ -3,21 +3,23 @@ package com.bigbangit.blockdrop.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,47 +32,83 @@ import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 import com.bigbangit.blockdrop.ui.theme.TextWhite
 
 @Composable
-fun ScoreboardOverlay(
+fun ScoreboardScreen(
     entries: List<RankedScoreboardEntry>,
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.scoreboard_title),
-                style = MaterialTheme.typography.headlineSmall,
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        GameUiTokens.BackgroundCenter.copy(alpha = 0.98f),
+                        GameUiTokens.BackgroundDark.copy(alpha = 0.99f),
+                    ),
+                ),
             )
-        },
-        text = {
+            .safeDrawingPadding(),
+    ) {
+        Text(
+            text = stringResource(R.string.scoreboard_title),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 20.dp),
+            style = MaterialTheme.typography.headlineMedium,
+            color = TextWhite,
+            fontWeight = FontWeight.Black,
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 84.dp, bottom = 110.dp, start = 18.dp, end = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
             if (entries.isEmpty()) {
-                Text(text = stringResource(R.string.scoreboard_empty))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White.copy(alpha = 0.05f), RoundedCornerShape(18.dp))
+                        .padding(horizontal = 18.dp, vertical = 16.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.scoreboard_empty),
+                        color = TextWhite.copy(alpha = 0.78f),
+                    )
+                }
             } else {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ScoreboardHeader()
-                    LazyColumn(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                    ) {
-                        items(entries) { rankedEntry ->
-                            ScoreboardRow(rankedEntry)
-                        }
+                ScoreboardHeader()
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    items(entries) { rankedEntry ->
+                        ScoreboardRow(rankedEntry)
                     }
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.close_button))
-            }
-        },
-    )
+        }
+
+        PanelControlButton(
+            text = stringResource(R.string.close_button),
+            onClick = onDismiss,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 24.dp, vertical = 22.dp)
+                .fillMaxWidth(),
+        )
+    }
 }
 
 @Composable
 private fun ScoreboardHeader() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White.copy(alpha = 0.05f), RoundedCornerShape(14.dp))
+            .padding(horizontal = 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -121,17 +159,15 @@ private fun RowScope.ScoreboardCell(
 }
 
 @Preview(showBackground = true, locale = "en")
-@Preview(showBackground = true, locale = "ar")
-@Preview(showBackground = true, locale = "zh-rCN")
 @Composable
 fun ScoreboardOverlayPreview() {
     BlockDropTheme {
-        ScoreboardOverlay(
+        ScoreboardScreen(
             entries = listOf(
                 RankedScoreboardEntry(1, ScoreboardEntry("Player1", 10000, 10, 100)),
                 RankedScoreboardEntry(2, ScoreboardEntry("Player2", 8000, 8, 80)),
             ),
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }

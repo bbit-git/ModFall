@@ -20,6 +20,8 @@ import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.CelebrationType
 import com.bigbangit.blockdrop.ui.model.GameUiModel
+import com.bigbangit.blockdrop.ui.model.ParticleImpulseType
+import com.bigbangit.blockdrop.ui.model.ParticleQuality
 import com.bigbangit.blockdrop.ui.model.PauseReason
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,6 +41,7 @@ class GameViewModel(
     private val _uiModel = MutableStateFlow(GameUiModel())
     val uiModel: StateFlow<GameUiModel> = _uiModel.asStateFlow()
     private var musicPausedForBackground = false
+    private var pendingHardDropBurst = false
 
     init {
         viewModelScope.launch {
@@ -73,6 +76,16 @@ class GameViewModel(
                 _uiModel.update { current -> current.copy(musicEnabled = musicEnabled) }
                 modMusicService.setEnabled(musicEnabled && !_uiModel.value.isMuted)
                 if (!musicEnabled) modMusicService.stop()
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.particlesEnabled.collect { particlesEnabled ->
+                _uiModel.update { current -> current.copy(particlesEnabled = particlesEnabled) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.particleQuality.collect { particleQuality ->
+                _uiModel.update { current -> current.copy(particleQuality = particleQuality) }
             }
         }
         viewModelScope.launch {
@@ -229,6 +242,23 @@ class GameViewModel(
         val current = _uiModel.value
         viewModelScope.launch {
             settingsRepository.setMusicEnabled(!current.musicEnabled)
+        }
+    }
+
+    fun toggleParticlesEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setParticlesEnabled(!current.particlesEnabled)
+        }
+    }
+
+    fun cycleParticleQuality() {
+        val next = when (_uiModel.value.particleQuality) {
+            ParticleQuality.Low -> ParticleQuality.High
+            ParticleQuality.High -> ParticleQuality.Low
+        }
+        viewModelScope.launch {
+            settingsRepository.setParticleQuality(next)
         }
     }
 
@@ -420,9 +450,9 @@ class GameViewModel(
     }
 
     private fun consumeSnapshot(snapshot: LoopSnapshot) {
+        val placementFlashCells = detectNewLockedCells(_uiModel.value.board, snapshot.board)
         _uiModel.update { current ->
             val enteringGameOver = snapshot.state == GameState.GameOver && current.state != GameState.GameOver
-            val placementFlashCells = detectNewLockedCells(current.board, snapshot.board)
             current.copy(
                 state = snapshot.state,
                 score = snapshot.score,
@@ -447,7 +477,16 @@ class GameViewModel(
                 nicknameError = if (snapshot.state == GameState.GameOver) current.nicknameError else null,
                 placementFlashCells = placementFlashCells,
                 placementFlashAnimationKey = if (placementFlashCells.isNotEmpty()) current.placementFlashAnimationKey + 1 else current.placementFlashAnimationKey,
+                hardDropBurstCells = if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) placementFlashCells else current.hardDropBurstCells,
+                hardDropBurstAnimationKey = if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) {
+                    current.hardDropBurstAnimationKey + 1
+                } else {
+                    current.hardDropBurstAnimationKey
+                },
             )
+        }
+        if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) {
+            pendingHardDropBurst = false
         }
     }
 
@@ -471,6 +510,26 @@ class GameViewModel(
                 GameEffect.LevelUp -> current.copy(
                     levelUpAnimationKey = current.levelUpAnimationKey + 1,
                 )
+                GameEffect.Move -> current.copy(
+                    particleImpulseType = ParticleImpulseType.Move,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.Rotate -> current.copy(
+                    particleImpulseType = ParticleImpulseType.Rotate,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.SoftDrop -> current.copy(
+                    particleImpulseType = ParticleImpulseType.SoftDrop,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.Hold -> current.copy(
+                    particleImpulseType = ParticleImpulseType.Hold,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.HardDrop -> {
+                    pendingHardDropBurst = true
+                    current
+                }
                 else -> current
             }
         }

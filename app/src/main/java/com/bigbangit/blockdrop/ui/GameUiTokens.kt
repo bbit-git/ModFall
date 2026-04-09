@@ -11,10 +11,11 @@ import androidx.compose.ui.unit.dp
 object GameUiTokens {
 
     // ── Background ──────────────────────────────────────────────
-    val BackgroundDark = Color(0xFF050B15)
-    val BackgroundCenter = Color(0xFF10203A)
-    val BackgroundEdge = Color(0xFF040914)
-    val BackgroundNebula = Color(0xFF18345E)
+    val BackgroundDark = Color(0xFF071225)
+    val BackgroundCenter = Color(0xFF13315C)
+    val BackgroundEdge = Color(0xFF06101F)
+    val BackgroundNebula = Color(0xFF245A96)
+    val BackgroundCoolBloom = Color(0xFF69BFFF)
     val SurfaceGlow = Color(0xFF6CB8FF)
 
     // ── Playfield frame ─────────────────────────────────────────
@@ -25,16 +26,20 @@ object GameUiTokens {
     const val FrameStrokeAlpha = 0.24f
     const val FrameStrokeWidth = 1.3f
     val FrameCornerRadius = 18f
+    val FrameElectricGlow = Color(0xFF8ED4FF)
+    const val FrameElectricGlowAlpha = 0.42f
+    const val FrameElectricGlowRadius = 18f
+    const val FrameElectricStrokeWidth = 2.2f
 
     // ── Grid ────────────────────────────────────────────────────
     val GridLine = Color(0xFFA2CAFF)
     const val GridLineAlpha = 0.055f
 
     // ── Block glow strengths ────────────────────────────────────
-    const val ActiveBlockGlowAlpha = 0.54f
-    const val ActiveBlockBlurRadius = 0.18f
-    const val SettledBlockGlowAlpha = 0.16f
-    const val SettledBlockBlurRadius = 0.08f
+    const val ActiveBlockGlowAlpha = 0.62f
+    const val ActiveBlockBlurRadius = 0.22f
+    const val SettledBlockGlowAlpha = 0.32f
+    const val SettledBlockBlurRadius = 0.14f
 
     // ── Ghost piece ─────────────────────────────────────────────
     val GhostStroke = Color(0xFFB8D8FF)
@@ -51,20 +56,20 @@ object GameUiTokens {
 
     // ── Control pad ─────────────────────────────────────────────
     val ControlBg = Color(0xFFB9D6FF)
-    const val ControlBgAlpha = 0.055f
+    const val ControlBgAlpha = 0.032f
     val ControlBorder = Color(0xFF79BAFF)
-    const val ControlBorderAlpha = 0.16f
+    const val ControlBorderAlpha = 0.11f
     val ControlIcon = Color(0xFFEAF4FF)
     const val ControlIconAlpha = 0.72f
     val ControlGlow = Color(0xFF6FB8FF)
-    const val ControlGlowAlpha = 0.10f
+    const val ControlGlowAlpha = 0.07f
     const val ControlPressedScale = 0.95f
-    const val ControlPressedBgAlpha = 0.12f
-    const val ControlPressedBorderAlpha = 0.34f
+    const val ControlPressedBgAlpha = 0.08f
+    const val ControlPressedBorderAlpha = 0.24f
     val ControlCornerRadius: Dp = 24.dp
     val ControlButtonSize: Dp = 74.dp
     val ControlButtonSpacing: Dp = 16.dp
-    val ControlHorizontalInset: Dp = 18.dp
+    val ControlHorizontalInset: Dp = 8.dp
 
     // ── Top HUD ─────────────────────────────────────────────────
     val HudIconColor = Color(0xFFD7E8FF)

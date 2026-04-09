@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.bigbangit.blockdrop.ui.model.ParticleQuality
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -27,6 +28,14 @@ class SettingsRepository(
 
     val musicEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
         preferences[MusicEnabledKey] ?: true
+    }
+
+    val particlesEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[ParticlesEnabledKey] ?: false
+    }
+
+    val particleQuality: Flow<ParticleQuality> = context.blockDropPreferences.data.map { preferences ->
+        ParticleQuality.entries.firstOrNull { it.name == preferences[ParticleQualityKey] } ?: ParticleQuality.High
     }
 
     val mainTrackPathOrUri: Flow<String?> = context.blockDropPreferences.data.map { preferences ->
@@ -67,6 +76,18 @@ class SettingsRepository(
         }
     }
 
+    suspend fun setParticlesEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[ParticlesEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setParticleQuality(quality: ParticleQuality) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[ParticleQualityKey] = quality.name
+        }
+    }
+
     suspend fun setMainTrackPathOrUri(pathOrUri: String?) {
         context.blockDropPreferences.edit { preferences ->
             if (pathOrUri.isNullOrBlank()) {
@@ -98,6 +119,8 @@ class SettingsRepository(
         val ButtonsEnabledKey = booleanPreferencesKey("buttons_enabled")
         val GesturesEnabledKey = booleanPreferencesKey("gestures_enabled")
         val MusicEnabledKey = booleanPreferencesKey("music_enabled")
+        val ParticlesEnabledKey = booleanPreferencesKey("particles_enabled")
+        val ParticleQualityKey = stringPreferencesKey("particle_quality")
         val TutorialSeenKey = booleanPreferencesKey("tutorial_seen")
         val MusicFolderUriKey = stringPreferencesKey("music_folder_uri")
         val MainTrackPathOrUriKey = stringPreferencesKey("main_track_path_or_uri")

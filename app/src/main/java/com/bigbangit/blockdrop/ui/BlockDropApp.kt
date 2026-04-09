@@ -189,6 +189,8 @@ fun BlockDropApp(
             onToggleButtonsEnabled = viewModel::toggleButtonsEnabled,
             onToggleGesturesEnabled = viewModel::toggleGesturesEnabled,
             onToggleMusicEnabled = viewModel::toggleMusicEnabled,
+            onToggleParticlesEnabled = viewModel::toggleParticlesEnabled,
+            onCycleParticleQuality = viewModel::cycleParticleQuality,
             onSetMainTrack = viewModel::setMainTrack,
         )
 
@@ -253,6 +255,8 @@ fun BlockDropScreen(
     onToggleButtonsEnabled: () -> Unit,
     onToggleGesturesEnabled: () -> Unit,
     onToggleMusicEnabled: () -> Unit,
+    onToggleParticlesEnabled: () -> Unit,
+    onCycleParticleQuality: () -> Unit,
     onSetMainTrack: (com.bigbangit.blockdrop.music.ModTrackInfo) -> Unit,
 ) {
     var showExitConfirm by remember { mutableStateOf(false) }
@@ -261,6 +265,10 @@ fun BlockDropScreen(
         BackHandler { onCloseMusicLibrary() }
     } else if (uiModel.showSettings) {
         BackHandler { onCloseSettings() }
+    } else if (uiModel.showTutorial) {
+        BackHandler { onDismissTutorial() }
+    } else if (uiModel.isScoreboardVisible) {
+        BackHandler { onDismissScoreboard() }
     } else if (uiModel.state == GameState.Running) {
         BackHandler { onPause() }
     } else if (uiModel.state == GameState.Paused) {
@@ -295,14 +303,20 @@ fun BlockDropScreen(
             .fillMaxSize()
             .background(
                 Brush.radialGradient(
-                    colors = listOf(GameUiTokens.BackgroundCenter, GameUiTokens.BackgroundEdge),
+                    colors = listOf(
+                        GameUiTokens.BackgroundNebula.copy(alpha = 0.9f),
+                        GameUiTokens.BackgroundCenter,
+                        GameUiTokens.BackgroundEdge,
+                    ),
                 ),
             ),
     ) {
         AnimatedContent(
             targetState = when {
-                uiModel.showMusicLibrary -> 2
-                uiModel.showSettings -> 1
+                uiModel.showMusicLibrary -> 4
+                uiModel.showSettings -> 3
+                uiModel.showTutorial -> 2
+                uiModel.isScoreboardVisible -> 1
                 else -> 0
             },
             transitionSpec = {
@@ -330,7 +344,7 @@ fun BlockDropScreen(
             label = "panel-screen",
         ) { panelState ->
             when (panelState) {
-                2 -> MusicLibraryScreen(
+                4 -> MusicLibraryScreen(
                     isMuted = uiModel.isMuted,
                     musicEnabled = uiModel.musicEnabled,
                     availableTracks = uiModel.availableTracks,
@@ -349,13 +363,24 @@ fun BlockDropScreen(
                     onStopMusic = onStopMusic,
                     modifier = Modifier.safeDrawingPadding(),
                 )
-                1 -> SettingsPanel(
+                3 -> SettingsPanel(
                     uiModel = uiModel,
                     onBack = onCloseSettings,
                     onOpenMusicLibrary = onOpenMusicLibrary,
                     onToggleButtonsEnabled = onToggleButtonsEnabled,
                     onToggleGesturesEnabled = onToggleGesturesEnabled,
                     onToggleMusicEnabled = onToggleMusicEnabled,
+                    onToggleParticlesEnabled = onToggleParticlesEnabled,
+                    onCycleParticleQuality = onCycleParticleQuality,
+                )
+                2 -> TutorialScreen(
+                    onDismiss = onDismissTutorial,
+                    modifier = Modifier.safeDrawingPadding(),
+                )
+                1 -> ScoreboardScreen(
+                    entries = uiModel.scoreboardEntries,
+                    onDismiss = onDismissScoreboard,
+                    modifier = Modifier.safeDrawingPadding(),
                 )
                 else -> GameScreenContent(
                     uiModel = uiModel,
@@ -366,7 +391,6 @@ fun BlockDropScreen(
                     onOpenMusicLibrary = onOpenMusicLibrary,
                     onOpenSettings = onOpenSettings,
                     onShowTutorial = onShowTutorial,
-                    onDismissTutorial = onDismissTutorial,
                     onMoveLeft = onMoveLeft,
                     onMoveRight = onMoveRight,
                     onRotateClockwise = onRotateClockwise,
@@ -378,7 +402,6 @@ fun BlockDropScreen(
                     onNicknameChanged = onNicknameChanged,
                     onSubmitScore = onSubmitScore,
                     onShowScoreboard = onShowScoreboard,
-                    onDismissScoreboard = onDismissScoreboard,
                 )
             }
         }
@@ -397,7 +420,6 @@ private fun GameScreenContent(
     onOpenMusicLibrary: () -> Unit,
     onOpenSettings: () -> Unit,
     onShowTutorial: () -> Unit,
-    onDismissTutorial: () -> Unit,
     onMoveLeft: () -> Unit,
     onMoveRight: () -> Unit,
     onRotateClockwise: () -> Unit,
@@ -409,7 +431,6 @@ private fun GameScreenContent(
     onNicknameChanged: (String) -> Unit,
     onSubmitScore: () -> Unit,
     onShowScoreboard: () -> Unit,
-    onDismissScoreboard: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -417,57 +438,58 @@ private fun GameScreenContent(
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Bottom)),
     ) {
         val showControls = uiModel.buttonsEnabled && uiModel.state != GameState.Idle && uiModel.state != GameState.GameOver
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     horizontal = GameUiTokens.ScreenPaddingHorizontal,
                     vertical = GameUiTokens.ScreenPaddingVertical,
                 ),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Top HUD
-            TopHud(
-                score = uiModel.score,
-                level = uiModel.level,
-                lines = uiModel.lines,
-                isMuted = uiModel.isMuted,
-                onTutorialToggle = onShowTutorial,
-                onMuteToggle = onMuteToggle,
-                onOpenMusicLibrary = onOpenMusicLibrary,
-                onOpenSettings = onOpenSettings,
-            )
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center,
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Playfield(
-                    uiModel = uiModel,
-                    onStartGame = onStartGame,
-                    onResume = onResume,
-                    onQuit = onQuit,
-                    onMoveLeft = onMoveLeft,
-                    onMoveRight = onMoveRight,
-                    onRotateClockwise = onRotateClockwise,
-                    onRotateCounterClockwise = onRotateCounterClockwise,
-                    onSoftDrop = onSoftDrop,
-                    onHardDrop = onHardDrop,
-                    onHold = onHold,
-                    onDropDelay = onDropDelay,
-                    onNicknameChanged = onNicknameChanged,
-                    onSubmitScore = onSubmitScore,
-                    onShowScoreboard = onShowScoreboard,
-                    controlPadReservedHeight = if (showControls) GameUiTokens.ControlPadHeight else 0.dp,
+                TopHud(
+                    score = uiModel.score,
+                    level = uiModel.level,
+                    lines = uiModel.lines,
+                    isMuted = uiModel.isMuted,
+                    onTutorialToggle = onShowTutorial,
+                    onMuteToggle = onMuteToggle,
+                    onOpenMusicLibrary = onOpenMusicLibrary,
+                    onOpenSettings = onOpenSettings,
                 )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Playfield(
+                        uiModel = uiModel,
+                        onStartGame = onStartGame,
+                        onResume = onResume,
+                        onQuit = onQuit,
+                        onMoveLeft = onMoveLeft,
+                        onMoveRight = onMoveRight,
+                        onRotateClockwise = onRotateClockwise,
+                        onRotateCounterClockwise = onRotateCounterClockwise,
+                        onSoftDrop = onSoftDrop,
+                        onHardDrop = onHardDrop,
+                        onHold = onHold,
+                        onDropDelay = onDropDelay,
+                        onNicknameChanged = onNicknameChanged,
+                        onSubmitScore = onSubmitScore,
+                        onShowScoreboard = onShowScoreboard,
+                    )
+                }
             }
 
             if (showControls) {
-                Spacer(modifier = Modifier.height(8.dp))
                 ControlPadOverlay(
                     enabled = uiModel.state == GameState.Running,
                     onMoveLeft = onMoveLeft,
@@ -476,21 +498,12 @@ private fun GameScreenContent(
                     onRotateCounterClockwise = onRotateCounterClockwise,
                     onSoftDrop = onSoftDrop,
                     onHardDrop = onHardDrop,
-                    modifier = Modifier.padding(bottom = GameUiTokens.ControlPadBottomPadding),
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = GameUiTokens.ControlPadBottomPadding),
                 )
             }
         }
-    }
-
-    if (uiModel.showTutorial) {
-        TutorialOverlay(onDismiss = onDismissTutorial)
-    }
-
-    if (uiModel.isScoreboardVisible) {
-        ScoreboardOverlay(
-            entries = uiModel.scoreboardEntries,
-            onDismiss = onDismissScoreboard,
-        )
     }
 }
 
@@ -570,7 +583,7 @@ private fun TopHud(
                     ),
                 ),
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(18.dp))
 
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -647,31 +660,55 @@ private fun Playfield(
     onNicknameChanged: (String) -> Unit,
     onSubmitScore: () -> Unit,
     onShowScoreboard: () -> Unit,
-    controlPadReservedHeight: Dp,
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         val boardVerticalInset = GameUiTokens.PlayfieldTopInset
-        val controlsInset = if (controlPadReservedHeight > 0.dp) controlPadReservedHeight + 10.dp else 0.dp
+        val boardLabelBandHeight = 28.dp
         val maxBoardWidth = maxWidth - (GameUiTokens.PlayfieldHorizontalInset * 2)
-        val maxBoardHeight = maxHeight - controlsInset - boardVerticalInset
+        val maxBoardHeight = maxHeight - boardVerticalInset - boardLabelBandHeight
         val boardWidthFromHeight = maxBoardHeight / 2f
         val boardWidth = minOf(maxBoardWidth, boardWidthFromHeight).coerceAtLeast(180.dp)
         val boardHeight = boardWidth * 2f
+        val holdLabelStart = maxOf(6.dp, boardWidth * 0.035f)
+        val holdLabelWidth = boardWidth * 0.30f
+        val nextLabelEnd = maxOf(6.dp, boardWidth * 0.02f)
+        val nextLabelWidth = boardWidth * 0.22f
+        val holdTapTopInset = maxOf(8.dp, boardHeight * 0.032f)
+        val holdTapWidth = boardWidth * 0.26f
+        val holdTapHeight = boardHeight * 0.14f
         val nextPieces = uiModel.nextPieces.take(
             com.bigbangit.blockdrop.core.GameConstants.getVisibleNextCount(uiModel.level),
         )
 
-        Column(
+        Box(
             modifier = Modifier
                 .width(boardWidth)
+                .height(boardHeight + boardLabelBandHeight)
                 .padding(top = boardVerticalInset),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            PreviewLabel(
+                text = stringResource(R.string.hold_label),
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(start = holdLabelStart)
+                    .width(holdLabelWidth),
+            )
+            PreviewLabel(
+                text = stringResource(R.string.next_label_caps),
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(end = nextLabelEnd)
+                    .width(nextLabelWidth),
+            )
+
             Box(
                 modifier = Modifier
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .height(boardHeight),
                 contentAlignment = Alignment.Center,
@@ -696,9 +733,9 @@ private fun Playfield(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .padding(start = maxOf(10.dp, boardWidth * 0.025f), top = 16.dp)
-                        .width(boardWidth * 0.24f)
-                        .height(boardHeight * 0.12f)
+                        .padding(start = holdLabelStart, top = holdTapTopInset)
+                        .width(holdTapWidth)
+                        .height(holdTapHeight)
                         .pointerInput(onHold, uiModel.state, uiModel.canHold) {
                             detectTapGestures {
                                 if (uiModel.state == GameState.Running && uiModel.canHold) onHold()
@@ -742,6 +779,23 @@ private fun Playfield(
             }
         }
     }
+}
+
+@Composable
+private fun PreviewLabel(
+    text: String,
+    textAlign: TextAlign,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.labelMedium,
+        fontWeight = FontWeight.Bold,
+        color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha),
+        letterSpacing = 1.2.sp,
+        textAlign = textAlign,
+    )
 }
 
 // ─── Overlay Cards ──────────────────────────────────────────────────────────────
@@ -905,6 +959,8 @@ private fun SettingsPanel(
     onToggleButtonsEnabled: () -> Unit,
     onToggleGesturesEnabled: () -> Unit,
     onToggleMusicEnabled: () -> Unit,
+    onToggleParticlesEnabled: () -> Unit,
+    onCycleParticleQuality: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -953,6 +1009,23 @@ private fun SettingsPanel(
             checked = uiModel.musicEnabled,
             onToggle = onToggleMusicEnabled,
             enabled = true,
+        )
+        RetroSettingRow(
+            label = stringResource(R.string.enable_particles_setting),
+            checked = uiModel.particlesEnabled,
+            onToggle = onToggleParticlesEnabled,
+            enabled = true,
+        )
+        RetroActionRow(
+            label = stringResource(R.string.particle_quality_setting),
+            value = stringResource(
+                if (uiModel.particleQuality == com.bigbangit.blockdrop.ui.model.ParticleQuality.High) {
+                    R.string.particle_quality_high
+                } else {
+                    R.string.particle_quality_low
+                },
+            ),
+            onClick = onCycleParticleQuality,
         )
         RetroActionRow(
             label = stringResource(R.string.main_tune_setting),
@@ -1052,6 +1125,8 @@ private fun BlockDropScreenPreview() {
             onToggleButtonsEnabled = {},
             onToggleGesturesEnabled = {},
             onToggleMusicEnabled = {},
+            onToggleParticlesEnabled = {},
+            onCycleParticleQuality = {},
             onSetMainTrack = {},
         )
     }

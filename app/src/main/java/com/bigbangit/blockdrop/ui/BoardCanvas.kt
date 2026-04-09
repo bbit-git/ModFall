@@ -4,6 +4,10 @@ import android.graphics.BlurMaskFilter
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.aspectRatio
@@ -21,6 +25,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -34,7 +39,11 @@ import com.bigbangit.blockdrop.core.TetrominoShapes
 import com.bigbangit.blockdrop.core.TetrominoType
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.ui.model.CelebrationType
+import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.GameUiModel
+import com.bigbangit.blockdrop.ui.model.ParticleImpulseType
+import com.bigbangit.blockdrop.ui.model.ParticleQuality
+import kotlin.math.absoluteValue
 
 @Composable
 fun BoardCanvas(
@@ -44,13 +53,37 @@ fun BoardCanvas(
     nextPieces: List<TetrominoType>,
     modifier: Modifier = Modifier,
 ) {
-    val holdLabel = stringResource(R.string.hold_label)
-    val nextLabel = stringResource(R.string.next_label_caps)
     val lineClearAlpha = remember { Animatable(0f) }
     val placementFlashAlpha = remember { Animatable(0f) }
     val levelUpFlashAlpha = remember { Animatable(0f) }
-    val celebrationAlpha = remember { Animatable(0f) }
+    val celebrationProgress = remember { Animatable(1f) }
+    val particleImpulseProgress = remember { Animatable(1f) }
+    val hardDropBurstProgress = remember { Animatable(1f) }
     var celebrationType by remember { mutableStateOf<CelebrationType?>(null) }
+    val ambientParticles = remember {
+        ParticleQuality.entries.associateWith { quality ->
+            val count = if (quality == ParticleQuality.High) 48 else 28
+            List(count) { index ->
+                AmbientParticleSpec(
+                    xFactor = stableNoise(index, 17 + quality.ordinal * 29),
+                    yFactor = stableNoise(index, 53 + quality.ordinal * 31),
+                    radiusFactor = 0.38f + stableNoise(index, 91 + quality.ordinal * 37) * 2.25f,
+                    alphaFactor = 0.18f + stableNoise(index, 127 + quality.ordinal * 41) * 0.55f,
+                    driftFactor = (stableNoise(index, 173 + quality.ordinal * 43) - 0.5f) / 180f,
+                    speedFactor = 0.35f + stableNoise(index, 211 + quality.ordinal * 47) * 1.35f,
+                )
+            }
+        }
+    }
+    val particleDrift by rememberInfiniteTransition(label = "board-particles").animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 18_000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart,
+        ),
+        label = "particle-drift",
+    )
 
     LaunchedEffect(uiModel.lineClearAnimationKey) {
         if (uiModel.lineClearAnimationKey == 0) return@LaunchedEffect
@@ -82,16 +115,30 @@ fun BoardCanvas(
     LaunchedEffect(uiModel.celebrationAnimationKey) {
         if (uiModel.celebrationAnimationKey == 0) return@LaunchedEffect
         celebrationType = uiModel.celebrationType
-        celebrationAlpha.snapTo(0f)
-        celebrationAlpha.animateTo(
+        celebrationProgress.snapTo(0f)
+        celebrationProgress.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 150, easing = FastOutSlowInEasing),
-        )
-        celebrationAlpha.animateTo(
-            targetValue = 0f,
-            animationSpec = tween(durationMillis = 650, easing = LinearEasing),
+            animationSpec = tween(durationMillis = 720, easing = FastOutSlowInEasing),
         )
         celebrationType = null
+    }
+
+    LaunchedEffect(uiModel.particleImpulseAnimationKey) {
+        if (uiModel.particleImpulseAnimationKey == 0) return@LaunchedEffect
+        particleImpulseProgress.snapTo(0f)
+        particleImpulseProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(durationMillis = 320, easing = FastOutSlowInEasing),
+        )
+    }
+
+    LaunchedEffect(uiModel.hardDropBurstAnimationKey) {
+        if (uiModel.hardDropBurstAnimationKey == 0) return@LaunchedEffect
+        hardDropBurstProgress.snapTo(0f)
+        hardDropBurstProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(durationMillis = 460, easing = FastOutSlowInEasing),
+        )
     }
 
     Canvas(
@@ -120,8 +167,33 @@ fun BoardCanvas(
                 radius = size.minDimension * 0.9f,
             ),
         )
+        drawRect(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    GameUiTokens.BackgroundCoolBloom.copy(alpha = 0.12f),
+                    Color.Transparent,
+                ),
+                center = Offset(size.width * 0.5f, size.height * 0.58f),
+                radius = size.minDimension * 0.82f,
+            ),
+        )
+        drawRect(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    GameUiTokens.BackgroundCoolBloom.copy(alpha = 0.08f),
+                    Color.Transparent,
+                ),
+                center = Offset(size.width * 0.22f, size.height * 0.32f),
+                radius = size.minDimension * 0.44f,
+            ),
+        )
+        if (uiModel.particlesEnabled) {
+            drawAmbientParticles(
+                particles = ambientParticles.getValue(uiModel.particleQuality),
+                driftProgress = particleDrift,
+            )
+        }
 
-        drawEmbeddedLabels(holdLabel, nextLabel, cellWidth, cellHeight)
         drawHoldPreview(heldPiece, canHold, cellWidth, cellHeight)
         drawNextPreview(nextPieces, cellWidth, cellHeight)
 
@@ -190,6 +262,21 @@ fun BoardCanvas(
                 }
             }
         }
+        if (
+            uiModel.particlesEnabled &&
+            particleImpulseProgress.value < 1f &&
+            uiModel.activePiece != null &&
+            uiModel.particleImpulseType != null
+        ) {
+            drawPieceImpulse(
+                cells = uiModel.activePiece.cells,
+                type = uiModel.particleImpulseType,
+                pieceType = uiModel.activePiece.type,
+                progress = particleImpulseProgress.value,
+                cellWidth = cellWidth,
+                cellHeight = cellHeight,
+            )
+        }
 
         if (placementFlashAlpha.value > 0f) {
             uiModel.placementFlashCells.forEach { cell ->
@@ -202,6 +289,14 @@ fun BoardCanvas(
                     cornerRadius = CornerRadius(cellWidth * 0.15f),
                 )
             }
+        }
+        if (uiModel.particlesEnabled && hardDropBurstProgress.value < 1f && uiModel.hardDropBurstCells.isNotEmpty()) {
+            drawHardDropBurst(
+                cells = uiModel.hardDropBurstCells,
+                progress = hardDropBurstProgress.value,
+                cellWidth = cellWidth,
+                cellHeight = cellHeight,
+            )
         }
 
         if (lineClearAlpha.value > 0f) {
@@ -225,10 +320,10 @@ fun BoardCanvas(
         }
 
         val activeCelebration = celebrationType
-        if (celebrationAlpha.value > 0f && activeCelebration != null) {
+        if (celebrationProgress.value < 1f && activeCelebration != null) {
             drawCelebration(
                 celebrationType = activeCelebration,
-                alpha = celebrationAlpha.value,
+                progress = celebrationProgress.value,
             )
         }
 
@@ -245,6 +340,21 @@ fun BoardCanvas(
                 paint,
             )
         }
+        drawElectricBorderAccent(
+            start = Offset(2f, size.height * 0.14f),
+            end = Offset(2f, size.height * 0.78f),
+            alpha = 1f,
+        )
+        drawElectricBorderAccent(
+            start = Offset(size.width - 2f, size.height * 0.18f),
+            end = Offset(size.width - 2f, size.height * 0.72f),
+            alpha = 0.88f,
+        )
+        drawElectricBorderAccent(
+            start = Offset(size.width * 0.28f, 2f),
+            end = Offset(size.width * 0.72f, 2f),
+            alpha = 0.72f,
+        )
         drawRoundRect(
             color = GameUiTokens.FrameStroke.copy(alpha = GameUiTokens.FrameStrokeAlpha),
             topLeft = Offset(1f, 1f),
@@ -255,34 +365,211 @@ fun BoardCanvas(
     }
 }
 
-private fun DrawScope.drawEmbeddedLabels(
-    holdLabel: String,
-    nextLabel: String,
+private data class AmbientParticleSpec(
+    val xFactor: Float,
+    val yFactor: Float,
+    val radiusFactor: Float,
+    val alphaFactor: Float,
+    val driftFactor: Float,
+    val speedFactor: Float,
+)
+
+private fun stableNoise(index: Int, salt: Int): Float {
+    val value = ((index + 1) * (index + 11) * (salt + 37) + salt * 97) % 997
+    return value / 997f
+}
+
+private fun DrawScope.drawAmbientParticles(
+    particles: List<AmbientParticleSpec>,
+    driftProgress: Float,
+) {
+    particles.forEachIndexed { index, particle ->
+        val cycle = ((driftProgress * particle.speedFactor) + particle.yFactor) % 1f
+        val x = size.width * (particle.xFactor + particle.driftFactor * ((cycle * 2f) - 1f))
+        val y = size.height * (1f - cycle)
+        val radius = size.minDimension * 0.0058f * particle.radiusFactor
+        val alphaEnvelope = (0.5f - (cycle - 0.5f).absoluteValue) * 2f
+        val glowAlpha = 0.055f * particle.alphaFactor * alphaEnvelope
+        val coreAlpha = 0.13f * particle.alphaFactor * alphaEnvelope
+        if (x < -radius * 4f || x > size.width + radius * 4f) return@forEachIndexed
+        val tint = if (index % 3 == 0) {
+            GameUiTokens.FrameElectricGlow
+        } else {
+            GameUiTokens.BackgroundCoolBloom
+        }
+
+        drawCircle(
+            color = tint.copy(alpha = glowAlpha),
+            radius = radius * 2.8f,
+            center = Offset(x, y),
+        )
+        drawCircle(
+            color = tint.copy(alpha = coreAlpha),
+            radius = radius,
+            center = Offset(x, y),
+        )
+    }
+}
+
+private fun DrawScope.drawPieceImpulse(
+    cells: List<BoardCell>,
+    type: ParticleImpulseType,
+    pieceType: TetrominoType,
+    progress: Float,
     cellWidth: Float,
     cellHeight: Float,
 ) {
-    drawIntoCanvas { canvas ->
-        val paint = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            textSize = cellWidth * 0.34f
-            typeface = android.graphics.Typeface.create(android.graphics.Typeface.DEFAULT_BOLD, android.graphics.Typeface.BOLD)
-            color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha).toArgb()
-            letterSpacing = 0.18f
+    val fadeOut = 1f - progress
+    val colors = CandyPalette.colorsFor(pieceType)
+    val centerX = cells.map { (it.x + 0.5f) * cellWidth }.average().toFloat()
+    val centerY = cells.map { (GameConstants.BOARD_HEIGHT - it.y - 0.5f) * cellHeight }.average().toFloat()
+    val center = Offset(centerX, centerY)
+
+    when (type) {
+        ParticleImpulseType.Move -> {
+            val spread = cellWidth * (0.24f + progress * 0.82f)
+            repeat(6) { idx ->
+                val sign = if (idx % 2 == 0) -1f else 1f
+                drawCircle(
+                    color = colors.glow.copy(alpha = 0.28f * fadeOut),
+                    radius = cellWidth * (0.06f + idx * 0.018f),
+                    center = Offset(
+                        center.x + sign * spread * (0.55f + idx * 0.08f),
+                        center.y - idx * cellHeight * 0.05f,
+                    ),
+                )
+            }
         }
-        canvas.nativeCanvas.drawText(
-            holdLabel,
-            cellWidth * 0.9f,
-            cellHeight * 1.12f,
-            paint,
+        ParticleImpulseType.Rotate -> {
+            repeat(8) { idx ->
+                val angleFactor = idx / 6f
+                val dx = cellWidth * (0.2f + progress * 0.74f) * listOf(-0.95f, -0.55f, -0.15f, 0.2f, 0.65f, 0.95f, 0.45f, -0.45f)[idx]
+                val dy = cellHeight * (0.14f + progress * 0.52f) * listOf(-0.9f, -1f, -0.45f, 0.35f, 0.8f, 0.35f, -0.2f, 0.75f)[idx]
+                drawCircle(
+                    color = colors.highlight.copy(alpha = (0.22f + angleFactor * 0.05f) * fadeOut),
+                    radius = cellWidth * (0.055f + idx * 0.008f),
+                    center = Offset(center.x + dx, center.y + dy),
+                )
+            }
+        }
+        ParticleImpulseType.SoftDrop -> {
+            repeat(7) { idx ->
+                val drop = cellHeight * (0.16f + progress * (0.45f + idx * 0.08f))
+                drawLine(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            colors.base.copy(alpha = 0.28f * fadeOut),
+                            Color.Transparent,
+                        ),
+                        start = Offset(center.x, center.y),
+                        end = Offset(center.x, center.y + drop),
+                    ),
+                    start = Offset(center.x + (idx - 3) * cellWidth * 0.09f, center.y - cellHeight * 0.18f),
+                    end = Offset(center.x + (idx - 3) * cellWidth * 0.07f, center.y + drop),
+                    strokeWidth = 2.2f,
+                    cap = StrokeCap.Round,
+                )
+            }
+        }
+        ParticleImpulseType.Hold -> {
+            repeat(8) { idx ->
+                val rise = cellHeight * (0.08f + progress * (0.34f + idx * 0.04f))
+                drawCircle(
+                    color = colors.borderLight.copy(alpha = 0.22f * fadeOut),
+                    radius = cellWidth * (0.055f + idx * 0.012f),
+                    center = Offset(
+                        center.x + (idx - 3.5f) * cellWidth * 0.09f,
+                        center.y - rise,
+                    ),
+                )
+            }
+        }
+    }
+}
+
+private fun DrawScope.drawHardDropBurst(
+    cells: List<BoardCell>,
+    progress: Float,
+    cellWidth: Float,
+    cellHeight: Float,
+) {
+    val fadeOut = 1f - progress
+    cells.forEachIndexed { index, cell ->
+        val center = Offset(
+            x = (cell.x + 0.5f) * cellWidth,
+            y = (GameConstants.BOARD_HEIGHT - cell.y - 0.5f) * cellHeight,
         )
-        val nextTextWidth = paint.measureText(nextLabel)
-        canvas.nativeCanvas.drawText(
-            nextLabel,
-            size.width - cellWidth * 0.9f - nextTextWidth,
-            cellHeight * 1.12f,
-            paint,
+        val rayLength = cellWidth * (0.22f + progress * 0.82f)
+        val upwardLift = cellHeight * progress * 0.42f
+        repeat(3) { ray ->
+            val direction = when ((index + ray) % 3) {
+                0 -> -1f
+                1 -> 0f
+                else -> 1f
+            }
+            val start = center.copy(y = center.y - upwardLift * 0.35f)
+            val end = Offset(
+                x = center.x + direction * rayLength,
+                y = center.y - upwardLift - rayLength * 0.3f,
+            )
+            drawLine(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        GameUiTokens.FrameElectricGlow.copy(alpha = 0.55f * fadeOut),
+                        Color.Transparent,
+                    ),
+                    start = start,
+                    end = end,
+                ),
+                start = start,
+                end = end,
+                strokeWidth = 2.2f,
+                cap = StrokeCap.Round,
+            )
+        }
+        drawCircle(
+            color = GameUiTokens.BackgroundCoolBloom.copy(alpha = 0.22f * fadeOut),
+            radius = cellWidth * (0.24f + progress * 0.28f),
+            center = center.copy(y = center.y - upwardLift * 0.2f),
         )
     }
+}
+
+private fun DrawScope.drawElectricBorderAccent(
+    start: Offset,
+    end: Offset,
+    alpha: Float,
+) {
+    drawIntoCanvas { canvas ->
+        val glowPaint = Paint().asFrameworkPaint().apply {
+            color = GameUiTokens.FrameElectricGlow.copy(
+                alpha = GameUiTokens.FrameElectricGlowAlpha * alpha,
+            ).toArgb()
+            style = android.graphics.Paint.Style.STROKE
+            strokeWidth = GameUiTokens.FrameElectricStrokeWidth
+            strokeCap = android.graphics.Paint.Cap.ROUND
+            maskFilter = BlurMaskFilter(
+                GameUiTokens.FrameElectricGlowRadius,
+                BlurMaskFilter.Blur.NORMAL,
+            )
+        }
+        canvas.nativeCanvas.drawLine(start.x, start.y, end.x, end.y, glowPaint)
+    }
+    drawLine(
+        brush = Brush.linearGradient(
+            colors = listOf(
+                Color.Transparent,
+                GameUiTokens.FrameElectricGlow.copy(alpha = 0.95f * alpha),
+                Color.Transparent,
+            ),
+            start = start,
+            end = end,
+        ),
+        start = start,
+        end = end,
+        strokeWidth = GameUiTokens.FrameElectricStrokeWidth,
+        cap = StrokeCap.Round,
+    )
 }
 
 private fun DrawScope.drawHoldPreview(
@@ -294,11 +581,12 @@ private fun DrawScope.drawHoldPreview(
     val previewCellSize = cellWidth * 0.44f
     val boxPadding = cellWidth * 0.28f
     val boxInnerW = previewCellSize * 4f
-    val boxInnerH = previewCellSize * 2f
+    val boxInnerH = previewCellSize * 4f
     val boxWidth = boxInnerW + boxPadding * 2f
     val boxHeight = boxInnerH + boxPadding * 2f
-    val boxLeft = cellWidth * 0.8f
-    val boxTop = cellHeight * 1.35f
+    val boxLeft = cellWidth * 0.42f
+    val boxTop = cellHeight * 0.72f
+    val cornerRadius = CornerRadius(previewCellSize * 0.18f)
 
     drawRoundRect(
         color = GameUiTokens.PreviewBorderColor.copy(
@@ -306,14 +594,14 @@ private fun DrawScope.drawHoldPreview(
         ),
         topLeft = Offset(boxLeft, boxTop),
         size = Size(boxWidth, boxHeight),
-        cornerRadius = CornerRadius(previewCellSize * 0.45f),
+        cornerRadius = cornerRadius,
         style = Stroke(width = 1f),
     )
     drawRoundRect(
         color = Color.White.copy(alpha = GameUiTokens.PreviewBgAlpha),
         topLeft = Offset(boxLeft, boxTop),
         size = Size(boxWidth, boxHeight),
-        cornerRadius = CornerRadius(previewCellSize * 0.45f),
+        cornerRadius = cornerRadius,
     )
 
     if (type == null) return
@@ -337,13 +625,13 @@ private fun DrawScope.drawNextPreview(
     val previewCellSize = cellWidth * 0.28f
 
     val containerWidth = previewCellSize * 4f
-    val containerRight = size.width - cellWidth * 0.78f
+    val containerRight = size.width - cellWidth * 0.42f
     val containerLeft = containerRight - containerWidth
     val containerCenterX = containerLeft + containerWidth / 2f
 
     val slotHeight = previewCellSize * 3f
     val slotGap = previewCellSize * 1.25f
-    var slotTop = cellHeight * 1.25f
+    var slotTop = cellHeight * 0.78f
 
     pieces.forEachIndexed { index, type ->
         val cells = spawnCells(type)
@@ -474,34 +762,30 @@ private fun DrawScope.drawCandyBlock(
 
 private fun DrawScope.drawCelebration(
     celebrationType: CelebrationType,
-    alpha: Float,
+    progress: Float,
 ) {
     val (overlayColor, label) = when (celebrationType) {
-        CelebrationType.Tetris -> Color(0xFF7A8DFF) to "TETRIS"
+        CelebrationType.Tetris -> Color(0xFF7A8DFF) to "TETRIS" // 4 ROW
         CelebrationType.TSpin -> Color(0xFFFF6FB5) to "T-SPIN"
         CelebrationType.AllClear -> Color(0xFF7BFFE1) to "ALL CLEAR"
     }
-
-    drawRoundRect(
-        color = overlayColor.copy(alpha = alpha * 0.22f),
-        topLeft = Offset(size.width * 0.14f, size.height * 0.36f),
-        size = Size(size.width * 0.72f, size.height * 0.16f),
-        cornerRadius = CornerRadius(24f, 24f),
-    )
+    val textAlpha = 1f - progress
+    val textScale = 0.82f + (progress * 0.42f)
 
     drawIntoCanvas { canvas ->
         val paint = Paint().asFrameworkPaint().apply {
             isAntiAlias = true
             textAlign = android.graphics.Paint.Align.CENTER
-            textSize = size.minDimension * 0.11f
+            textSize = size.minDimension * 0.11f * textScale
             typeface = android.graphics.Typeface.create(android.graphics.Typeface.DEFAULT_BOLD, android.graphics.Typeface.BOLD)
-            color = Color.White.copy(alpha = alpha).toArgb()
-            setShadowLayer(18f, 0f, 0f, overlayColor.copy(alpha = alpha).toArgb())
+            color = Color.White.copy(alpha = textAlpha).toArgb()
+            setShadowLayer(24f, 0f, 0f, overlayColor.copy(alpha = textAlpha).toArgb())
         }
+        val baseline = center.y - ((paint.descent() + paint.ascent()) / 2f)
         canvas.nativeCanvas.drawText(
             label,
             center.x,
-            size.height * 0.47f,
+            baseline,
             paint,
         )
     }

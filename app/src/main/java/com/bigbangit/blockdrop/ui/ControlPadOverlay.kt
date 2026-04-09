@@ -82,7 +82,7 @@ fun ControlPadOverlay(
                     onClick = onRotateCounterClockwise,
                     modifier = Modifier
                         .size(GameUiTokens.ControlButtonSize)
-                        .offset(x = 8.dp),
+                        .offset(x = 20.dp),
                 )
                 QuietControlButton(
                     icon = Icons.AutoMirrored.Filled.RotateRight,
@@ -91,7 +91,7 @@ fun ControlPadOverlay(
                     onClick = onRotateClockwise,
                     modifier = Modifier
                         .size(GameUiTokens.ControlButtonSize)
-                        .offset(x = (-8).dp),
+                        .offset(x = (-20).dp),
                 )
             }
 

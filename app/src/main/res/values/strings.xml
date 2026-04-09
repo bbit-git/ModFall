@@ -47,6 +47,10 @@
     <string name="show_buttons_setting">Show buttons</string>
     <string name="enable_gestures_setting">Enable gestures</string>
     <string name="enable_music_setting">Enable music</string>
+    <string name="enable_particles_setting">Particles</string>
+    <string name="particle_quality_setting">Particle density</string>
+    <string name="particle_quality_low">Lower</string>
+    <string name="particle_quality_high">Higher</string>
     <string name="main_tune_setting">Main tune</string>
     <string name="settings_input_method_rule">Keep at least one input method enabled.</string>
     <string name="music_library_title">Music Library</string>
