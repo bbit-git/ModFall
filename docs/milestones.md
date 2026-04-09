@@ -9,8 +9,8 @@
 | [Gate](milestones/playtest-gate.md) | Playtest — developer go/no-go | M3 | Completed |
 | [M4](milestones/m4-polish.md) | Effects, Polish, Tutorial, Scoreboard & Game Over | Gate | Completed |
 | [M5](milestones/m5-localisation.md) | Localisation, Testing & Launch Prep | M2b; **parallel** with M3/M4 | Completed |
-| [M6](milestones/m6-mod-music.md) | MOD Music Playback | M4 | In progress |
-| [M7](milestones/m7-music-library-screen.md) | Music Library Screen | M6 | Planned |
+| [M6](milestones/m6-mod-music.md) | MOD Music Playback | M4 | Completed |
+| [M7](milestones/m7-music-library-screen.md) | Music Library Screen | M6 | Completed |
 
 ```
 M1 → M2a → M2b → M3 → Playtest Gate → M4 → M6 → M7

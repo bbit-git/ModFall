@@ -1,6 +1,6 @@
 # M7 — Music Library Screen
 
-**Status:** Planned
+**Status:** Completed
 **Depends on:** M6
 
 ## Scope
@@ -12,6 +12,7 @@ A dedicated full-screen music library browser that lets the player pick, pause, 
 - If game is `Running`, pause it with `PauseReason.MusicLibrary` before opening the screen
 - Screen slides in from the right (standard push transition over the main game view)
 - Back icon in the library top bar closes the screen; game stays paused — user resumes from the pause menu
+- Settings panel can also open the library as a stacked flow for main-tune selection
 
 ### Screen layout
 
@@ -42,9 +43,11 @@ A dedicated full-screen music library browser that lets the player pick, pause, 
 
 #### Track list (scrollable, below divider)
 - One row per track in `ModLibrary.tracks()`
-- Each row: track display string on the left, ▶ play icon on the right
+- Each row: track display string on the left, ▶ play icon and main-tune checkbox on the right
 - Tapping ▶ on any row immediately starts that track without closing the screen
 - Currently playing track row is visually highlighted
+- Checked track is persisted as the preferred main tune
+- If music playback is disabled, list browsing remains available but manual play is disabled
 
 #### Empty state
 - Shown in place of the list when no tracks are available
@@ -70,11 +73,14 @@ A dedicated full-screen music library browser that lets the player pick, pause, 
 - `availableTracks: List<ModTrackInfo> = emptyList()`
 - `currentTrack: ModTrackInfo? = null`
 - `isMusicPlaying: Boolean = false`
+- `musicEnabled: Boolean = true`
+- `mainTrackPathOrUri: String? = null`
 
 #### `GameViewModel` additions
 - `openMusicLibrary()` — pauses game if running (`PauseReason.MusicLibrary`), rescans library, sets `showMusicLibrary = true`, refreshes `availableTracks` / `currentTrack` / `isMusicPlaying`
 - `closeMusicLibrary()` — sets `showMusicLibrary = false`
 - `selectTrack(track: ModTrackInfo)` — calls `modMusicService.playTrack(track)`, updates `currentTrack` / `isMusicPlaying`
+- `setMainTrack(track: ModTrackInfo)` — persists the preferred main tune
 - `pauseMusic()` / `resumeMusic()` — delegate to `modMusicService`, update `isMusicPlaying`
 - `stopMusic()` — delegate to `modMusicService.stop()`, update `isMusicPlaying` and `currentTrack`
 - Track-change collector already in `init` — extend it to also refresh `currentTrack` / `isMusicPlaying`
@@ -95,7 +101,10 @@ A dedicated full-screen music library browser that lets the player pick, pause, 
 - The current track (if any) is shown at the top with working pause / resume / stop controls
 - Tapping ▶ on a list track plays it immediately without closing the screen
 - The currently playing track is visually distinct in the list
+- One track can be marked as the main tune and that choice is persisted
+- If opened from settings, Back returns to settings
 - Back icon closes the screen; game remains paused
 - Empty state displays the correct message and path hint when `Downloads/Mods/` contains no valid module files
 - Muted state is respected — service controls remain consistent with mute flag
+- Disabled-music state is respected — browsing and main-tune selection stay available, playback actions do not start MOD audio
 - No regression in existing mute toggle (short-press), game lifecycle pause/resume, or `TrackInfoOverlay`
