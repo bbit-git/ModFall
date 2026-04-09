@@ -19,11 +19,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -33,22 +32,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -56,18 +52,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.filled.RotateRight
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material.icons.filled.KeyboardDoubleArrowDown
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -81,40 +73,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.delay
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.core.GameState
 import com.bigbangit.blockdrop.ui.model.GameUiModel
-import com.bigbangit.blockdrop.ui.theme.AppBackgroundCenter
-import com.bigbangit.blockdrop.ui.theme.AppBackgroundEdge
 import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
-import com.bigbangit.blockdrop.ui.theme.BoardBackground
 import com.bigbangit.blockdrop.ui.theme.TextWhite
 import com.bigbangit.blockdrop.ui.viewmodel.GameViewModel
-
-private const val HardDropButtonTag = "hard-drop-button"
 
 @Composable
 fun BlockDropApp(
@@ -314,7 +294,7 @@ fun BlockDropScreen(
             .fillMaxSize()
             .background(
                 Brush.radialGradient(
-                    colors = listOf(AppBackgroundCenter, AppBackgroundEdge),
+                    colors = listOf(GameUiTokens.BackgroundCenter, GameUiTokens.BackgroundEdge),
                 ),
             ),
     ) {
@@ -404,6 +384,8 @@ fun BlockDropScreen(
     }
 }
 
+// ─── Game Screen ────────────────────────────────────────────────────────────────
+
 @Composable
 private fun GameScreenContent(
     uiModel: GameUiModel,
@@ -428,47 +410,74 @@ private fun GameScreenContent(
     onShowScoreboard: () -> Unit,
     onDismissScoreboard: () -> Unit,
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Bottom))
-            .padding(horizontal = 8.dp, vertical = 6.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Bottom)),
     ) {
-        TopBar(
-            score = uiModel.score,
-            level = uiModel.level,
-            lines = uiModel.lines,
-            isMuted = uiModel.isMuted,
-            onTutorialToggle = onShowTutorial,
-            onMuteToggle = onMuteToggle,
-            onOpenMusicLibrary = onOpenMusicLibrary,
-            onOpenSettings = onOpenSettings,
-        )
-
-        Box(
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center,
+                .fillMaxSize()
+                .padding(
+                    horizontal = GameUiTokens.ScreenPaddingHorizontal,
+                    vertical = GameUiTokens.ScreenPaddingVertical,
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            GameBoardStage(
-                uiModel = uiModel,
-                onStartGame = onStartGame,
-                onResume = onResume,
-                onQuit = onQuit,
-                onMoveLeft = onMoveLeft,
-                onMoveRight = onMoveRight,
-                onRotateClockwise = onRotateClockwise,
-                onRotateCounterClockwise = onRotateCounterClockwise,
-                onSoftDrop = onSoftDrop,
-                onHardDrop = onHardDrop,
-                onHold = onHold,
-                onDropDelay = onDropDelay,
-                onNicknameChanged = onNicknameChanged,
-                onSubmitScore = onSubmitScore,
-                onShowScoreboard = onShowScoreboard,
+            // Top HUD
+            TopHud(
+                score = uiModel.score,
+                level = uiModel.level,
+                lines = uiModel.lines,
+                isMuted = uiModel.isMuted,
+                onTutorialToggle = onShowTutorial,
+                onMuteToggle = onMuteToggle,
+                onOpenMusicLibrary = onOpenMusicLibrary,
+                onOpenSettings = onOpenSettings,
             )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            // Playfield area (takes available space minus controls)
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Playfield(
+                    uiModel = uiModel,
+                    onStartGame = onStartGame,
+                    onResume = onResume,
+                    onQuit = onQuit,
+                    onMoveLeft = onMoveLeft,
+                    onMoveRight = onMoveRight,
+                    onRotateClockwise = onRotateClockwise,
+                    onRotateCounterClockwise = onRotateCounterClockwise,
+                    onSoftDrop = onSoftDrop,
+                    onHardDrop = onHardDrop,
+                    onHold = onHold,
+                    onDropDelay = onDropDelay,
+                    onNicknameChanged = onNicknameChanged,
+                    onSubmitScore = onSubmitScore,
+                    onShowScoreboard = onShowScoreboard,
+                )
+            }
+
+            // Floating controls at bottom
+            if (uiModel.buttonsEnabled) {
+                Spacer(modifier = Modifier.height(8.dp))
+                ControlPadOverlay(
+                    enabled = uiModel.state == GameState.Running,
+                    onMoveLeft = onMoveLeft,
+                    onMoveRight = onMoveRight,
+                    onRotateClockwise = onRotateClockwise,
+                    onRotateCounterClockwise = onRotateCounterClockwise,
+                    onSoftDrop = onSoftDrop,
+                    onHardDrop = onHardDrop,
+                    modifier = Modifier.padding(bottom = GameUiTokens.ControlPadBottomPadding),
+                )
+            }
         }
     }
 
@@ -484,8 +493,10 @@ private fun GameScreenContent(
     }
 }
 
+// ─── Top HUD ────────────────────────────────────────────────────────────────────
+
 @Composable
-private fun TopBar(
+private fun TopHud(
     score: Int,
     level: Int,
     lines: Int,
@@ -497,9 +508,9 @@ private fun TopBar(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // Icon row: help | settings | sound
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -507,29 +518,29 @@ private fun TopBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CompactChromeButton(
+            HudIconButton(
                 onClick = onTutorialToggle,
                 contentDescription = stringResource(R.string.help_description),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.HelpOutline,
                     contentDescription = stringResource(R.string.help_description),
-                    tint = TextWhite,
+                    tint = GameUiTokens.HudIconColor.copy(alpha = GameUiTokens.HudIconAlpha),
                 )
             }
 
-            CompactChromeButton(
+            HudIconButton(
                 onClick = onOpenSettings,
                 contentDescription = stringResource(R.string.settings_description),
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = stringResource(R.string.settings_description),
-                    tint = TextWhite,
+                    tint = GameUiTokens.HudIconColor.copy(alpha = GameUiTokens.HudIconAlpha),
                 )
             }
 
-            CompactChromeButton(
+            HudIconButton(
                 onClick = onMuteToggle,
                 onLongClick = onOpenMusicLibrary,
                 contentDescription = stringResource(R.string.mute_description),
@@ -537,22 +548,79 @@ private fun TopBar(
                 Icon(
                     imageVector = if (isMuted) Icons.AutoMirrored.Filled.VolumeOff else Icons.AutoMirrored.Filled.VolumeUp,
                     contentDescription = stringResource(R.string.mute_description),
-                    tint = TextWhite,
+                    tint = GameUiTokens.HudIconColor.copy(alpha = GameUiTokens.HudIconAlpha),
                 )
             }
         }
 
-        CompactStatsBar(
-            score = score,
-            level = level,
-            lines = lines,
-            modifier = Modifier.fillMaxWidth(),
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Score info — score prominent, level + lines secondary
+        Text(
+            text = stringResource(R.string.score_stat_compact, score),
+            color = GameUiTokens.HudScoreColor,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 1.sp,
         )
+        Spacer(modifier = Modifier.height(2.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.level_stat_compact, level),
+                color = GameUiTokens.HudSecondaryColor.copy(alpha = GameUiTokens.HudSecondaryAlpha),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 0.8.sp,
+            )
+            Text(
+                text = stringResource(R.string.lines_stat_compact, lines),
+                color = GameUiTokens.HudSecondaryColor.copy(alpha = GameUiTokens.HudSecondaryAlpha),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 0.8.sp,
+            )
+        }
     }
 }
 
 @Composable
-private fun GameBoardStage(
+@OptIn(ExperimentalFoundationApi::class)
+private fun HudIconButton(
+    onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
+    contentDescription: String,
+    content: @Composable () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+    Box(
+        modifier = Modifier
+            .size(40.dp, 34.dp)
+            .graphicsLayer {
+                scaleX = if (pressed) 0.94f else 1f
+                scaleY = if (pressed) 0.94f else 1f
+            }
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick,
+                interactionSource = interactionSource,
+                indication = null,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(modifier = Modifier.size(20.dp), contentAlignment = Alignment.Center) {
+            content()
+        }
+    }
+}
+
+// ─── Playfield ──────────────────────────────────────────────────────────────────
+
+@Composable
+private fun Playfield(
     uiModel: GameUiModel,
     onStartGame: () -> Unit,
     onResume: () -> Unit,
@@ -573,453 +641,131 @@ private fun GameBoardStage(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        val layoutDirection = LocalLayoutDirection.current
-        val safePadding = WindowInsets.safeDrawing.asPaddingValues()
-        val leftUnsafeRail = safePadding.calculateLeftPadding(layoutDirection) + 16.dp
-        val rightUnsafeRail = safePadding.calculateRightPadding(layoutDirection) + 16.dp
-        val gutterGap = 0.dp
-        val reservedControlButtonHeight = 48.dp
-        val horizontalGaps = gutterGap * 2
-        val verticalGaps = 0.dp
-        val boardWidthFromWidth = maxWidth - horizontalGaps - leftUnsafeRail - rightUnsafeRail
-        val boardWidthFromHeight = (maxHeight - reservedControlButtonHeight - verticalGaps) / 2f
-        val boardWidth = (
-            if (boardWidthFromWidth < boardWidthFromHeight) boardWidthFromWidth else boardWidthFromHeight
-            ).coerceAtLeast(166.dp)
+        // Calculate board dimensions — board should be the hero
+        val maxBoardWidth = maxWidth - 24.dp
+        val maxBoardHeight = maxHeight
+        val boardWidthFromHeight = maxBoardHeight / 2f
+        val boardWidth = minOf(maxBoardWidth, boardWidthFromHeight).coerceAtLeast(160.dp)
         val boardHeight = boardWidth * 2f
-        val buttonEnabled = uiModel.state == GameState.Running
-        val stageHeight = boardHeight + reservedControlButtonHeight + verticalGaps
-        val nextPieces = uiModel.nextPieces.take(com.bigbangit.blockdrop.core.GameConstants.getVisibleNextCount(uiModel.level))
+        val nextPieces = uiModel.nextPieces.take(
+            com.bigbangit.blockdrop.core.GameConstants.getVisibleNextCount(uiModel.level),
+        )
 
         Column(
-            modifier = Modifier
-                .width((boardWidth + leftUnsafeRail + rightUnsafeRail + horizontalGaps).coerceAtMost(maxWidth))
-                .height(stageHeight),
-            verticalArrangement = Arrangement.spacedBy(verticalGaps),
+            modifier = Modifier.width(boardWidth),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            // Labels ABOVE the board border
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(boardHeight),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
+                    .padding(start = 2.dp, end = 2.dp, bottom = 3.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                if (uiModel.buttonsEnabled) {
-                    SideRailControlButton(
-                        onClick = onMoveLeft,
-                        enabled = buttonEnabled,
-                        contentDescription = stringResource(R.string.move_left),
-                        modifier = Modifier
-                            .width(leftUnsafeRail)
-                            .fillMaxHeight(),
-                        attachedEdge = AttachedEdge.End,
-                        icon = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                                contentDescription = null,
-                            )
-                        },
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(if (uiModel.buttonsEnabled) gutterGap else 0.dp))
-
-                Box(
+                Text(
+                    text = stringResource(R.string.hold_label),
+                    color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha),
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.2.sp,
                     modifier = Modifier
-                        .width(boardWidth)
-                        .fillMaxHeight(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    ControlSurface(
-                        uiModel = uiModel,
-                        enabled = uiModel.gesturesEnabled,
-                        onMoveLeft = onMoveLeft,
-                        onMoveRight = onMoveRight,
-                        onRotateClockwise = onRotateClockwise,
-                        onRotateCounterClockwise = onRotateCounterClockwise,
-                        onSoftDrop = onSoftDrop,
-                        onHardDrop = onHardDrop,
-                        onDropDelay = onDropDelay,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-
-                    BoardSidePanel(
-                        label = stringResource(R.string.hold_label),
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(start = 3.dp, top = 3.dp)
-                            .width(72.dp)
-                            .pointerInput(onHold, uiModel.state, uiModel.canHold) {
-                                detectTapGestures {
-                                    if (uiModel.state == GameState.Running && uiModel.canHold) onHold()
-                                }
-                            },
-                    ) {
-                        HoldPreview(type = uiModel.heldPiece, enabled = uiModel.canHold)
-                    }
-
-                    BoardSidePanel(
-                        label = stringResource(R.string.next_label_caps),
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 3.dp, end = 3.dp)
-                            .width(78.dp)
-                            .pointerInput(Unit) {
-                                awaitEachGesture {
-                                    awaitFirstDown().consume()
-                                }
-                            },
-                    ) {
-                        NextPreviewColumn(pieces = nextPieces)
-                    }
-
-                    when (uiModel.state) {
-                        GameState.Idle -> CompactOverlayCard(
-                            title = stringResource(R.string.block_drop_title),
-                            subtitle = null,
-                            width = (boardWidth.value * 0.78f).dp,
-                            primaryLabel = stringResource(R.string.start_game),
-                            onPrimaryClick = onStartGame,
-                        )
-
-                        GameState.GameOver -> GameOverOverlayCard(
-                            uiModel = uiModel,
-                            width = (boardWidth.value * 0.84f).dp,
-                            onPrimaryClick = onStartGame,
-                            onSecondaryClick = onQuit,
-                            onNicknameChanged = onNicknameChanged,
-                            onSubmitScore = onSubmitScore,
-                            onShowScoreboard = onShowScoreboard,
-                        )
-
-                        GameState.Paused -> CompactOverlayCard(
-                            title = stringResource(R.string.paused_title),
-                            subtitle = stringResource(R.string.pause_menu_subtitle),
-                            width = (boardWidth.value * 0.8f).dp,
-                            primaryLabel = stringResource(R.string.resume_button),
-                            onPrimaryClick = onResume,
-                            secondaryLabel = stringResource(R.string.restart_button),
-                            onSecondaryClick = onStartGame,
-                            tertiaryLabel = stringResource(R.string.menu_button),
-                            onTertiaryClick = onQuit,
-                        )
-
-                        else -> Unit
-                    }
-                }
-
-                Spacer(modifier = Modifier.width(if (uiModel.buttonsEnabled) gutterGap else 0.dp))
-
-                if (uiModel.buttonsEnabled) {
-                    SideRailControlButton(
-                        onClick = onMoveRight,
-                        enabled = buttonEnabled,
-                        contentDescription = stringResource(R.string.move_right),
-                        modifier = Modifier
-                            .width(rightUnsafeRail)
-                            .fillMaxHeight(),
-                        attachedEdge = AttachedEdge.Start,
-                        icon = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                contentDescription = null,
-                            )
+                        .pointerInput(onHold, uiModel.state, uiModel.canHold) {
+                            detectTapGestures {
+                                if (uiModel.state == GameState.Running && uiModel.canHold) onHold()
+                            }
                         },
-                    )
-                }
+                )
+                Text(
+                    text = stringResource(R.string.next_label_caps),
+                    color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha),
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.2.sp,
+                    modifier = Modifier
+                        .pointerInput(Unit) {
+                            awaitEachGesture {
+                                awaitFirstDown().consume()
+                            }
+                        },
+                )
             }
 
+            // Board
             Box(
                 modifier = Modifier
-                    .width(boardWidth + leftUnsafeRail + rightUnsafeRail)
-                    .height(reservedControlButtonHeight),
+                    .fillMaxWidth()
+                    .height(boardHeight),
+                contentAlignment = Alignment.Center,
             ) {
-                if (uiModel.buttonsEnabled) {
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalArrangement = Arrangement.spacedBy(0.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        GameplayControlButton(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxSize(),
-                            onClick = onRotateClockwise,
-                            enabled = buttonEnabled,
-                            contentDescription = stringResource(R.string.rotate_cw),
-                            attachedEdge = AttachedEdge.Top,
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.RotateRight,
-                                    contentDescription = null,
-                                )
-                            },
-                        )
-                        GameplayControlButton(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxSize(),
-                            onClick = onHardDrop,
-                            enabled = buttonEnabled,
-                            contentDescription = stringResource(R.string.hard_drop),
-                            emphasize = true,
-                            attachedEdge = AttachedEdge.Top,
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.KeyboardDoubleArrowDown,
-                                    contentDescription = null,
-                                )
-                            },
-                        )
-                    }
-                }
+                ControlSurface(
+                    uiModel = uiModel,
+                    enabled = uiModel.gesturesEnabled,
+                    onMoveLeft = onMoveLeft,
+                    onMoveRight = onMoveRight,
+                    onRotateClockwise = onRotateClockwise,
+                    onRotateCounterClockwise = onRotateCounterClockwise,
+                    onSoftDrop = onSoftDrop,
+                    onHardDrop = onHardDrop,
+                    onDropDelay = onDropDelay,
+                    heldPiece = uiModel.heldPiece,
+                    canHold = uiModel.canHold,
+                    nextPieces = nextPieces,
+                    modifier = Modifier.fillMaxSize(),
+                )
+
+                // Hold tap target covering the hold preview area
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .width(boardWidth * 0.3f)
+                        .height(boardHeight * 0.1f)
+                        .pointerInput(onHold, uiModel.state, uiModel.canHold) {
+                            detectTapGestures {
+                                if (uiModel.state == GameState.Running && uiModel.canHold) onHold()
+                            }
+                        },
+                )
+
+                // Overlay cards for game states
+            when (uiModel.state) {
+                GameState.Idle -> CompactOverlayCard(
+                    title = stringResource(R.string.block_drop_title),
+                    subtitle = null,
+                    width = (boardWidth.value * 0.78f).dp,
+                    primaryLabel = stringResource(R.string.start_game),
+                    onPrimaryClick = onStartGame,
+                )
+
+                GameState.GameOver -> GameOverOverlayCard(
+                    uiModel = uiModel,
+                    width = (boardWidth.value * 0.84f).dp,
+                    onPrimaryClick = onStartGame,
+                    onSecondaryClick = onQuit,
+                    onNicknameChanged = onNicknameChanged,
+                    onSubmitScore = onSubmitScore,
+                    onShowScoreboard = onShowScoreboard,
+                )
+
+                GameState.Paused -> CompactOverlayCard(
+                    title = stringResource(R.string.paused_title),
+                    subtitle = stringResource(R.string.pause_menu_subtitle),
+                    width = (boardWidth.value * 0.8f).dp,
+                    primaryLabel = stringResource(R.string.resume_button),
+                    onPrimaryClick = onResume,
+                    secondaryLabel = stringResource(R.string.restart_button),
+                    onSecondaryClick = onStartGame,
+                    tertiaryLabel = stringResource(R.string.menu_button),
+                    onTertiaryClick = onQuit,
+                )
+
+                else -> Unit
+            }
             }
         }
     }
 }
 
-@Composable
-@OptIn(ExperimentalFoundationApi::class)
-private fun CompactChromeButton(
-    onClick: () -> Unit,
-    onLongClick: (() -> Unit)? = null,
-    contentDescription: String,
-    content: @Composable () -> Unit,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    Box(
-        modifier = Modifier
-            .size(36.dp, 30.dp)
-            .graphicsLayer {
-                scaleX = if (pressed) 0.96f else 1f
-                scaleY = if (pressed) 0.96f else 1f
-            }
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick,
-                interactionSource = interactionSource,
-                indication = null,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        Box(modifier = Modifier.size(18.dp), contentAlignment = Alignment.Center) {
-            content()
-        }
-    }
-}
-
-@Composable
-@OptIn(ExperimentalFoundationApi::class)
-private fun SideRailControlButton(
-    onClick: () -> Unit,
-    enabled: Boolean,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-    attachedEdge: AttachedEdge,
-    icon: @Composable () -> Unit,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(targetValue = if (pressed) 0.985f else 1f, label = "side-rail-scale")
-    val railColor = Color(0xFF4C6580)
-    val iconColor = BoardBackground
-
-    Box(
-        modifier = modifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .sideRailSurface(railColor, attachedEdge)
-            .combinedClickable(
-                onClick = onClick,
-                enabled = enabled,
-                interactionSource = interactionSource,
-                indication = null,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        androidx.compose.runtime.CompositionLocalProvider(LocalContentColor provides iconColor) {
-            Box(contentAlignment = Alignment.Center) {
-                icon()
-            }
-        }
-    }
-}
-
-@Composable
-@OptIn(ExperimentalFoundationApi::class)
-private fun GameplayControlButton(
-    onClick: () -> Unit,
-    enabled: Boolean,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-    label: String? = null,
-    emphasize: Boolean = false,
-    attachedEdge: AttachedEdge = AttachedEdge.None,
-    icon: @Composable () -> Unit,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(targetValue = if (pressed) 0.96f else 1f, label = "control-scale")
-    val taggedModifier = if (contentDescription == stringResource(R.string.hard_drop)) {
-        modifier.testTag(HardDropButtonTag)
-    } else {
-        modifier
-    }
-
-    val containerColor = if (emphasize) Color(0xFF5B7695) else Color(0xFF4B6583)
-    val iconColor = BoardBackground
-    val controlPadding = when (attachedEdge) {
-        AttachedEdge.Start, AttachedEdge.End -> 0.dp
-        else -> 8.dp
-    }
-
-    Box(
-        modifier = taggedModifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .requiredHeightIn(min = 46.dp)
-            .retroGameButtonSurface(containerColor, attachedEdge)
-            .combinedClickable(
-                onClick = onClick,
-                enabled = enabled,
-                interactionSource = interactionSource,
-                indication = null,
-            )
-            .padding(horizontal = controlPadding, vertical = controlPadding),
-        contentAlignment = Alignment.Center,
-    ) {
-        androidx.compose.runtime.CompositionLocalProvider(LocalContentColor provides iconColor) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    icon()
-                }
-                if (label != null) {
-                    Text(
-                        text = label,
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = iconColor,
-                        textAlign = TextAlign.Center,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
-        }
-    }
-}
-
-private enum class AttachedEdge {
-    None,
-    Start,
-    End,
-    Top,
-}
-
-private fun Modifier.sideRailSurface(
-    containerColor: Color,
-    attachedEdge: AttachedEdge,
-): Modifier = drawBehind {
-    val fillBrush = when (attachedEdge) {
-        AttachedEdge.Start -> Brush.horizontalGradient(
-            colors = listOf(
-                containerColor.copy(alpha = 0.55f),
-                containerColor.copy(alpha = 0.9f),
-            ),
-        )
-        AttachedEdge.End -> Brush.horizontalGradient(
-            colors = listOf(
-                containerColor.copy(alpha = 0.9f),
-                containerColor.copy(alpha = 0.55f),
-            ),
-        )
-        else -> Brush.horizontalGradient(
-            colors = listOf(containerColor, containerColor),
-        )
-    }
-
-    drawRect(color = containerColor.copy(alpha = 0.38f))
-    drawRect(
-        brush = fillBrush,
-        topLeft = Offset.Zero,
-        size = size,
-    )
-
-    val innerEdgeX = if (attachedEdge == AttachedEdge.End) size.width - 1f else 1f
-    drawLine(
-        color = Color.White.copy(alpha = 0.18f),
-        start = Offset(innerEdgeX, 0f),
-        end = Offset(innerEdgeX, size.height),
-        strokeWidth = 2f,
-    )
-    val edgeGlowX = if (attachedEdge == AttachedEdge.End) size.width - 3f else 3f
-    drawLine(
-        color = Color(0xFFB9CBE0).copy(alpha = 0.14f),
-        start = Offset(edgeGlowX, 0f),
-        end = Offset(edgeGlowX, size.height),
-        strokeWidth = 4f,
-    )
-}
-
-private fun Modifier.retroGameButtonSurface(
-    containerColor: Color,
-    attachedEdge: AttachedEdge,
-): Modifier = drawBehind {
-    val outerRadius = CornerRadius(size.minDimension * 0.03f)
-    val innerRadius = CornerRadius(size.minDimension * 0.02f)
-    drawRoundRect(
-        color = containerColor.copy(alpha = 0.42f),
-        cornerRadius = outerRadius,
-    )
-    drawRoundRect(
-        brush = Brush.verticalGradient(
-            colors = listOf(containerColor, containerColor.copy(alpha = 0.78f)),
-        ),
-        topLeft = Offset(2f, 2f),
-        size = Size(size.width - 4f, size.height - 4f),
-        cornerRadius = innerRadius,
-    )
-
-    if (attachedEdge != AttachedEdge.Top) {
-        drawLine(
-            color = Color.White.copy(alpha = 0.08f),
-            start = Offset(3f, 3f),
-            end = Offset(size.width - 3f, 3f),
-            strokeWidth = 2f,
-        )
-    }
-    if (attachedEdge != AttachedEdge.Start) {
-        drawLine(
-            color = Color.White.copy(alpha = 0.04f),
-            start = Offset(3f, 3f),
-            end = Offset(3f, size.height - 3f),
-            strokeWidth = 2f,
-        )
-    }
-    drawLine(
-        color = Color(0xFF171C22),
-        start = Offset(3f, size.height - 3f),
-        end = Offset(size.width - 3f, size.height - 3f),
-        strokeWidth = 2f,
-    )
-    if (attachedEdge != AttachedEdge.End) {
-        drawLine(
-            color = Color(0xFF171C22),
-            start = Offset(size.width - 3f, 3f),
-            end = Offset(size.width - 3f, size.height - 3f),
-            strokeWidth = 2f,
-        )
-    }
-}
+// ─── Overlay Cards ──────────────────────────────────────────────────────────────
 
 @Composable
 private fun GameOverOverlayCard(
@@ -1035,7 +781,7 @@ private fun GameOverOverlayCard(
         modifier = Modifier
             .width(width)
             .windowInsetsPadding(WindowInsets.ime.only(WindowInsetsSides.Bottom))
-            .background(AppBackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(10.dp))
+            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(10.dp))
             .border(1.dp, Color.White.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
             .padding(horizontal = 20.dp, vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -1127,7 +873,7 @@ private fun CompactOverlayCard(
     Column(
         modifier = Modifier
             .width(width)
-            .background(AppBackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(10.dp))
+            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(10.dp))
             .border(1.dp, Color.White.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
             .padding(horizontal = 20.dp, vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -1170,6 +916,8 @@ private fun CompactOverlayCard(
     }
 }
 
+// ─── Settings Panel ─────────────────────────────────────────────────────────────
+
 @Composable
 private fun SettingsPanel(
     uiModel: GameUiModel,
@@ -1184,14 +932,18 @@ private fun SettingsPanel(
             .fillMaxSize()
             .safeDrawingPadding()
             .padding(16.dp)
-            .background(AppBackgroundCenter.copy(alpha = 0.92f), RoundedCornerShape(10.dp))
+            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.92f), RoundedCornerShape(10.dp))
             .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(10.dp))
             .padding(18.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            CompactChromeButton(onClick = onBack, contentDescription = stringResource(R.string.close_button)) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null, tint = TextWhite)
+            HudIconButton(onClick = onBack, contentDescription = stringResource(R.string.close_button)) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null,
+                    tint = TextWhite,
+                )
             }
             Text(
                 text = stringResource(R.string.settings_title),
@@ -1276,6 +1028,8 @@ private fun RetroActionRow(
         Button(onClick = onClick) { Text(stringResource(R.string.music_library_title)) }
     }
 }
+
+// ─── Preview ────────────────────────────────────────────────────────────────────
 
 @Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "en")
 @Preview(showBackground = true, device = "spec:width=411dp,height=891dp", locale = "ar")

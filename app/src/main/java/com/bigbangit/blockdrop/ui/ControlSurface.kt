@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.bigbangit.blockdrop.core.GameConstants
 import com.bigbangit.blockdrop.core.GameState
+import com.bigbangit.blockdrop.core.TetrominoType
 import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.GameUiModel
@@ -33,6 +34,9 @@ fun ControlSurface(
     onSoftDrop: () -> Unit,
     onHardDrop: () -> Unit,
     onDropDelay: () -> Unit,
+    heldPiece: TetrominoType? = null,
+    canHold: Boolean = true,
+    nextPieces: List<TetrominoType> = emptyList(),
     modifier: Modifier = Modifier,
 ) {
     var boardSize by remember { mutableStateOf(IntSize.Zero) }
@@ -163,7 +167,12 @@ fun ControlSurface(
                 }
             },
     ) {
-        BoardCanvas(uiModel = uiModel)
+        BoardCanvas(
+            uiModel = uiModel,
+            heldPiece = heldPiece,
+            canHold = canHold,
+            nextPieces = nextPieces,
+        )
     }
 }
 
