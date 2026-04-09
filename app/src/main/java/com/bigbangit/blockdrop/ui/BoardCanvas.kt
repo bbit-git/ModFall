@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -26,11 +26,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import com.bigbangit.blockdrop.core.CellOffset
 import com.bigbangit.blockdrop.core.GameConstants
 import com.bigbangit.blockdrop.core.RotationState
 import com.bigbangit.blockdrop.core.TetrominoShapes
 import com.bigbangit.blockdrop.core.TetrominoType
+import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.ui.model.CelebrationType
 import com.bigbangit.blockdrop.ui.model.GameUiModel
 
@@ -42,6 +44,8 @@ fun BoardCanvas(
     nextPieces: List<TetrominoType>,
     modifier: Modifier = Modifier,
 ) {
+    val holdLabel = stringResource(R.string.hold_label)
+    val nextLabel = stringResource(R.string.next_label_caps)
     val lineClearAlpha = remember { Animatable(0f) }
     val placementFlashAlpha = remember { Animatable(0f) }
     val levelUpFlashAlpha = remember { Animatable(0f) }
@@ -98,30 +102,36 @@ fun BoardCanvas(
         val cellWidth = size.width / GameConstants.BOARD_WIDTH
         val cellHeight = size.height / GameConstants.BOARD_HEIGHT
 
-        // 1. Board Background
         drawRect(
-            brush = Brush.radialGradient(
+            brush = Brush.verticalGradient(
                 colors = listOf(
                     GameUiTokens.BackgroundCenter,
                     GameUiTokens.BackgroundDark,
                 ),
-                center = center,
-                radius = size.maxDimension / 2f,
+            ),
+        )
+        drawRect(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    GameUiTokens.BackgroundNebula.copy(alpha = 0.22f),
+                    Color.Transparent,
+                ),
+                center = Offset(size.width * 0.5f, size.height * 0.15f),
+                radius = size.minDimension * 0.9f,
             ),
         )
 
-        // 2. Preview pieces drawn UNDER the grid (part of background layer)
+        drawEmbeddedLabels(holdLabel, nextLabel, cellWidth, cellHeight)
         drawHoldPreview(heldPiece, canHold, cellWidth, cellHeight)
         drawNextPreview(nextPieces, cellWidth, cellHeight)
 
-        // 3. Subtle Grid (drawn ON TOP of previews)
         val gridColor = GameUiTokens.GridLine.copy(alpha = GameUiTokens.GridLineAlpha)
         for (x in 0..GameConstants.BOARD_WIDTH) {
             drawLine(
                 color = gridColor,
                 start = Offset(x * cellWidth, 0f),
                 end = Offset(x * cellWidth, size.height),
-                strokeWidth = 0.5f,
+                strokeWidth = 0.85f,
             )
         }
         for (y in 0..GameConstants.BOARD_HEIGHT) {
@@ -129,31 +139,29 @@ fun BoardCanvas(
                 color = gridColor,
                 start = Offset(0f, y * cellHeight),
                 end = Offset(size.width, y * cellHeight),
-                strokeWidth = 0.5f,
+                strokeWidth = 0.85f,
             )
         }
 
-        // 4. Ghost Piece
         uiModel.ghostCells.forEach { cell ->
             val left = cell.x * cellWidth
             val top = (GameConstants.BOARD_HEIGHT - 1 - cell.y) * cellHeight
-            val inset = 2f
+            val inset = 3f
             drawRoundRect(
-                color = Color.White.copy(alpha = GameUiTokens.GhostFillAlpha),
+                color = GameUiTokens.GhostStroke.copy(alpha = GameUiTokens.GhostFillAlpha),
                 topLeft = Offset(left + inset, top + inset),
                 size = Size(cellWidth - inset * 2, cellHeight - inset * 2),
-                cornerRadius = CornerRadius(cellWidth * 0.15f),
+                cornerRadius = CornerRadius(cellWidth * 0.14f),
             )
             drawRoundRect(
                 color = GameUiTokens.GhostStroke.copy(alpha = GameUiTokens.GhostStrokeAlpha),
                 topLeft = Offset(left + inset, top + inset),
                 size = Size(cellWidth - inset * 2, cellHeight - inset * 2),
-                cornerRadius = CornerRadius(cellWidth * 0.15f),
+                cornerRadius = CornerRadius(cellWidth * 0.14f),
                 style = Stroke(width = GameUiTokens.GhostStrokeWidth),
             )
         }
 
-        // 5. Locked Blocks (settled — weaker glow)
         for (y in 0 until GameConstants.BOARD_HEIGHT) {
             for (x in 0 until GameConstants.BOARD_WIDTH) {
                 val cellValue = uiModel.board.cells[y][x]
@@ -170,7 +178,6 @@ fun BoardCanvas(
             }
         }
 
-        // 6. Active Piece (stronger glow)
         uiModel.activePiece?.let { piece ->
             val colors = CandyPalette.colorsFor(piece.type)
             piece.cells.forEach { cell ->
@@ -184,7 +191,6 @@ fun BoardCanvas(
             }
         }
 
-        // 7. Piece placement flash
         if (placementFlashAlpha.value > 0f) {
             uiModel.placementFlashCells.forEach { cell ->
                 val left = cell.x * cellWidth
@@ -198,7 +204,6 @@ fun BoardCanvas(
             }
         }
 
-        // 8. Line clear flash
         if (lineClearAlpha.value > 0f) {
             drawRect(
                 color = Color.White.copy(alpha = lineClearAlpha.value * 0.42f),
@@ -206,7 +211,6 @@ fun BoardCanvas(
             )
         }
 
-        // 9. Level-up flash
         if (levelUpFlashAlpha.value > 0f) {
             drawRect(
                 brush = Brush.radialGradient(
@@ -220,38 +224,66 @@ fun BoardCanvas(
             )
         }
 
-        // 10. Celebration overlay
-        if (celebrationAlpha.value > 0f && celebrationType != null) {
+        val activeCelebration = celebrationType
+        if (celebrationAlpha.value > 0f && activeCelebration != null) {
             drawCelebration(
-                celebrationType = celebrationType!!,
+                celebrationType = activeCelebration,
                 alpha = celebrationAlpha.value,
             )
         }
 
-        // 11. Glowing frame
         drawIntoCanvas { canvas ->
             val paint = Paint().asFrameworkPaint().apply {
                 color = GameUiTokens.FrameGlow.copy(alpha = GameUiTokens.FrameGlowAlpha).toArgb()
                 style = android.graphics.Paint.Style.STROKE
-                strokeWidth = GameUiTokens.FrameStrokeWidth * 3f
+                strokeWidth = GameUiTokens.FrameStrokeWidth * 2.6f
                 maskFilter = BlurMaskFilter(GameUiTokens.FrameGlowRadius, BlurMaskFilter.Blur.NORMAL)
             }
             canvas.nativeCanvas.drawRoundRect(
-                0f, 0f, size.width, size.height,
+                3f, 3f, size.width - 3f, size.height - 3f,
                 GameUiTokens.FrameCornerRadius, GameUiTokens.FrameCornerRadius,
                 paint,
             )
         }
         drawRoundRect(
             color = GameUiTokens.FrameStroke.copy(alpha = GameUiTokens.FrameStrokeAlpha),
-            size = size,
+            topLeft = Offset(1f, 1f),
+            size = Size(size.width - 2f, size.height - 2f),
             cornerRadius = CornerRadius(GameUiTokens.FrameCornerRadius),
             style = Stroke(width = GameUiTokens.FrameStrokeWidth),
         )
     }
 }
 
-// ─── Preview rendering (drawn under the grid) ──────────────────────────────────
+private fun DrawScope.drawEmbeddedLabels(
+    holdLabel: String,
+    nextLabel: String,
+    cellWidth: Float,
+    cellHeight: Float,
+) {
+    drawIntoCanvas { canvas ->
+        val paint = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            textSize = cellWidth * 0.34f
+            typeface = android.graphics.Typeface.create(android.graphics.Typeface.DEFAULT_BOLD, android.graphics.Typeface.BOLD)
+            color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha).toArgb()
+            letterSpacing = 0.18f
+        }
+        canvas.nativeCanvas.drawText(
+            holdLabel,
+            cellWidth * 0.9f,
+            cellHeight * 1.12f,
+            paint,
+        )
+        val nextTextWidth = paint.measureText(nextLabel)
+        canvas.nativeCanvas.drawText(
+            nextLabel,
+            size.width - cellWidth * 0.9f - nextTextWidth,
+            cellHeight * 1.12f,
+            paint,
+        )
+    }
+}
 
 private fun DrawScope.drawHoldPreview(
     type: TetrominoType?,
@@ -259,26 +291,33 @@ private fun DrawScope.drawHoldPreview(
     cellWidth: Float,
     cellHeight: Float,
 ) {
-    val previewCellSize = cellWidth * 0.48f
-    val boxPadding = cellWidth * 0.3f
+    val previewCellSize = cellWidth * 0.44f
+    val boxPadding = cellWidth * 0.28f
     val boxInnerW = previewCellSize * 4f
     val boxInnerH = previewCellSize * 2f
     val boxWidth = boxInnerW + boxPadding * 2f
     val boxHeight = boxInnerH + boxPadding * 2f
-    val boxLeft = cellWidth * 0.2f
-    val boxTop = cellHeight * 0.2f
+    val boxLeft = cellWidth * 0.8f
+    val boxTop = cellHeight * 1.35f
 
-    // Proper rectangle border around hold area
-    val borderAlpha = if (canHold) 0.12f else 0.06f
-    drawRect(
-        color = Color.White.copy(alpha = borderAlpha),
+    drawRoundRect(
+        color = GameUiTokens.PreviewBorderColor.copy(
+            alpha = if (canHold) GameUiTokens.PreviewBorderAlpha else GameUiTokens.PreviewBorderAlpha * 0.55f,
+        ),
         topLeft = Offset(boxLeft, boxTop),
         size = Size(boxWidth, boxHeight),
+        cornerRadius = CornerRadius(previewCellSize * 0.45f),
         style = Stroke(width = 1f),
+    )
+    drawRoundRect(
+        color = Color.White.copy(alpha = GameUiTokens.PreviewBgAlpha),
+        topLeft = Offset(boxLeft, boxTop),
+        size = Size(boxWidth, boxHeight),
+        cornerRadius = CornerRadius(previewCellSize * 0.45f),
     )
 
     if (type == null) return
-    val alpha = if (canHold) 0.28f else 0.12f
+    val alpha = if (canHold) 0.16f else 0.08f
     val cells = spawnCells(type)
 
     val pieceWidth = (cells.maxOf { it.x } - cells.minOf { it.x } + 1)
@@ -295,18 +334,16 @@ private fun DrawScope.drawNextPreview(
     cellHeight: Float,
 ) {
     if (pieces.isEmpty()) return
-    val previewCellSize = cellWidth * 0.30f
+    val previewCellSize = cellWidth * 0.28f
 
-    // Fixed-width container: 4 mini-cells wide, right-aligned in board
     val containerWidth = previewCellSize * 4f
-    val containerRight = size.width - cellWidth * 0.25f
+    val containerRight = size.width - cellWidth * 0.78f
     val containerLeft = containerRight - containerWidth
     val containerCenterX = containerLeft + containerWidth / 2f
 
-    // Each slot is a fixed 3-cell height regardless of piece shape
     val slotHeight = previewCellSize * 3f
-    val slotGap = previewCellSize * 1.6f
-    var slotTop = cellHeight * 0.4f
+    val slotGap = previewCellSize * 1.25f
+    var slotTop = cellHeight * 1.25f
 
     pieces.forEachIndexed { index, type ->
         val cells = spawnCells(type)
@@ -317,10 +354,9 @@ private fun DrawScope.drawNextPreview(
         val pieceWidth = (maxX - minX + 1) * previewCellSize
         val pieceHeight = (maxY - minY + 1) * previewCellSize
 
-        // Center piece in the fixed-width slot
         val originX = containerCenterX - pieceWidth / 2f
         val originY = slotTop + (slotHeight - pieceHeight) / 2f
-        val alpha = if (index == 0) 0.28f else 0.15f
+        val alpha = if (index == 0) 0.34f else 0.22f
 
         drawPreviewPiece(cells, originX, originY, previewCellSize, type, alpha)
 
@@ -342,20 +378,17 @@ private fun DrawScope.drawPreviewPiece(
 
     cells.forEach { cell ->
         val px = originX + (cell.x - minX) * cellSize
-        // Invert Y so higher Y values go upward visually
         val maxY = cells.maxOf { it.y }
         val py = originY + (maxY - cell.y) * cellSize
-        val cornerRadius = CornerRadius(cellSize * 0.15f)
+        val cornerRadius = CornerRadius(cellSize * 0.16f)
         val inset = 1f
 
-        // Subtle base fill
         drawRoundRect(
             color = colors.base.copy(alpha = alpha),
             topLeft = Offset(px + inset, py + inset),
             size = Size(cellSize - inset * 2, cellSize - inset * 2),
             cornerRadius = cornerRadius,
         )
-        // Light top highlight
         drawRoundRect(
             brush = Brush.verticalGradient(
                 colors = listOf(
@@ -390,9 +423,8 @@ private fun DrawScope.drawCandyBlock(
 ) {
     val left = x * cellWidth
     val top = (GameConstants.BOARD_HEIGHT - 1 - y) * cellHeight
-    val cornerRadius = CornerRadius(cellWidth * 0.15f)
+    val cornerRadius = CornerRadius(cellWidth * 0.13f)
 
-    // A. Outer Glow
     drawIntoCanvas { canvas ->
         val paint = Paint().asFrameworkPaint().apply {
             color = colors.glow.copy(alpha = glowAlpha).toArgb()
@@ -405,7 +437,6 @@ private fun DrawScope.drawCandyBlock(
         )
     }
 
-    // B. Base Fill
     drawRoundRect(
         color = colors.base,
         topLeft = Offset(left + 2f, top + 2f),
@@ -413,7 +444,6 @@ private fun DrawScope.drawCandyBlock(
         cornerRadius = cornerRadius,
     )
 
-    // C. Inner Gradient (Convex effect)
     drawRoundRect(
         brush = Brush.verticalGradient(
             colors = listOf(colors.highlight, colors.shadow),
@@ -426,14 +456,12 @@ private fun DrawScope.drawCandyBlock(
         alpha = 0.6f,
     )
 
-    // D. Top-Left Shine
     drawOval(
         color = Color.White.copy(alpha = 0.35f),
         topLeft = Offset(left + cellWidth * 0.15f, top + cellHeight * 0.12f),
         size = Size(cellWidth * 0.28f, cellHeight * 0.18f),
     )
 
-    // E. Edge Bevel (Light)
     drawRoundRect(
         color = colors.borderLight,
         topLeft = Offset(left + 2f, top + 2f),

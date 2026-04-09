@@ -21,9 +21,7 @@ class BlockDropScreenTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun runningLayoutShowsCompactStatsAndHardDropControl() {
-        var hardDropClicks = 0
-
+    fun runningLayoutShowsCzechHudAndSplitControls() {
         composeRule.setContent {
             BlockDropTheme {
                 BlockDropScreen(
@@ -53,7 +51,7 @@ class BlockDropScreenTest {
                     onRotateClockwise = {},
                     onRotateCounterClockwise = {},
                     onSoftDrop = {},
-                    onHardDrop = { hardDropClicks += 1 },
+                    onHardDrop = {},
                     onHold = {},
                     onDropDelay = {},
                     onNicknameChanged = {},
@@ -70,15 +68,15 @@ class BlockDropScreenTest {
             }
         }
 
-        composeRule.onNodeWithText("SCORE 10119").assertIsDisplayed()
-        composeRule.onNodeWithText("LEVEL 4").assertIsDisplayed()
-        composeRule.onNodeWithText("LINES 34").assertIsDisplayed()
+        composeRule.onNodeWithText("Skóre 10119").assertIsDisplayed()
+        composeRule.onNodeWithText("Úroveň 4 · Řádky 34").assertIsDisplayed()
+        composeRule.onNodeWithText("DRŽET").assertIsDisplayed()
+        composeRule.onNodeWithText("DALŠÍ").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Left").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Right").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Rotate CCW").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Rotate CW").assertIsDisplayed()
-        composeRule.onNodeWithContentDescription("Hard drop").assertIsDisplayed().performClick()
-
-        assertEquals(1, hardDropClicks)
+        composeRule.onNodeWithContentDescription("Soft drop").assertIsDisplayed().performClick()
     }
 
     @Test

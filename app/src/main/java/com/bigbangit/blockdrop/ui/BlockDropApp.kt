@@ -48,6 +48,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
@@ -415,6 +416,7 @@ private fun GameScreenContent(
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Bottom)),
     ) {
+        val showControls = uiModel.buttonsEnabled && uiModel.state != GameState.Idle && uiModel.state != GameState.GameOver
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -438,7 +440,6 @@ private fun GameScreenContent(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Playfield area (takes available space minus controls)
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -461,11 +462,11 @@ private fun GameScreenContent(
                     onNicknameChanged = onNicknameChanged,
                     onSubmitScore = onSubmitScore,
                     onShowScoreboard = onShowScoreboard,
+                    controlPadReservedHeight = if (showControls) GameUiTokens.ControlPadHeight else 0.dp,
                 )
             }
 
-            // Floating controls at bottom
-            if (uiModel.buttonsEnabled) {
+            if (showControls) {
                 Spacer(modifier = Modifier.height(8.dp))
                 ControlPadOverlay(
                     enabled = uiModel.state == GameState.Running,
@@ -510,7 +511,6 @@ private fun TopHud(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // Icon row: help | settings | sound
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -543,44 +543,51 @@ private fun TopHud(
             HudIconButton(
                 onClick = onMuteToggle,
                 onLongClick = onOpenMusicLibrary,
-                contentDescription = stringResource(R.string.mute_description),
+                contentDescription = stringResource(
+                    if (isMuted) R.string.sound_off_description else R.string.sound_on_description,
+                ),
             ) {
                 Icon(
                     imageVector = if (isMuted) Icons.AutoMirrored.Filled.VolumeOff else Icons.AutoMirrored.Filled.VolumeUp,
-                    contentDescription = stringResource(R.string.mute_description),
+                    contentDescription = null,
                     tint = GameUiTokens.HudIconColor.copy(alpha = GameUiTokens.HudIconAlpha),
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(4.dp))
-
-        // Score info — score prominent, level + lines secondary
-        Text(
-            text = stringResource(R.string.score_stat_compact, score),
-            color = GameUiTokens.HudScoreColor,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Black,
-            letterSpacing = 1.sp,
+        Spacer(modifier = Modifier.height(6.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.48f)
+                .height(1.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            GameUiTokens.HudDivider.copy(alpha = GameUiTokens.HudDividerAlpha),
+                            Color.Transparent,
+                        ),
+                    ),
+                ),
         )
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+
         Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(R.string.level_stat_compact, level),
-                color = GameUiTokens.HudSecondaryColor.copy(alpha = GameUiTokens.HudSecondaryAlpha),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 0.8.sp,
+                text = stringResource(R.string.score_stat_compact, score),
+                color = GameUiTokens.HudScoreColor,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
             )
+            Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = stringResource(R.string.lines_stat_compact, lines),
+                text = stringResource(R.string.level_and_lines_stat_compact, level, lines),
                 color = GameUiTokens.HudSecondaryColor.copy(alpha = GameUiTokens.HudSecondaryAlpha),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
-                letterSpacing = 0.8.sp,
             )
         }
     }
@@ -598,11 +605,15 @@ private fun HudIconButton(
     val pressed by interactionSource.collectIsPressedAsState()
     Box(
         modifier = Modifier
-            .size(40.dp, 34.dp)
+            .size(42.dp)
             .graphicsLayer {
                 scaleX = if (pressed) 0.94f else 1f
                 scaleY = if (pressed) 0.94f else 1f
             }
+            .background(
+                color = Color.White.copy(alpha = if (pressed) 0.08f else 0.03f),
+                shape = CircleShape,
+            )
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
@@ -636,61 +647,29 @@ private fun Playfield(
     onNicknameChanged: (String) -> Unit,
     onSubmitScore: () -> Unit,
     onShowScoreboard: () -> Unit,
+    controlPadReservedHeight: Dp,
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        // Calculate board dimensions — board should be the hero
-        val maxBoardWidth = maxWidth - 24.dp
-        val maxBoardHeight = maxHeight
+        val boardVerticalInset = GameUiTokens.PlayfieldTopInset
+        val controlsInset = if (controlPadReservedHeight > 0.dp) controlPadReservedHeight + 10.dp else 0.dp
+        val maxBoardWidth = maxWidth - (GameUiTokens.PlayfieldHorizontalInset * 2)
+        val maxBoardHeight = maxHeight - controlsInset - boardVerticalInset
         val boardWidthFromHeight = maxBoardHeight / 2f
-        val boardWidth = minOf(maxBoardWidth, boardWidthFromHeight).coerceAtLeast(160.dp)
+        val boardWidth = minOf(maxBoardWidth, boardWidthFromHeight).coerceAtLeast(180.dp)
         val boardHeight = boardWidth * 2f
         val nextPieces = uiModel.nextPieces.take(
             com.bigbangit.blockdrop.core.GameConstants.getVisibleNextCount(uiModel.level),
         )
 
         Column(
-            modifier = Modifier.width(boardWidth),
+            modifier = Modifier
+                .width(boardWidth)
+                .padding(top = boardVerticalInset),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Labels ABOVE the board border
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 2.dp, end = 2.dp, bottom = 3.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = stringResource(R.string.hold_label),
-                    color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha),
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    letterSpacing = 1.2.sp,
-                    modifier = Modifier
-                        .pointerInput(onHold, uiModel.state, uiModel.canHold) {
-                            detectTapGestures {
-                                if (uiModel.state == GameState.Running && uiModel.canHold) onHold()
-                            }
-                        },
-                )
-                Text(
-                    text = stringResource(R.string.next_label_caps),
-                    color = GameUiTokens.PreviewLabelColor.copy(alpha = GameUiTokens.PreviewLabelAlpha),
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    letterSpacing = 1.2.sp,
-                    modifier = Modifier
-                        .pointerInput(Unit) {
-                            awaitEachGesture {
-                                awaitFirstDown().consume()
-                            }
-                        },
-                )
-            }
-
-            // Board
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -717,8 +696,9 @@ private fun Playfield(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .width(boardWidth * 0.3f)
-                        .height(boardHeight * 0.1f)
+                        .padding(start = maxOf(10.dp, boardWidth * 0.025f), top = 16.dp)
+                        .width(boardWidth * 0.24f)
+                        .height(boardHeight * 0.12f)
                         .pointerInput(onHold, uiModel.state, uiModel.canHold) {
                             detectTapGestures {
                                 if (uiModel.state == GameState.Running && uiModel.canHold) onHold()
@@ -726,40 +706,39 @@ private fun Playfield(
                         },
                 )
 
-                // Overlay cards for game states
-            when (uiModel.state) {
-                GameState.Idle -> CompactOverlayCard(
-                    title = stringResource(R.string.block_drop_title),
-                    subtitle = null,
-                    width = (boardWidth.value * 0.78f).dp,
-                    primaryLabel = stringResource(R.string.start_game),
-                    onPrimaryClick = onStartGame,
-                )
+                when (uiModel.state) {
+                    GameState.Idle -> CompactOverlayCard(
+                        title = stringResource(R.string.block_drop_title),
+                        subtitle = null,
+                        width = (boardWidth.value * 0.78f).dp,
+                        primaryLabel = stringResource(R.string.start_game),
+                        onPrimaryClick = onStartGame,
+                    )
 
-                GameState.GameOver -> GameOverOverlayCard(
-                    uiModel = uiModel,
-                    width = (boardWidth.value * 0.84f).dp,
-                    onPrimaryClick = onStartGame,
-                    onSecondaryClick = onQuit,
-                    onNicknameChanged = onNicknameChanged,
-                    onSubmitScore = onSubmitScore,
-                    onShowScoreboard = onShowScoreboard,
-                )
+                    GameState.GameOver -> GameOverOverlayCard(
+                        uiModel = uiModel,
+                        width = (boardWidth.value * 0.84f).dp,
+                        onPrimaryClick = onStartGame,
+                        onSecondaryClick = onQuit,
+                        onNicknameChanged = onNicknameChanged,
+                        onSubmitScore = onSubmitScore,
+                        onShowScoreboard = onShowScoreboard,
+                    )
 
-                GameState.Paused -> CompactOverlayCard(
-                    title = stringResource(R.string.paused_title),
-                    subtitle = stringResource(R.string.pause_menu_subtitle),
-                    width = (boardWidth.value * 0.8f).dp,
-                    primaryLabel = stringResource(R.string.resume_button),
-                    onPrimaryClick = onResume,
-                    secondaryLabel = stringResource(R.string.restart_button),
-                    onSecondaryClick = onStartGame,
-                    tertiaryLabel = stringResource(R.string.menu_button),
-                    onTertiaryClick = onQuit,
-                )
+                    GameState.Paused -> CompactOverlayCard(
+                        title = stringResource(R.string.paused_title),
+                        subtitle = stringResource(R.string.pause_menu_subtitle),
+                        width = (boardWidth.value * 0.8f).dp,
+                        primaryLabel = stringResource(R.string.resume_button),
+                        onPrimaryClick = onResume,
+                        secondaryLabel = stringResource(R.string.restart_button),
+                        onSecondaryClick = onStartGame,
+                        tertiaryLabel = stringResource(R.string.menu_button),
+                        onTertiaryClick = onQuit,
+                    )
 
-                else -> Unit
-            }
+                    else -> Unit
+                }
             }
         }
     }

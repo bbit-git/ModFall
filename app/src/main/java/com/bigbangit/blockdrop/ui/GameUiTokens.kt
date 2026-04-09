@@ -11,73 +11,80 @@ import androidx.compose.ui.unit.dp
 object GameUiTokens {
 
     // ── Background ──────────────────────────────────────────────
-    val BackgroundDark = Color(0xFF070E18)
-    val BackgroundCenter = Color(0xFF0D1B2A)
-    val BackgroundEdge = Color(0xFF060C16)
+    val BackgroundDark = Color(0xFF050B15)
+    val BackgroundCenter = Color(0xFF10203A)
+    val BackgroundEdge = Color(0xFF040914)
+    val BackgroundNebula = Color(0xFF18345E)
+    val SurfaceGlow = Color(0xFF6CB8FF)
 
     // ── Playfield frame ─────────────────────────────────────────
-    val FrameGlow = Color(0xFF3A7BD5)
-    const val FrameGlowAlpha = 0.28f
-    const val FrameGlowRadius = 18f
-    val FrameStroke = Color(0xFF2A5A9A)
-    const val FrameStrokeAlpha = 0.55f
-    const val FrameStrokeWidth = 2.5f
-    val FrameCornerRadius = 10f
+    val FrameGlow = Color(0xFF62B8FF)
+    const val FrameGlowAlpha = 0.22f
+    const val FrameGlowRadius = 14f
+    val FrameStroke = Color(0xFF78BCFF)
+    const val FrameStrokeAlpha = 0.24f
+    const val FrameStrokeWidth = 1.3f
+    val FrameCornerRadius = 18f
 
     // ── Grid ────────────────────────────────────────────────────
-    val GridLine = Color(0xFF1A2D44)
-    const val GridLineAlpha = 0.32f
+    val GridLine = Color(0xFFA2CAFF)
+    const val GridLineAlpha = 0.055f
 
     // ── Block glow strengths ────────────────────────────────────
-    const val ActiveBlockGlowAlpha = 0.62f
-    const val ActiveBlockBlurRadius = 0.25f   // fraction of cell width
-    const val SettledBlockGlowAlpha = 0.22f
-    const val SettledBlockBlurRadius = 0.12f  // fraction of cell width
+    const val ActiveBlockGlowAlpha = 0.54f
+    const val ActiveBlockBlurRadius = 0.18f
+    const val SettledBlockGlowAlpha = 0.16f
+    const val SettledBlockBlurRadius = 0.08f
 
     // ── Ghost piece ─────────────────────────────────────────────
-    val GhostStroke = Color.White
-    const val GhostStrokeAlpha = 0.22f
-    const val GhostStrokeWidth = 1.5f
-    const val GhostFillAlpha = 0.04f
+    val GhostStroke = Color(0xFFB8D8FF)
+    const val GhostStrokeAlpha = 0.36f
+    const val GhostStrokeWidth = 1.35f
+    const val GhostFillAlpha = 0.018f
 
     // ── Embedded preview labels ─────────────────────────────────
-    val PreviewLabelColor = Color.White
-    const val PreviewLabelAlpha = 0.38f
-    val PreviewBorderColor = Color.White
-    const val PreviewBorderAlpha = 0.08f
-    const val PreviewBgAlpha = 0.06f
+    val PreviewLabelColor = Color(0xFFC7DCFF)
+    const val PreviewLabelAlpha = 0.52f
+    val PreviewBorderColor = Color(0xFFC4DEFF)
+    const val PreviewBorderAlpha = 0.10f
+    const val PreviewBgAlpha = 0.025f
 
     // ── Control pad ─────────────────────────────────────────────
-    val ControlBg = Color.White
-    const val ControlBgAlpha = 0.07f
-    val ControlBorder = Color(0xFF3A7BD5)
-    const val ControlBorderAlpha = 0.25f
-    val ControlIcon = Color.White
+    val ControlBg = Color(0xFFB9D6FF)
+    const val ControlBgAlpha = 0.055f
+    val ControlBorder = Color(0xFF79BAFF)
+    const val ControlBorderAlpha = 0.16f
+    val ControlIcon = Color(0xFFEAF4FF)
     const val ControlIconAlpha = 0.72f
-    val ControlGlow = Color(0xFF3A7BD5)
-    const val ControlGlowAlpha = 0.12f
-    const val ControlPressedScale = 0.92f
-    const val ControlPressedBgAlpha = 0.14f
-    const val ControlPressedBorderAlpha = 0.45f
-    val ControlCornerRadius: Dp = 14.dp
-    val ControlButtonSize: Dp = 52.dp
-    val ControlButtonSpacing: Dp = 12.dp
+    val ControlGlow = Color(0xFF6FB8FF)
+    const val ControlGlowAlpha = 0.10f
+    const val ControlPressedScale = 0.95f
+    const val ControlPressedBgAlpha = 0.12f
+    const val ControlPressedBorderAlpha = 0.34f
+    val ControlCornerRadius: Dp = 24.dp
+    val ControlButtonSize: Dp = 74.dp
+    val ControlButtonSpacing: Dp = 16.dp
+    val ControlHorizontalInset: Dp = 18.dp
 
     // ── Top HUD ─────────────────────────────────────────────────
-    val HudIconColor = Color.White
-    const val HudIconAlpha = 0.65f
-    val HudScoreColor = Color.White
-    val HudSecondaryColor = Color(0xFF8AB4FF)
-    const val HudSecondaryAlpha = 0.6f
+    val HudIconColor = Color(0xFFD7E8FF)
+    const val HudIconAlpha = 0.78f
+    val HudScoreColor = Color(0xFFF5F9FF)
+    val HudSecondaryColor = Color(0xFF8EACD3)
+    const val HudSecondaryAlpha = 0.92f
+    val HudDivider = Color(0xFF7FB8FF)
+    const val HudDividerAlpha = 0.26f
 
     // ── Text ────────────────────────────────────────────────────
     val TextPrimary = Color(0xFFF5F7FF)
-    val TextSecondary = Color(0xFF8AB4FF)
+    val TextSecondary = Color(0xFF93B4DC)
 
     // ── Spacing ─────────────────────────────────────────────────
-    val ScreenPaddingHorizontal: Dp = 12.dp
-    val ScreenPaddingVertical: Dp = 8.dp
-    val HudHeight: Dp = 56.dp
-    val ControlPadHeight: Dp = 130.dp
-    val ControlPadBottomPadding: Dp = 16.dp
+    val ScreenPaddingHorizontal: Dp = 14.dp
+    val ScreenPaddingVertical: Dp = 10.dp
+    val HudHeight: Dp = 68.dp
+    val ControlPadHeight: Dp = 156.dp
+    val ControlPadBottomPadding: Dp = 18.dp
+    val PlayfieldHorizontalInset: Dp = 10.dp
+    val PlayfieldTopInset: Dp = 10.dp
 }

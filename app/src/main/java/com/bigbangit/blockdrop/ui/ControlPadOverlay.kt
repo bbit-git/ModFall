@@ -15,11 +15,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import kotlinx.coroutines.withTimeoutOrNull
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -35,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -58,62 +58,71 @@ fun ControlPadOverlay(
     onHardDrop: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = GameUiTokens.ControlHorizontalInset),
     ) {
-        // Top row: rotate-left / rotate-right (narrower, spread apart)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            WideControlButton(
-                icon = Icons.AutoMirrored.Filled.RotateLeft,
-                contentDescription = stringResource(R.string.rotate_ccw),
-                enabled = enabled,
-                onClick = onRotateCounterClockwise,
-                modifier = Modifier.weight(1f),
-            )
-            Spacer(modifier = Modifier.width(64.dp))
-            WideControlButton(
-                icon = Icons.AutoMirrored.Filled.RotateRight,
-                contentDescription = stringResource(R.string.rotate_cw),
-                enabled = enabled,
-                onClick = onRotateClockwise,
-                modifier = Modifier.weight(1f),
-            )
-        }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                QuietControlButton(
+                    icon = Icons.AutoMirrored.Filled.RotateLeft,
+                    contentDescription = stringResource(R.string.rotate_ccw),
+                    enabled = enabled,
+                    onClick = onRotateCounterClockwise,
+                    modifier = Modifier
+                        .size(GameUiTokens.ControlButtonSize)
+                        .offset(x = 8.dp),
+                )
+                QuietControlButton(
+                    icon = Icons.AutoMirrored.Filled.RotateRight,
+                    contentDescription = stringResource(R.string.rotate_cw),
+                    enabled = enabled,
+                    onClick = onRotateClockwise,
+                    modifier = Modifier
+                        .size(GameUiTokens.ControlButtonSize)
+                        .offset(x = (-8).dp),
+                )
+            }
 
-        // Bottom row: left / down / right (full-width spread)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            WideControlButton(
-                icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = stringResource(R.string.move_left),
-                enabled = enabled,
-                onClick = onMoveLeft,
-                modifier = Modifier.weight(1f),
-            )
-            WideControlButton(
-                icon = Icons.Default.KeyboardArrowDown,
-                contentDescription = stringResource(R.string.soft_drop),
-                enabled = enabled,
-                onClick = onSoftDrop,
-                onLongClick = onHardDrop,
-                modifier = Modifier.weight(1f),
-            )
-            WideControlButton(
-                icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = stringResource(R.string.move_right),
-                enabled = enabled,
-                onClick = onMoveRight,
-                modifier = Modifier.weight(1f),
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                QuietControlButton(
+                    icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = stringResource(R.string.move_left),
+                    enabled = enabled,
+                    onClick = onMoveLeft,
+                    modifier = Modifier.size(width = 96.dp, height = GameUiTokens.ControlButtonSize),
+                )
+                QuietControlButton(
+                    icon = Icons.Default.KeyboardArrowDown,
+                    contentDescription = stringResource(R.string.soft_drop),
+                    enabled = enabled,
+                    onClick = onSoftDrop,
+                    onLongClick = onHardDrop,
+                    modifier = Modifier.size(GameUiTokens.ControlButtonSize),
+                )
+                QuietControlButton(
+                    icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = stringResource(R.string.move_right),
+                    enabled = enabled,
+                    onClick = onMoveRight,
+                    modifier = Modifier.size(width = 96.dp, height = GameUiTokens.ControlButtonSize),
+                )
+            }
         }
     }
 }
@@ -124,7 +133,7 @@ fun ControlPadOverlay(
  */
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-private fun WideControlButton(
+private fun QuietControlButton(
     icon: ImageVector,
     contentDescription: String,
     enabled: Boolean,
@@ -140,8 +149,8 @@ private fun WideControlButton(
     )
 
     val bgAlpha = if (pressed) 0.18f else 0.10f
-    val borderAlpha = if (pressed) 0.50f else 0.30f
-    val iconAlpha = if (pressed) 0.95f else 0.78f
+    val borderAlpha = if (pressed) GameUiTokens.ControlPressedBorderAlpha else GameUiTokens.ControlBorderAlpha
+    val iconAlpha = if (pressed) 0.96f else GameUiTokens.ControlIconAlpha
 
     val clickModifier = if (onLongClick != null) {
         Modifier.pointerInput(enabled, onClick, onLongClick) {
@@ -180,37 +189,42 @@ private fun WideControlButton(
 
     Box(
         modifier = modifier
-            .height(48.dp)
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
             }
             .drawBehind {
-                val cr = CornerRadius(size.height * 0.32f)
+                val cr = CornerRadius(size.height * 0.48f)
 
-                // Subtle outer glow
                 drawIntoCanvas { canvas ->
                     val paint = Paint().asFrameworkPaint().apply {
-                        color = GameUiTokens.ControlGlow.copy(alpha = 0.10f).toArgb()
-                        maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL)
+                        color = GameUiTokens.ControlGlow.copy(
+                            alpha = if (pressed) 0.18f else GameUiTokens.ControlGlowAlpha,
+                        ).toArgb()
+                        maskFilter = BlurMaskFilter(12f, BlurMaskFilter.Blur.NORMAL)
                     }
                     canvas.nativeCanvas.drawRoundRect(
-                        0f, 0f, size.width, size.height,
+                        4f, 4f, size.width - 4f, size.height - 4f,
                         cr.x, cr.y, paint,
                     )
                 }
 
-                // Dark fill
                 drawRoundRect(
-                    color = GameUiTokens.BackgroundCenter.copy(alpha = bgAlpha),
+                    brush = androidx.compose.ui.graphics.Brush.verticalGradient(
+                        colors = listOf(
+                            GameUiTokens.ControlBg.copy(
+                                alpha = if (pressed) GameUiTokens.ControlPressedBgAlpha else GameUiTokens.ControlBgAlpha,
+                            ),
+                            Color.Transparent,
+                        ),
+                    ),
                     cornerRadius = cr,
                 )
 
-                // Border
                 drawRoundRect(
                     color = GameUiTokens.ControlBorder.copy(alpha = borderAlpha),
                     cornerRadius = cr,
-                    style = Stroke(width = 1.5f),
+                    style = Stroke(width = 1.2f),
                 )
             }
             .then(clickModifier),
