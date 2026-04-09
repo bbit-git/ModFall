@@ -21,7 +21,7 @@
 - T-spin / Tetris: celebration overlay
 
 ### Tutorial & menus
-- `TutorialOverlay`: scrollable plain-text reference (all gestures + scoring rules), auto-shown on first launch (DataStore flag), dismissable by tap outside, triggered by `?` button on demand, renders as overlay without pausing game
+- Tutorial/help screen: scrollable plain-text reference (all gestures + scoring rules), auto-shown on first launch (DataStore flag), triggered by `?` button on demand, rendered as a standalone full-screen panel without pausing the game
 - Pause menu: Resume, Restart, Exit to main menu
 
 ### Scoreboard & game over
@@ -31,7 +31,7 @@
 - Tie-breaking: score desc → level asc → lines asc → shared rank (next entry skips)
 - Eviction: drop lowest entry if full and new score qualifies
 - "Not in top 10" message when score doesn't qualify
-- Scoreboard modal overlay (rank, nickname, score, level, lines)
+- Scoreboard full-screen screen/panel (rank, nickname, score, level, lines)
 - Each entry stores: nickname, score, level reached, total lines cleared
 
 ## Progress
@@ -39,10 +39,10 @@
 - DataStore-backed `SettingsRepository` added for persistent mute state and first-launch tutorial visibility
 - DataStore-backed `ScoreboardRepository` added with top-10 storage, sort/eviction, shared-rank calculation, and nickname sanitisation
 - `GameViewModel` now owns mute/tutorial persistence and the game-over score submission flow
-- Game-over UI now prompts for nickname, saves local scores, and opens a scoreboard modal overlay
+- Game-over UI now prompts for nickname, saves local scores, and opens a scoreboard full-screen panel
 - `SoundManager` now subscribes to `EffectBridge`, synthesises chip-style PCM with `AudioTrack`, and applies mute plus audio-focus handling
 - `VibrationManager` now subscribes to `EffectBridge` and maps gameplay events to haptic patterns while respecting mute state
-- Board rendering now reacts to gameplay effects with placement flash, line-clear flash, level-up flash, and Tetris/T-spin/all-clear celebration overlays
+- Board rendering now reacts to gameplay effects with placement flash, line-clear flash, level-up flash, and Tetris/T-spin/all-clear celebration effects
 - Ranking/eviction logic covered by direct unit tests
 
 ## Remaining

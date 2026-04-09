@@ -392,36 +392,58 @@ Please provide:
 
 ---
 
+## Current state
+
+The requested gameplay UI refresh has been implemented and then iterated beyond the original request. The current shipped state is:
+
+* gameplay still runs through the existing Compose gameplay screen and existing game logic remains intact
+* top HUD uses help left, settings center, sound right, with score visually prioritized over level and lines
+* the playfield is the main hero element with a darker blue premium treatment, lighter grid, softer frame, and stronger block glow
+* `DRŽET` and `DALŠÍ` are aligned above the playfield border and their preview regions are integrated into the board rendering
+* button controls are floating overlays and no longer reserve layout space below the board
+* help and scoreboard now open as standalone full-screen panels instead of dialog overlays
+* tutorial screen has a fixed title and a fixed bottom button
+* scoreboard is also a full-screen panel with a fixed bottom close button
+* panel buttons use the same visual family as gameplay controls, but with higher opacity
+* optional particles were added in settings, with a density control and hard-drop burst support
+* a simplified centered `4 ROW` grow-and-fade celebration text replaced the old boxed Tetris celebration
+
+Known limitation:
+
+* particle reactions are implemented, but they still need another visibility pass if the goal is for every move/rotate/soft-drop reaction to be immediately obvious during live gameplay
+
+---
+
 ## Implementation checklist
 
-- [ ] Confirm the gameplay entry point remains the single Compose screen for gameplay.
-- [ ] Keep current game logic unchanged: scoring, collision, spawning, line clears, hold rules, and ghost placement.
-- [ ] Preserve the dark navy / deep blue premium background from the concept image.
-- [ ] Reduce visual noise so the board stays the focal point.
-- [ ] Keep glow subtle and controlled, not blurry or overbloomed.
-- [ ] Rework the HUD to match the screenshot mood.
-- [ ] Place help on the left, settings in the center, and sound on the right.
-- [ ] Make score text more prominent than level and lines.
-- [ ] Use Czech labels `Skóre`, `Úroveň`, and `Řádky`.
-- [ ] Make the playfield a centered tall hero element.
-- [ ] Keep the frame glow, but make it softer and more premium.
-- [ ] Use a very light grid with low contrast.
-- [ ] Embed hold and next into the playfield/background instead of separate heavy cards.
-- [ ] Place `DRŽET` in the upper-left of the playfield region.
-- [ ] Place `DALŠÍ` in the upper-right of the playfield region.
-- [ ] Make the hold preview subtle, outlined, and low contrast.
-- [ ] Make the next preview a slim vertical stack that feels embedded.
-- [ ] Keep the ghost piece clearly readable but nearly outline-only.
-- [ ] Ensure active blocks glow more strongly than settled blocks.
-- [ ] Keep settled block glow weaker and more restrained.
-- [ ] Use mildly rounded block corners with a clean body and top highlight.
-- [ ] Replace the bottom control bar feel with floating overlay controls.
-- [ ] Support split controls for move left, move right, rotate left, rotate right, and soft drop.
-- [ ] Keep hard drop working, but visually de-emphasized.
-- [ ] Add pressed-state feedback for controls with slight scale down and stronger opacity or glow.
-- [ ] Centralize styling values in `GameUiTokens.kt` or an equivalent helper.
-- [ ] Avoid scattered magic numbers in the gameplay UI.
-- [ ] Keep performance reasonable by limiting blur use to a few key layers.
-- [ ] Verify the final screen still works on mobile portrait layouts.
-- [ ] Verify overlays still open correctly for tutorial, settings, music library, scoreboard, pause, and game over states.
-- [ ] Validate that the final composition matches the screenshot’s mood: dark premium neon, subtle glow, clean layout, embedded previews, and quiet floating controls.
+- [x] Confirm the gameplay entry point remains the single Compose screen for gameplay.
+- [x] Keep current game logic unchanged: scoring, collision, spawning, line clears, hold rules, and ghost placement.
+- [x] Preserve the dark navy / deep blue premium background from the concept image.
+- [x] Reduce visual noise so the board stays the focal point.
+- [x] Keep glow subtle and controlled, not blurry or overbloomed.
+- [x] Rework the HUD to match the screenshot mood.
+- [x] Place help on the left, settings in the center, and sound on the right.
+- [x] Make score text more prominent than level and lines.
+- [x] Use Czech labels `Skóre`, `Úroveň`, and `Řádky`.
+- [x] Make the playfield a centered tall hero element.
+- [x] Keep the frame glow, but make it softer and more premium.
+- [x] Use a very light grid with low contrast.
+- [x] Embed hold and next into the playfield/background instead of separate heavy cards.
+- [x] Place `DRŽET` in the upper-left of the playfield region.
+- [x] Place `DALŠÍ` in the upper-right of the playfield region.
+- [x] Make the hold preview subtle, outlined, and low contrast.
+- [x] Make the next preview a slim vertical stack that feels embedded.
+- [x] Keep the ghost piece clearly readable but nearly outline-only.
+- [x] Ensure active blocks glow more strongly than settled blocks.
+- [x] Keep settled block glow weaker and more restrained.
+- [x] Use mildly rounded block corners with a clean body and top highlight.
+- [x] Replace the bottom control bar feel with floating overlay controls.
+- [x] Support split controls for move left, move right, rotate left, rotate right, and soft drop.
+- [x] Keep hard drop working, but visually de-emphasized.
+- [x] Add pressed-state feedback for controls with slight scale down and stronger opacity or glow.
+- [x] Centralize styling values in `GameUiTokens.kt` or an equivalent helper.
+- [x] Avoid scattered magic numbers in the gameplay UI.
+- [x] Keep performance reasonable by limiting blur use to a few key layers.
+- [x] Verify the final screen still works on mobile portrait layouts.
+- [x] Verify overlays still open correctly for tutorial, settings, music library, scoreboard, pause, and game over states.
+- [x] Validate that the final composition matches the screenshot’s mood: dark premium neon, subtle glow, clean layout, embedded previews, and quiet floating controls.

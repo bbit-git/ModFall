@@ -221,7 +221,7 @@ Update the in-game HUD panels to match the retro UI direction:
 
 - The in-game HUD should be restyled in the same pass as the buttons.
 - It should visually align with the new arcade-like presentation.
-- This change does not require redesigning the separate scoreboard overlay.
+- This change does not require redesigning the separate scoreboard screen.
 
 ---
 
