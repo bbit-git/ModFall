@@ -13,13 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -46,11 +46,8 @@ fun CompactStatsBar(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(999.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.18f), RoundedCornerShape(999.dp))
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier.padding(horizontal = 2.dp, vertical = 1.dp),
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CompactStat(text = stringResource(R.string.score_stat_compact, score))
@@ -73,17 +70,16 @@ fun BoardSidePanel(
     ) {
         Text(
             text = label,
-            color = TextWhite.copy(alpha = 0.78f),
+            color = TextWhite.copy(alpha = 0.8f),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.SemiBold,
-            letterSpacing = 0.8.sp,
+            letterSpacing = 0.9.sp,
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(3.dp))
         Box(
             modifier = Modifier
-                .background(BoardBackground.copy(alpha = 0.72f), RoundedCornerShape(14.dp))
-                .border(1.dp, Color.White.copy(alpha = 0.16f), RoundedCornerShape(14.dp))
-                .padding(horizontal = 8.dp, vertical = 10.dp),
+                .retroPanelSurface()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center,
         ) {
             content()
@@ -99,7 +95,8 @@ fun HoldPreview(
 ) {
     PiecePreview(
         type = type,
-        modifier = modifier.alpha(if (enabled) 1f else 0.4f),
+        modifier = modifier
+            .then(if (enabled) Modifier else Modifier.alpha(0.9f)),
         previewSize = 56.dp,
         scaleFactor = 0.78f,
     )
@@ -112,7 +109,7 @@ fun NextPreviewColumn(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         pieces.forEach { type ->
@@ -166,9 +163,10 @@ private fun CompactStat(text: String) {
     Text(
         text = text,
         color = TextWhite,
-        style = MaterialTheme.typography.labelLarge,
-        fontWeight = FontWeight.Bold,
+        style = MaterialTheme.typography.labelSmall,
+        fontWeight = FontWeight.Black,
         textAlign = TextAlign.Center,
+        letterSpacing = 0.5.sp,
     )
 }
 
@@ -177,11 +175,41 @@ private fun StatDivider() {
     Text(
         text = "|",
         color = Color.White.copy(alpha = 0.45f),
-        style = MaterialTheme.typography.labelLarge,
+        style = MaterialTheme.typography.labelSmall,
         modifier = Modifier.defaultMinSize(minWidth = 6.dp),
         textAlign = TextAlign.Center,
     )
 }
+
+fun Modifier.retroPanelSurface(): Modifier = this
+    .drawBehind {
+        val outerRadius = CornerRadius(size.minDimension * 0.035f)
+        val innerRadius = CornerRadius(size.minDimension * 0.025f)
+
+        drawRoundRect(
+            color = Color(0xFF828993).copy(alpha = 0.3f),
+            cornerRadius = outerRadius,
+        )
+        drawRoundRect(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color(0xFF5D6470).copy(alpha = 0.3f),
+                    Color(0xFF424855).copy(alpha = 0.3f),
+                ),
+            ),
+            topLeft = Offset(2f, 2f),
+            size = Size(size.width - 4f, size.height - 4f),
+            cornerRadius = innerRadius,
+        )
+        drawRoundRect(
+            color = Color.White.copy(alpha = 0.08f),
+            topLeft = Offset(3f, 3f),
+            size = Size(size.width - 6f, (size.height * 0.26f).coerceAtLeast(0f)),
+            cornerRadius = innerRadius,
+        )
+    }
+    .background(BoardBackground.copy(alpha = 0.3f))
+    .border(1.dp, Color(0xFF252A31).copy(alpha = 0.3f), androidx.compose.foundation.shape.RoundedCornerShape(3.dp))
 
 private fun DrawScope.drawPreviewBlock(left: Float, top: Float, size: Float, colors: BlockColors) {
     val cornerRadius = CornerRadius(size * 0.15f)

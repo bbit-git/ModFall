@@ -38,7 +38,7 @@
     <string name="exit_confirm_title">Opuszczasz grę?</string>
     <string name="exit_confirm_message">Aktualny postęp zostanie utracony.</string>
     <string name="help_description">Pomoc</string>
-    <string name="mute_description">Wycisz</string>
+    <string name="mute_description">Wycisz</string><string name="settings_description">Ustawienia</string><string name="settings_title">Ustawienia</string><string name="show_buttons_setting">Pokaż przyciski</string><string name="enable_gestures_setting">Włącz gesty</string><string name="enable_music_setting">Włącz muzykę</string><string name="main_tune_setting">Główny utwór</string><string name="settings_input_method_rule">Pozostaw włączoną co najmniej jedną metodę sterowania.</string>
     <string name="nickname_label">Nick</string>
     <string name="nickname_placeholder">Do 12 znaków</string>
     <string name="nickname_required">Podaj nick, aby zapisać wynik.</string>
@@ -53,9 +53,9 @@
     <string name="scoreboard_name_header">IMIĘ</string>
     <string name="scoreboard_score_header">WYNIK</string>
     <string name="scoreboard_level_header">POZIOM</string>
-    <string name="scoreboard_lines_header">LINIE</string>
+    <string name="scoreboard_lines_header">LINIE</string><string name="music_library_set_main_track">Ustaw jako główny utwór</string>
 
-    <string name="tutorial_title">JAK GRAĆ</string>
+    <string name="music_library_title">Biblioteka muzyki</string><string name="music_library_back_description">Zamknij bibliotekę muzyki</string><string name="music_library_refresh">Odśwież bibliotekę muzyki</string><string name="music_library_pick_folder">Ustaw folder muzyki</string><string name="music_library_pause">Wstrzymaj muzykę</string><string name="music_library_stop">Zatrzymaj muzykę</string><string name="music_library_play">Odtwórz bieżący utwór</string><string name="music_library_play_track">Odtwórz utwór</string><string name="music_library_muted_placeholder">Muzyka jest wyciszona</string><string name="music_library_no_track_placeholder">Nie wybrano utworu</string><string name="music_library_track_load_error">Nie udało się wczytać %1$s</string><string name="music_library_empty_title">Nie znaleziono plików muzycznych</string><string name="music_library_empty_hint">Umieść pliki .mod / .xm / .s3m / .it w Download/Mods/</string><string name="music_library_empty_api33_hint">Na Androidzie 13+ wybierz folder Mods, aby aplikacja mogła czytać pliki dodane przez użytkownika.</string><string name="music_library_empty_selected_folder_hint">Wybrany folder jest czytelny, ale nie znaleziono jeszcze prawidłowych plików module.</string><string name="tutorial_title">JAK GRAĆ</string>
     <string name="tutorial_section_movement">Ruch</string>
     <string name="tutorial_section_dropping">Spadek</string>
     <string name="tutorial_section_strategy">Strategia</string>

@@ -60,6 +60,12 @@ class BlockDropScreenTest {
                     onSubmitScore = {},
                     onShowScoreboard = {},
                     onDismissScoreboard = {},
+                    onOpenSettings = {},
+                    onCloseSettings = {},
+                    onToggleButtonsEnabled = {},
+                    onToggleGesturesEnabled = {},
+                    onToggleMusicEnabled = {},
+                    onSetMainTrack = {},
                 )
             }
         }
@@ -67,7 +73,10 @@ class BlockDropScreenTest {
         composeRule.onNodeWithText("SCORE 10119").assertIsDisplayed()
         composeRule.onNodeWithText("LEVEL 4").assertIsDisplayed()
         composeRule.onNodeWithText("LINES 34").assertIsDisplayed()
-        composeRule.onNodeWithText("HARD DROP").assertIsDisplayed().performClick()
+        composeRule.onNodeWithContentDescription("Left").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Right").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Rotate CW").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Hard drop").assertIsDisplayed().performClick()
 
         assertEquals(1, hardDropClicks)
     }
@@ -124,6 +133,12 @@ class BlockDropScreenTest {
                     onSubmitScore = {},
                     onShowScoreboard = {},
                     onDismissScoreboard = {},
+                    onOpenSettings = {},
+                    onCloseSettings = {},
+                    onToggleButtonsEnabled = {},
+                    onToggleGesturesEnabled = {},
+                    onToggleMusicEnabled = {},
+                    onSetMainTrack = {},
                 )
             }
         }
@@ -169,6 +184,12 @@ class BlockDropScreenTest {
                     onSubmitScore = {},
                     onShowScoreboard = {},
                     onDismissScoreboard = {},
+                    onOpenSettings = {},
+                    onCloseSettings = {},
+                    onToggleButtonsEnabled = {},
+                    onToggleGesturesEnabled = {},
+                    onToggleMusicEnabled = {},
+                    onSetMainTrack = {},
                 )
             }
         }
@@ -215,6 +236,12 @@ class BlockDropScreenTest {
                     onSubmitScore = {},
                     onShowScoreboard = {},
                     onDismissScoreboard = {},
+                    onOpenSettings = {},
+                    onCloseSettings = {},
+                    onToggleButtonsEnabled = {},
+                    onToggleGesturesEnabled = {},
+                    onToggleMusicEnabled = {},
+                    onSetMainTrack = {},
                 )
             }
         }
@@ -262,6 +289,12 @@ class BlockDropScreenTest {
                     onSubmitScore = {},
                     onShowScoreboard = {},
                     onDismissScoreboard = {},
+                    onOpenSettings = {},
+                    onCloseSettings = {},
+                    onToggleButtonsEnabled = {},
+                    onToggleGesturesEnabled = {},
+                    onToggleMusicEnabled = {},
+                    onSetMainTrack = {},
                 )
             }
         }

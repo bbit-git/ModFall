@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -42,8 +44,10 @@ import com.bigbangit.blockdrop.ui.theme.TextWhite
 @Composable
 fun MusicLibraryScreen(
     isMuted: Boolean,
+    musicEnabled: Boolean,
     availableTracks: List<ModTrackInfo>,
     currentTrack: ModTrackInfo?,
+    mainTrackPathOrUri: String?,
     isMusicPlaying: Boolean,
     musicFolderUri: String?,
     trackLoadError: String?,
@@ -51,6 +55,7 @@ fun MusicLibraryScreen(
     onRefresh: () -> Unit,
     onPickMusicFolder: () -> Unit,
     onSelectTrack: (ModTrackInfo) -> Unit,
+    onSelectMainTrack: (ModTrackInfo) -> Unit,
     onPauseMusic: () -> Unit,
     onResumeMusic: () -> Unit,
     onStopMusic: () -> Unit,
@@ -100,6 +105,7 @@ fun MusicLibraryScreen(
 
         CurrentTrackCard(
             isMuted = isMuted,
+            musicEnabled = musicEnabled,
             currentTrack = currentTrack,
             isMusicPlaying = isMusicPlaying,
             onPauseMusic = onPauseMusic,
@@ -141,7 +147,10 @@ fun MusicLibraryScreen(
                         MusicTrackRow(
                             track = track,
                             isCurrentTrack = currentTrack?.pathOrUri == track.pathOrUri,
+                            isMainTrack = mainTrackPathOrUri == track.pathOrUri,
+                            musicEnabled = musicEnabled && !isMuted,
                             onPlay = { onSelectTrack(track) },
+                            onSelectMainTrack = { onSelectMainTrack(track) },
                         )
                     }
                 }
@@ -153,6 +162,7 @@ fun MusicLibraryScreen(
 @Composable
 private fun CurrentTrackCard(
     isMuted: Boolean,
+    musicEnabled: Boolean,
     currentTrack: ModTrackInfo?,
     isMusicPlaying: Boolean,
     onPauseMusic: () -> Unit,
@@ -175,7 +185,11 @@ private fun CurrentTrackCard(
         )
 
         Text(
-            text = currentTrackLabel(isMuted = isMuted, currentTrack = currentTrack),
+            text = currentTrackLabel(
+                isMuted = isMuted,
+                musicEnabled = musicEnabled,
+                currentTrack = currentTrack,
+            ),
             modifier = Modifier.weight(1f),
             style = MaterialTheme.typography.bodyLarge,
             color = TextWhite,
@@ -183,7 +197,7 @@ private fun CurrentTrackCard(
             overflow = TextOverflow.Ellipsis,
         )
 
-        if (!isMuted && currentTrack != null) {
+        if (!isMuted && musicEnabled && currentTrack != null) {
             if (isMusicPlaying) {
                 IconButton(onClick = onPauseMusic) {
                     Icon(
@@ -219,7 +233,10 @@ private fun CurrentTrackCard(
 fun MusicTrackRow(
     track: ModTrackInfo,
     isCurrentTrack: Boolean,
+    isMainTrack: Boolean,
+    musicEnabled: Boolean,
     onPlay: () -> Unit,
+    onSelectMainTrack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val containerColor = if (isCurrentTrack) {
@@ -255,10 +272,17 @@ fun MusicTrackRow(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
-        IconButton(onClick = onPlay) {
+        IconButton(onClick = onPlay, enabled = musicEnabled) {
             Icon(
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = stringResource(R.string.music_library_play_track),
+                tint = TextWhite,
+            )
+        }
+        IconButton(onClick = onSelectMainTrack) {
+            Icon(
+                imageVector = if (isMainTrack) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                contentDescription = stringResource(R.string.music_library_set_main_track),
                 tint = TextWhite,
             )
         }
@@ -305,10 +329,12 @@ private fun EmptyMusicLibraryState(
 @Composable
 private fun currentTrackLabel(
     isMuted: Boolean,
+    musicEnabled: Boolean,
     currentTrack: ModTrackInfo?,
 ): String {
     return when {
         isMuted -> stringResource(R.string.music_library_muted_placeholder)
+        !musicEnabled -> stringResource(R.string.music_library_disabled_placeholder)
         currentTrack == null -> stringResource(R.string.music_library_no_track_placeholder)
         else -> currentTrack.displayString()
     }

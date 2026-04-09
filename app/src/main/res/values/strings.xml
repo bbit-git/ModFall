@@ -39,6 +39,13 @@
     <string name="exit_confirm_message">Current progress will be lost.</string>
     <string name="help_description">Help</string>
     <string name="mute_description">Mute</string>
+    <string name="settings_description">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="show_buttons_setting">Show buttons</string>
+    <string name="enable_gestures_setting">Enable gestures</string>
+    <string name="enable_music_setting">Enable music</string>
+    <string name="main_tune_setting">Main tune</string>
+    <string name="settings_input_method_rule">Keep at least one input method enabled.</string>
     <string name="music_library_title">Music Library</string>
     <string name="music_library_back_description">Close music library</string>
     <string name="music_library_refresh">Refresh music library</string>
@@ -47,6 +54,8 @@
     <string name="music_library_stop">Stop music</string>
     <string name="music_library_play">Play current track</string>
     <string name="music_library_play_track">Play track</string>
+    <string name="music_library_set_main_track">Set as main tune</string>
+    <string name="music_library_disabled_placeholder">Music playback is disabled</string>
     <string name="music_library_muted_placeholder">Music is muted</string>
     <string name="music_library_no_track_placeholder">No track selected</string>
     <string name="music_library_track_load_error">Could not load %1$s</string>

@@ -54,8 +54,30 @@ class GameViewModel(
         }
         viewModelScope.launch {
             settingsRepository.isMuted.collect { isMuted ->
-                modMusicService.setEnabled(!isMuted)
+                modMusicService.setEnabled(!isMuted && _uiModel.value.musicEnabled)
                 refreshMusicState(isMutedOverride = isMuted)
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.buttonsEnabled.collect { buttonsEnabled ->
+                _uiModel.update { current -> current.copy(buttonsEnabled = buttonsEnabled) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.gesturesEnabled.collect { gesturesEnabled ->
+                _uiModel.update { current -> current.copy(gesturesEnabled = gesturesEnabled) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.musicEnabled.collect { musicEnabled ->
+                _uiModel.update { current -> current.copy(musicEnabled = musicEnabled) }
+                modMusicService.setEnabled(musicEnabled && !_uiModel.value.isMuted)
+                if (!musicEnabled) modMusicService.stop()
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.mainTrackPathOrUri.collect { pathOrUri ->
+                _uiModel.update { current -> current.copy(mainTrackPathOrUri = pathOrUri) }
             }
         }
         viewModelScope.launch {
@@ -161,7 +183,11 @@ class GameViewModel(
     fun startGame() {
         modMusicService.stop()
         gameLoop.start(scope = viewModelScope, onStateChanged = ::consumeSnapshot)
-        modMusicService.start()
+        if (_uiModel.value.musicEnabled && !_uiModel.value.isMuted) {
+            modMusicService.start()
+            playPreferredMainTrack()
+        }
+        refreshMusicState()
     }
 
     fun quitGame() {
@@ -185,6 +211,48 @@ class GameViewModel(
         }
     }
 
+    fun toggleButtonsEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setButtonsEnabled(!current.buttonsEnabled)
+        }
+    }
+
+    fun toggleGesturesEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setGesturesEnabled(!current.gesturesEnabled)
+        }
+    }
+
+    fun toggleMusicEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setMusicEnabled(!current.musicEnabled)
+        }
+    }
+
+    fun openSettings() {
+        _uiModel.update { current ->
+            current.copy(
+                showSettings = true,
+                returnToSettingsFromMusicLibrary = false,
+            )
+        }
+        if (_uiModel.value.state == GameState.Running) {
+            pauseGame()
+        }
+    }
+
+    fun closeSettings() {
+        _uiModel.update { current ->
+            current.copy(
+                showSettings = false,
+                returnToSettingsFromMusicLibrary = false,
+            )
+        }
+    }
+
     fun refreshMusicLibrary() {
         modMusicService.rescanLibrary()
         refreshMusicState()
@@ -194,15 +262,11 @@ class GameViewModel(
         modMusicService.rescanLibrary()
         var shouldPause = false
         _uiModel.update { current ->
-            current.copy(
-                showMusicLibrary = true,
-                pauseReason = if (current.state == GameState.Running) {
+            openMusicLibraryPanel(current).also { updated ->
+                if (updated.pauseReason == PauseReason.MusicLibrary) {
                     shouldPause = true
-                    PauseReason.MusicLibrary
-                } else {
-                    current.pauseReason
-                },
-            )
+                }
+            }
         }
         if (shouldPause) {
             gameLoop.pause()
@@ -211,10 +275,20 @@ class GameViewModel(
     }
 
     fun closeMusicLibrary() {
-        _uiModel.update { current -> current.copy(showMusicLibrary = false) }
+        _uiModel.update(::closeMusicLibraryPanel)
+    }
+
+    fun setMainTrack(track: ModTrackInfo) {
+        viewModelScope.launch {
+            settingsRepository.setMainTrackPathOrUri(track.pathOrUri)
+        }
     }
 
     fun selectTrack(track: ModTrackInfo) {
+        if (!_uiModel.value.musicEnabled || _uiModel.value.isMuted) {
+            refreshMusicState(trackLoadError = null)
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
             modMusicService.playTrack(track)
             val trackLoadError = if (modMusicService.currentTrackInfo()?.pathOrUri == track.pathOrUri) {
@@ -234,6 +308,10 @@ class GameViewModel(
     }
 
     fun resumeMusic() {
+        if (!_uiModel.value.musicEnabled || _uiModel.value.isMuted) {
+            refreshMusicState()
+            return
+        }
         modMusicService.resume()
         if (!modMusicService.isPlaying()) {
             modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
@@ -444,6 +522,15 @@ class GameViewModel(
         }
     }
 
+    private fun playPreferredMainTrack() {
+        val preferred = _uiModel.value.mainTrackPathOrUri
+        val tracks = modMusicService.tracks()
+        val candidate = tracks.firstOrNull { it.pathOrUri == preferred } ?: tracks.firstOrNull()
+        if (candidate != null && _uiModel.value.musicEnabled && !_uiModel.value.isMuted) {
+            modMusicService.playTrack(candidate)
+        }
+    }
+
     private fun resumeMusicIfNeededAfterBackground() {
         if (!musicPausedForBackground) return
         musicPausedForBackground = false
@@ -452,4 +539,23 @@ class GameViewModel(
             modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
         }
     }
+}
+
+internal fun openMusicLibraryPanel(current: GameUiModel): GameUiModel {
+    val shouldPauseForLibrary = current.state == GameState.Running
+    return current.copy(
+        showMusicLibrary = true,
+        showSettings = false,
+        returnToSettingsFromMusicLibrary = current.showSettings,
+        pauseReason = if (shouldPauseForLibrary) PauseReason.MusicLibrary else current.pauseReason,
+    )
+}
+
+internal fun closeMusicLibraryPanel(current: GameUiModel): GameUiModel {
+    val restoreSettings = current.returnToSettingsFromMusicLibrary
+    return current.copy(
+        showMusicLibrary = false,
+        showSettings = restoreSettings,
+        returnToSettingsFromMusicLibrary = false,
+    )
 }

@@ -38,7 +38,7 @@
     <string name="exit_confirm_title">Opustiť hru?</string>
     <string name="exit_confirm_message">Aktuálny postup bude stratený.</string>
     <string name="help_description">Pomoc</string>
-    <string name="mute_description">Stíšiť</string>
+    <string name="mute_description">Stíšiť</string><string name="settings_description">Nastavenia</string><string name="settings_title">Nastavenia</string><string name="show_buttons_setting">Zobraziť tlačidlá</string><string name="enable_gestures_setting">Povoliť gestá</string><string name="enable_music_setting">Povoliť hudbu</string><string name="main_tune_setting">Hlavná melódia</string><string name="settings_input_method_rule">Nechajte zapnutý aspoň jeden spôsob ovládania.</string>
     <string name="nickname_label">Prezývka</string>
     <string name="nickname_placeholder">Až 12 znakov</string>
     <string name="nickname_required">Zadaj prezývku na uloženie skóre.</string>
@@ -53,9 +53,9 @@
     <string name="scoreboard_name_header">MENO</string>
     <string name="scoreboard_score_header">SKÓRE</string>
     <string name="scoreboard_level_header">ÚROVEŇ</string>
-    <string name="scoreboard_lines_header">RIADKY</string>
+    <string name="scoreboard_lines_header">RIADKY</string><string name="music_library_set_main_track">Nastaviť ako hlavnú melódiu</string>
 
-    <string name="tutorial_title">AKO HRAŤ</string>
+    <string name="music_library_title">Hudobná knižnica</string><string name="music_library_back_description">Zavrieť hudobnú knižnicu</string><string name="music_library_refresh">Obnoviť hudobnú knižnicu</string><string name="music_library_pick_folder">Nastaviť priečinok s hudbou</string><string name="music_library_pause">Pozastaviť hudbu</string><string name="music_library_stop">Zastaviť hudbu</string><string name="music_library_play">Prehrať aktuálnu skladbu</string><string name="music_library_play_track">Prehrať skladbu</string><string name="music_library_muted_placeholder">Hudba je stlmená</string><string name="music_library_no_track_placeholder">Nie je vybraná žiadna skladba</string><string name="music_library_track_load_error">Nepodarilo sa načítať %1$s</string><string name="music_library_empty_title">Nenašli sa žiadne hudobné súbory</string><string name="music_library_empty_hint">Umiestnite súbory .mod / .xm / .s3m / .it do Download/Mods/</string><string name="music_library_empty_api33_hint">V Android 13+ vyberte priečinok Mods, aby aplikácia mohla čítať súbory pridané používateľom.</string><string name="music_library_empty_selected_folder_hint">Vybraný priečinok je čitateľný, ale zatiaľ sa nenašli žiadne platné module súbory.</string><string name="tutorial_title">AKO HRAŤ</string>
     <string name="tutorial_section_movement">POHYB</string>
     <string name="tutorial_section_dropping">PÁD</string>
     <string name="tutorial_section_strategy">STRATÉGIA</string>

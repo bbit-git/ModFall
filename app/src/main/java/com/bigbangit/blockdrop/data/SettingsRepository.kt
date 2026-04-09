@@ -17,6 +17,22 @@ class SettingsRepository(
         preferences[IsMutedKey] ?: false
     }
 
+    val buttonsEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[ButtonsEnabledKey] ?: true
+    }
+
+    val gesturesEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[GesturesEnabledKey] ?: true
+    }
+
+    val musicEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[MusicEnabledKey] ?: true
+    }
+
+    val mainTrackPathOrUri: Flow<String?> = context.blockDropPreferences.data.map { preferences ->
+        preferences[MainTrackPathOrUriKey]
+    }
+
     val shouldShowTutorialOnLaunch: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
         !(preferences[TutorialSeenKey] ?: false)
     }
@@ -28,6 +44,36 @@ class SettingsRepository(
     suspend fun setMuted(isMuted: Boolean) {
         context.blockDropPreferences.edit { preferences ->
             preferences[IsMutedKey] = isMuted
+        }
+    }
+
+    suspend fun setButtonsEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            if (!enabled && (preferences[GesturesEnabledKey] ?: true).not()) return@edit
+            preferences[ButtonsEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setGesturesEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            if (!enabled && (preferences[ButtonsEnabledKey] ?: true).not()) return@edit
+            preferences[GesturesEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setMusicEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[MusicEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setMainTrackPathOrUri(pathOrUri: String?) {
+        context.blockDropPreferences.edit { preferences ->
+            if (pathOrUri.isNullOrBlank()) {
+                preferences.remove(MainTrackPathOrUriKey)
+            } else {
+                preferences[MainTrackPathOrUriKey] = pathOrUri
+            }
         }
     }
 
@@ -49,7 +95,11 @@ class SettingsRepository(
 
     private companion object {
         val IsMutedKey = booleanPreferencesKey("is_muted")
+        val ButtonsEnabledKey = booleanPreferencesKey("buttons_enabled")
+        val GesturesEnabledKey = booleanPreferencesKey("gestures_enabled")
+        val MusicEnabledKey = booleanPreferencesKey("music_enabled")
         val TutorialSeenKey = booleanPreferencesKey("tutorial_seen")
         val MusicFolderUriKey = stringPreferencesKey("music_folder_uri")
+        val MainTrackPathOrUriKey = stringPreferencesKey("main_track_path_or_uri")
     }
 }

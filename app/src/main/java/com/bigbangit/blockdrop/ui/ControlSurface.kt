@@ -25,6 +25,7 @@ import kotlin.math.abs
 @Composable
 fun ControlSurface(
     uiModel: GameUiModel,
+    enabled: Boolean,
     onMoveLeft: () -> Unit,
     onMoveRight: () -> Unit,
     onRotateClockwise: () -> Unit,
@@ -47,6 +48,7 @@ fun ControlSurface(
         modifier = modifier
             .onSizeChanged { boardSize = it }
             .pointerInput(boardSize) {
+                if (!enabled) return@pointerInput
                 val width = boardSize.width.toFloat().takeIf { it > 0f } ?: return@pointerInput
                 val height = boardSize.height.toFloat().takeIf { it > 0f } ?: return@pointerInput
                 val cellWidth = width / GameConstants.BOARD_WIDTH

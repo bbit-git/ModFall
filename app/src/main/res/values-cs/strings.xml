@@ -23,7 +23,7 @@
     <string name="hold_action">Držet</string>
     <string name="drop_delay">Zpoždění pádu</string>
 
-    <!-- UI Overlays and Buttons -->
+    
     <string name="block_drop_title">BLOCK DROP</string>
     <string name="game_over_title">KONEC HRY</string>
     <string name="score_display">SKÓRE: %1$d</string>
@@ -39,6 +39,13 @@
     <string name="exit_confirm_message">Právě probíhající postup bude ztracen.</string>
     <string name="help_description">Nápověda</string>
     <string name="mute_description">Ztlumit</string>
+    <string name="settings_description">Nastavení</string>
+    <string name="settings_title">Nastavení</string>
+    <string name="show_buttons_setting">Zobrazit tlačítka</string>
+    <string name="enable_gestures_setting">Povolit gesta</string>
+    <string name="enable_music_setting">Povolit hudbu</string>
+    <string name="main_tune_setting">Hlavní melodie</string>
+    <string name="settings_input_method_rule">Nechte zapnutý alespoň jeden způsob ovládání.</string>
     <string name="nickname_label">Přezdívka</string>
     <string name="nickname_placeholder">Až 12 znaků</string>
     <string name="nickname_required">Zadejte přezdívku pro uložení skóre.</string>
@@ -54,9 +61,10 @@
     <string name="scoreboard_score_header">SKÓRE</string>
     <string name="scoreboard_level_header">ÚROVEŇ</string>
     <string name="scoreboard_lines_header">ŘÁDKY</string>
+    <string name="music_library_set_main_track">Nastavit jako hlavní melodii</string>
 
-    <!-- Tutorial Overlay -->
-    <string name="tutorial_title">JAK HRÁT</string>
+    
+    <string name="music_library_title">Hudební knihovna</string><string name="music_library_back_description">Zavřít hudební knihovnu</string><string name="music_library_refresh">Obnovit hudební knihovnu</string><string name="music_library_pick_folder">Nastavit složku s hudbou</string><string name="music_library_pause">Pozastavit hudbu</string><string name="music_library_stop">Zastavit hudbu</string><string name="music_library_play">Přehrát aktuální skladbu</string><string name="music_library_play_track">Přehrát skladbu</string><string name="music_library_muted_placeholder">Hudba je ztlumená</string><string name="music_library_no_track_placeholder">Nebyla vybrána žádná skladba</string><string name="music_library_track_load_error">Nepodařilo se načíst %1$s</string><string name="music_library_empty_title">Nebyly nalezeny žádné hudební soubory</string><string name="music_library_empty_hint">Umístěte soubory .mod / .xm / .s3m / .it do Download/Mods/</string><string name="music_library_empty_api33_hint">V Androidu 13 a novějším vyberte složku Mods, aby aplikace mohla číst uživatelské soubory.</string><string name="music_library_empty_selected_folder_hint">Vybraná složka je čitelná, ale zatím v ní nebyly nalezeny žádné platné module soubory.</string><string name="tutorial_title">JAK HRÁT</string>
     <string name="tutorial_section_movement">POHYB</string>
     <string name="tutorial_section_dropping">SPUŠTĚNÍ</string>
     <string name="tutorial_section_strategy">STRATEGIE</string>
