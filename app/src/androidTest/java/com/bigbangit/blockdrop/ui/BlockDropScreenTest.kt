@@ -2,8 +2,11 @@ package com.bigbangit.blockdrop.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bigbangit.blockdrop.core.GameState
@@ -63,6 +66,8 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onToggleParticlesEnabled = {},
+                    onCycleParticleQuality = {},
                     onSetMainTrack = {},
                 )
             }
@@ -136,6 +141,8 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onToggleParticlesEnabled = {},
+                    onCycleParticleQuality = {},
                     onSetMainTrack = {},
                 )
             }
@@ -187,6 +194,8 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onToggleParticlesEnabled = {},
+                    onCycleParticleQuality = {},
                     onSetMainTrack = {},
                 )
             }
@@ -239,6 +248,8 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onToggleParticlesEnabled = {},
+                    onCycleParticleQuality = {},
                     onSetMainTrack = {},
                 )
             }
@@ -292,6 +303,8 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onToggleParticlesEnabled = {},
+                    onCycleParticleQuality = {},
                     onSetMainTrack = {},
                 )
             }
@@ -299,5 +312,24 @@ class BlockDropScreenTest {
 
         composeRule.onNodeWithText("Set music folder").assertIsDisplayed().performClick()
         assertEquals(1, pickFolderClicks)
+    }
+
+    @Test
+    fun tutorialScreenShowsMusicSetupGuidance() {
+        composeRule.setContent {
+            BlockDropTheme {
+                TutorialScreen(onDismiss = {})
+            }
+        }
+
+        composeRule.onRoot().performTouchInput { swipeUp() }
+        composeRule.onRoot().performTouchInput { swipeUp() }
+
+        composeRule.onNodeWithText("MUSIC").assertIsDisplayed()
+        composeRule.onNodeWithText("Set Music Folder").assertIsDisplayed()
+        composeRule.onNodeWithText("Where to Get Mods").assertIsDisplayed()
+        composeRule.onNodeWithText(
+            "Example sources: The Mod Archive (modarchive.org) and scene.org (files.scene.org). Download module files there, then place them in Download/Mods/ or your selected music folder.",
+        ).assertIsDisplayed()
     }
 }

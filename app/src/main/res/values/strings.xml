@@ -94,6 +94,7 @@
     <string name="tutorial_section_dropping">DROPPING</string>
     <string name="tutorial_section_strategy">STRATEGY</string>
     <string name="tutorial_section_scoring">SCORING</string>
+    <string name="tutorial_section_music">MUSIC</string>
     <string name="tutorial_got_it">GOT IT!</string>
 
     <string name="tutorial_movement_grab_label">Grab Piece</string>
@@ -125,4 +126,11 @@
     <string name="tutorial_scoring_combos_desc">Clear lines in consecutive placements to build a combo multiplier.</string>
     <string name="tutorial_scoring_allclear_label">All Clear</string>
     <string name="tutorial_scoring_allclear_desc">Empty the entire board for the ultimate score reward.</string>
+
+    <string name="tutorial_music_set_folder_label">Set Music Folder</string>
+    <string name="tutorial_music_set_folder_desc">Open Settings, enter Music Library, tap Set music folder, then pick the folder that contains your .mod / .xm / .s3m / .it files.</string>
+    <string name="tutorial_music_set_main_label">Choose Main Tune</string>
+    <string name="tutorial_music_set_main_desc">After scanning, pick a track in Music Library and tap Set as main tune if you want it to start automatically with a new game.</string>
+    <string name="tutorial_music_download_label">Where to Get Mods</string>
+    <string name="tutorial_music_download_desc">Example sources: The Mod Archive (modarchive.org) and scene.org (files.scene.org). Download module files there, then place them in Download/Mods/ or your selected music folder.</string>
 </resources>

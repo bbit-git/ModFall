@@ -134,6 +134,21 @@ fun TutorialScreen(
                     stringResource(R.string.tutorial_scoring_allclear_desc),
                 )
             }
+
+            TutorialSection(title = stringResource(R.string.tutorial_section_music)) {
+                TutorialItem(
+                    stringResource(R.string.tutorial_music_set_folder_label),
+                    stringResource(R.string.tutorial_music_set_folder_desc),
+                )
+                TutorialItem(
+                    stringResource(R.string.tutorial_music_set_main_label),
+                    stringResource(R.string.tutorial_music_set_main_desc),
+                )
+                TutorialItem(
+                    stringResource(R.string.tutorial_music_download_label),
+                    stringResource(R.string.tutorial_music_download_desc),
+                )
+            }
         }
 
         PanelControlButton(
