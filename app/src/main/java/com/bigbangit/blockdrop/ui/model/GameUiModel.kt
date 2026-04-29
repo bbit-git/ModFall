@@ -28,6 +28,8 @@ data class GameUiModel(
     val buttonsEnabled: Boolean = true,
     val gesturesEnabled: Boolean = true,
     val musicEnabled: Boolean = true,
+    val musicVolume: Float = 0.65f,
+    val sfxVolume: Float = 1f,
     val particlesEnabled: Boolean = false,
     val particleQuality: ParticleQuality = ParticleQuality.High,
     val mainTrackPathOrUri: String? = null,

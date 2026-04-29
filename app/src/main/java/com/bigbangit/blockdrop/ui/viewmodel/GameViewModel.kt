@@ -44,6 +44,7 @@ class GameViewModel(
     private var pendingHardDropBurst = false
 
     init {
+        applyMusicVolumeForState(GameState.Idle)
         viewModelScope.launch {
             modMusicService.trackChanges.collect { trackInfo ->
                 _uiModel.update { current ->
@@ -58,6 +59,9 @@ class GameViewModel(
         viewModelScope.launch {
             settingsRepository.isMuted.collect { isMuted ->
                 modMusicService.setEnabled(!isMuted && _uiModel.value.musicEnabled)
+                if (!isMuted) {
+                    startMenuMusicIfNeeded()
+                }
                 refreshMusicState(isMutedOverride = isMuted)
             }
         }
@@ -76,6 +80,18 @@ class GameViewModel(
                 _uiModel.update { current -> current.copy(musicEnabled = musicEnabled) }
                 modMusicService.setEnabled(musicEnabled && !_uiModel.value.isMuted)
                 if (!musicEnabled) modMusicService.stop()
+                startMenuMusicIfNeeded()
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.musicVolume.collect { musicVolume ->
+                _uiModel.update { current -> current.copy(musicVolume = musicVolume) }
+                applyMusicVolumeForState(_uiModel.value.state)
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.sfxVolume.collect { sfxVolume ->
+                _uiModel.update { current -> current.copy(sfxVolume = sfxVolume) }
             }
         }
         viewModelScope.launch {
@@ -108,6 +124,7 @@ class GameViewModel(
             settingsRepository.musicFolderUri.collect { musicFolderUri ->
                 modMusicService.setLibraryTreeUri(musicFolderUri)
                 _uiModel.update { current -> current.copy(musicFolderUri = musicFolderUri) }
+                startMenuMusicIfNeeded(rescan = true)
                 refreshMusicState()
             }
         }
@@ -173,6 +190,7 @@ class GameViewModel(
         }
         if (shouldPause) {
             gameLoop.pause()
+            applyMusicVolumeForState(GameState.Paused)
             modMusicService.pause()
         }
     }
@@ -189,12 +207,14 @@ class GameViewModel(
         }
         if (shouldResume) {
             gameLoop.resume()
+            applyMusicVolumeForState(GameState.Running)
             modMusicService.resume()
         }
     }
 
     fun startGame() {
         modMusicService.stop()
+        applyMusicVolumeForState(GameState.Running)
         gameLoop.start(scope = viewModelScope, onStateChanged = ::consumeSnapshot)
         if (_uiModel.value.musicEnabled && !_uiModel.value.isMuted) {
             modMusicService.start()
@@ -206,6 +226,8 @@ class GameViewModel(
     fun quitGame() {
         gameLoop.stop()
         modMusicService.stop()
+        applyMusicVolumeForState(GameState.Idle)
+        startMenuMusicIfNeeded()
     }
 
     fun moveLeft() = gameLoop.moveLeft()
@@ -242,6 +264,18 @@ class GameViewModel(
         val current = _uiModel.value
         viewModelScope.launch {
             settingsRepository.setMusicEnabled(!current.musicEnabled)
+        }
+    }
+
+    fun setMusicVolume(volume: Float) {
+        viewModelScope.launch {
+            settingsRepository.setMusicVolume(volume)
+        }
+    }
+
+    fun setSfxVolume(volume: Float) {
+        viewModelScope.launch {
+            settingsRepository.setSfxVolume(volume)
         }
     }
 
@@ -285,6 +319,7 @@ class GameViewModel(
 
     fun refreshMusicLibrary() {
         modMusicService.rescanLibrary()
+        startMenuMusicIfNeeded()
         refreshMusicState()
     }
 
@@ -451,6 +486,7 @@ class GameViewModel(
 
     private fun consumeSnapshot(snapshot: LoopSnapshot) {
         val placementFlashCells = detectNewLockedCells(_uiModel.value.board, snapshot.board)
+        val previousState = _uiModel.value.state
         _uiModel.update { current ->
             val enteringGameOver = snapshot.state == GameState.GameOver && current.state != GameState.GameOver
             current.copy(
@@ -487,6 +523,9 @@ class GameViewModel(
         }
         if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) {
             pendingHardDropBurst = false
+        }
+        if (snapshot.state == GameState.GameOver && previousState != GameState.GameOver) {
+            applyMusicVolumeForState(GameState.GameOver)
         }
     }
 
@@ -583,8 +622,9 @@ class GameViewModel(
 
     private fun playPreferredMainTrack() {
         val preferred = _uiModel.value.mainTrackPathOrUri
+            ?: return
         val tracks = modMusicService.tracks()
-        val candidate = tracks.firstOrNull { it.pathOrUri == preferred } ?: tracks.firstOrNull()
+        val candidate = tracks.firstOrNull { it.pathOrUri == preferred }
         if (candidate != null && _uiModel.value.musicEnabled && !_uiModel.value.isMuted) {
             modMusicService.playTrack(candidate)
         }
@@ -597,6 +637,31 @@ class GameViewModel(
         if (!modMusicService.isPlaying()) {
             modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
         }
+    }
+
+    private fun startMenuMusicIfNeeded(rescan: Boolean = false) {
+        val current = _uiModel.value
+        if (current.state != GameState.Idle || !current.musicEnabled || current.isMuted || modMusicService.isPlaying()) {
+            return
+        }
+        applyMusicVolumeForState(GameState.Idle)
+        if (rescan) {
+            modMusicService.rescanLibrary()
+        }
+        if (modMusicService.hasTracks()) {
+            modMusicService.start()
+        }
+    }
+
+    private fun applyMusicVolumeForState(state: GameState) {
+        val baseVolume = _uiModel.value.musicVolume
+        val multiplier = if (state == GameState.Running) GameMusicVolumeMultiplier else MenuMusicVolumeMultiplier
+        modMusicService.setVolume((baseVolume * multiplier).coerceIn(0f, 1f))
+    }
+
+    private companion object {
+        private const val MenuMusicVolumeMultiplier = 1f
+        private const val GameMusicVolumeMultiplier = 0.7f
     }
 }
 

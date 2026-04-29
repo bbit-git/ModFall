@@ -24,6 +24,7 @@ class SoundManager(
     context: Context,
     private val effectBridge: EffectBridge,
     private val isMuted: Flow<Boolean>,
+    private val sfxVolume: Flow<Float>,
 ) {
     private val appContext = context.applicationContext
     private val audioManager = appContext.getSystemService(AudioManager::class.java)
@@ -38,9 +39,13 @@ class SoundManager(
     private var muted: Boolean = false
 
     @Volatile
-    private var volumeScale: Float = 1f
+    private var focusVolumeScale: Float = 1f
+
+    @Volatile
+    private var userVolumeScale: Float = 1f
 
     private var muteJob: Job? = null
+    private var volumeJob: Job? = null
     private var effectJob: Job? = null
 
     @Volatile
@@ -48,15 +53,15 @@ class SoundManager(
 
     private val focusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         when (focusChange) {
-            AudioManager.AUDIOFOCUS_GAIN -> volumeScale = 1f
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> volumeScale = 0.25f
+            AudioManager.AUDIOFOCUS_GAIN -> focusVolumeScale = 1f
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> focusVolumeScale = 0.25f
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                volumeScale = 0.5f
+                focusVolumeScale = 0.5f
                 hasAudioFocus = false
                 stopActiveTracks()
             }
             AudioManager.AUDIOFOCUS_LOSS -> {
-                volumeScale = 1f
+                focusVolumeScale = 1f
                 abandonAudioFocus()
                 stopActiveTracks()
             }
@@ -87,6 +92,12 @@ class SoundManager(
             }
         }
 
+        volumeJob = playbackScope.launch {
+            sfxVolume.collectLatest { value ->
+                userVolumeScale = value.coerceIn(0f, 1f)
+            }
+        }
+
         effectJob = playbackScope.launch {
             effectBridge.effects.collectLatest { effect ->
                 if (!muted && requestAudioFocus()) {
@@ -98,8 +109,10 @@ class SoundManager(
 
     fun stop() {
         muteJob?.cancel()
+        volumeJob?.cancel()
         effectJob?.cancel()
         muteJob = null
+        volumeJob = null
         effectJob = null
         stopActiveTracks()
         abandonAudioFocus()
@@ -128,7 +141,7 @@ class SoundManager(
 
         activeTracks += audioTrack
         audioTrack.write(buffer.array(), 0, buffer.array().size)
-        audioTrack.setVolume((BASE_VOLUME * volumeScale).coerceIn(0f, 1f))
+        audioTrack.setVolume((BASE_VOLUME * userVolumeScale * focusVolumeScale).coerceIn(0f, 1f))
         audioTrack.notificationMarkerPosition = waveform.size
         audioTrack.setPlaybackPositionUpdateListener(
             object : AudioTrack.OnPlaybackPositionUpdateListener {

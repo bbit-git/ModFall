@@ -2,6 +2,7 @@ package com.bigbangit.blockdrop.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
@@ -28,6 +29,14 @@ class SettingsRepository(
 
     val musicEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
         preferences[MusicEnabledKey] ?: true
+    }
+
+    val musicVolume: Flow<Float> = context.blockDropPreferences.data.map { preferences ->
+        (preferences[MusicVolumeKey] ?: DefaultMusicVolume).coerceIn(0f, 1f)
+    }
+
+    val sfxVolume: Flow<Float> = context.blockDropPreferences.data.map { preferences ->
+        (preferences[SfxVolumeKey] ?: DefaultSfxVolume).coerceIn(0f, 1f)
     }
 
     val particlesEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
@@ -76,6 +85,18 @@ class SettingsRepository(
         }
     }
 
+    suspend fun setMusicVolume(volume: Float) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[MusicVolumeKey] = volume.coerceIn(0f, 1f)
+        }
+    }
+
+    suspend fun setSfxVolume(volume: Float) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[SfxVolumeKey] = volume.coerceIn(0f, 1f)
+        }
+    }
+
     suspend fun setParticlesEnabled(enabled: Boolean) {
         context.blockDropPreferences.edit { preferences ->
             preferences[ParticlesEnabledKey] = enabled
@@ -119,10 +140,14 @@ class SettingsRepository(
         val ButtonsEnabledKey = booleanPreferencesKey("buttons_enabled")
         val GesturesEnabledKey = booleanPreferencesKey("gestures_enabled")
         val MusicEnabledKey = booleanPreferencesKey("music_enabled")
+        val MusicVolumeKey = floatPreferencesKey("music_volume")
+        val SfxVolumeKey = floatPreferencesKey("sfx_volume")
         val ParticlesEnabledKey = booleanPreferencesKey("particles_enabled")
         val ParticleQualityKey = stringPreferencesKey("particle_quality")
         val TutorialSeenKey = booleanPreferencesKey("tutorial_seen")
         val MusicFolderUriKey = stringPreferencesKey("music_folder_uri")
         val MainTrackPathOrUriKey = stringPreferencesKey("main_track_path_or_uri")
+        const val DefaultMusicVolume = 0.65f
+        const val DefaultSfxVolume = 1f
     }
 }
