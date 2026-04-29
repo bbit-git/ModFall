@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Block Drop</string>
+    <string name="app_name">Mod Fall</string>
     <string name="start_game">Почати гру</string>
     <string name="game_state_label">Стан: %1$s</string>
     <string name="score_label">Рахунок: %1$d</string>
@@ -24,7 +24,7 @@
     <string name="hold_action">Утримати</string>
     <string name="drop_delay">Затримка падіння</string>
 
-    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="block_drop_title">MOD FALL</string>
     <string name="game_over_title">ГРА ЗАВЕРШЕНА</string>
     <string name="score_display">РАХУНОК: %1$d</string>
     <string name="paused_title">ПАУЗА</string>

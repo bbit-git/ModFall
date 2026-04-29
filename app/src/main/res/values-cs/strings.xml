@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Block Drop</string>
+    <string name="app_name">Mod Fall</string>
     <string name="start_game">Začít hru</string>
     <string name="game_state_label">Stav: %1$s</string>
     <string name="score_label">Skóre: %1$d</string>
@@ -24,7 +24,7 @@
     <string name="drop_delay">Zpoždění pádu</string>
 
     
-    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="block_drop_title">MOD FALL</string>
     <string name="game_over_title">KONEC HRY</string>
     <string name="score_display">SKÓRE: %1$d</string>
     <string name="paused_title">PAUZA</string>
@@ -52,9 +52,9 @@
     <string name="save_score_button">ULOŽIT SKÓRE</string>
     <string name="score_saved">Skóre uloženo.</string>
     <string name="score_saved_ranked">Umístění #%1$d na lokální tabuli.</string>
-    <string name="not_in_top_ten">Skóre se nevešlo do první desítky.</string>
-    <string name="scoreboard_button">TABULKA</string>
-    <string name="scoreboard_title">LOKÁLNÍ TABULKA</string>
+    <string name="not_in_top_ten">Skóre se nevešlo do top 100.</string>
+    <string name="scoreboard_button">SCORE</string>
+    <string name="scoreboard_title">LOCAL SCOREBOARD</string>
     <string name="scoreboard_empty">Zatím žádná skóre nebyla uložena.</string>
     <string name="scoreboard_rank_header">#</string>
     <string name="scoreboard_name_header">JMÉNO</string>

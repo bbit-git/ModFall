@@ -1,7 +1,7 @@
-# Block Drop implementation plan
+# Mod Fall implementation plan
 
 ## Overview
-- **Name:** Block Drop (Tetris-inspired Kotlin game)
+- **Name:** Mod Fall (Tetris-inspired Kotlin game)
 - **Platform:** Native Android using Jetpack Compose UI with Kotlin core logic and coroutines-driven game loop.
 - **Goal:** Ship a polished single-player experience with smooth animations, responsive controls, score/level systems, and visual/audio feedback before iterating on polish.
 - **Distribution:** Completely free, ultra-lightweight launch footprint, no advertisements or paid upgrades—focus on fast load times and a single bundled APK.
@@ -127,7 +127,7 @@ Deep space-like dark purple-to-black radial gradient (`#0D0D1A` center → `#000
 
 ### Splash screen
 - Background: same deep purple-black radial gradient as above.
-- Centred logo: the stacked-blocks icon (three cyan + one orange, isometric-style, glowing) with the "BLOCK DROP" wordmark beneath it in the same bold rounded font visible in the splash image — thick white letters with a dark outline and a subtle colour gradient fill (yellow → green → blue across the letters, matching the splash artwork).
+- Centred logo: the stacked-blocks icon (three cyan + one orange, isometric-style, glowing) with the "MOD FALL" wordmark beneath it in the same bold rounded font visible in the splash image — thick white letters with a dark outline and a subtle colour gradient fill (yellow → green → blue across the letters, matching the splash artwork).
 - No animation required; static display for 2 seconds.
 
 ### Title / wordmark font style
