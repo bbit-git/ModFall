@@ -1,7 +1,6 @@
 package com.bigbangit.blockdrop.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MusicNote
@@ -138,12 +136,12 @@ fun MusicLibraryScreen(
                 )
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp),
                 ) {
-                    items(
+                    itemsIndexed(
                         items = availableTracks,
-                        key = { it.pathOrUri },
-                    ) { track ->
+                        key = { _, track -> track.pathOrUri },
+                    ) { index, track ->
                         MusicTrackRow(
                             track = track,
                             isCurrentTrack = currentTrack?.pathOrUri == track.pathOrUri,
@@ -152,6 +150,12 @@ fun MusicLibraryScreen(
                             onPlay = { onSelectTrack(track) },
                             onSelectMainTrack = { onSelectMainTrack(track) },
                         )
+                        if (index < availableTracks.lastIndex) {
+                            HorizontalDivider(
+                                color = Color.White.copy(alpha = 0.12f),
+                                thickness = 1.dp,
+                            )
+                        }
                     }
                 }
             }
@@ -172,9 +176,7 @@ private fun CurrentTrackCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.14f), RoundedCornerShape(20.dp))
-            .padding(horizontal = 14.dp, vertical = 10.dp),
+            .padding(horizontal = 4.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -239,23 +241,13 @@ fun MusicTrackRow(
     onSelectMainTrack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val containerColor = if (isCurrentTrack) {
-        Color(0xFF97AEFF).copy(alpha = 0.22f)
-    } else {
-        Color.White.copy(alpha = 0.06f)
-    }
-    val borderColor = if (isCurrentTrack) {
-        Color(0xFFC6D2FF).copy(alpha = 0.55f)
-    } else {
-        Color.White.copy(alpha = 0.1f)
-    }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(containerColor, RoundedCornerShape(18.dp))
-            .border(1.dp, borderColor, RoundedCornerShape(18.dp))
-            .padding(horizontal = 14.dp, vertical = 10.dp),
+            .background(
+                if (isCurrentTrack) Color(0xFF97AEFF).copy(alpha = 0.12f) else Color.Transparent,
+            )
+            .padding(horizontal = 4.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {

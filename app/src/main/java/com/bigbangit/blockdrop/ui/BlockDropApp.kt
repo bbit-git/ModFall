@@ -1,6 +1,7 @@
 package com.bigbangit.blockdrop.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -22,6 +23,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -63,6 +65,8 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -90,6 +94,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.delay
+import com.bigbangit.blockdrop.BuildConfig
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.core.GameState
 import com.bigbangit.blockdrop.ui.model.GameUiModel
@@ -161,6 +166,7 @@ fun BlockDropApp(
             onPause = viewModel::pauseGame,
             onResume = viewModel::resumeGame,
             onQuit = viewModel::quitGame,
+            onExitApp = { (context as? Activity)?.finish() },
             onMuteToggle = viewModel::toggleMute,
             onOpenMusicLibrary = viewModel::openMusicLibrary,
             onCloseMusicLibrary = viewModel::closeMusicLibrary,
@@ -189,6 +195,8 @@ fun BlockDropApp(
             onToggleButtonsEnabled = viewModel::toggleButtonsEnabled,
             onToggleGesturesEnabled = viewModel::toggleGesturesEnabled,
             onToggleMusicEnabled = viewModel::toggleMusicEnabled,
+            onMusicVolumeChanged = viewModel::setMusicVolume,
+            onSfxVolumeChanged = viewModel::setSfxVolume,
             onToggleParticlesEnabled = viewModel::toggleParticlesEnabled,
             onCycleParticleQuality = viewModel::cycleParticleQuality,
             onSetMainTrack = viewModel::setMainTrack,
@@ -227,6 +235,7 @@ fun BlockDropScreen(
     onPause: () -> Unit,
     onResume: () -> Unit,
     onQuit: () -> Unit,
+    onExitApp: () -> Unit,
     onMuteToggle: () -> Unit,
     onOpenMusicLibrary: () -> Unit,
     onCloseMusicLibrary: () -> Unit,
@@ -255,6 +264,8 @@ fun BlockDropScreen(
     onToggleButtonsEnabled: () -> Unit,
     onToggleGesturesEnabled: () -> Unit,
     onToggleMusicEnabled: () -> Unit,
+    onMusicVolumeChanged: (Float) -> Unit,
+    onSfxVolumeChanged: (Float) -> Unit,
     onToggleParticlesEnabled: () -> Unit,
     onCycleParticleQuality: () -> Unit,
     onSetMainTrack: (com.bigbangit.blockdrop.music.ModTrackInfo) -> Unit,
@@ -370,6 +381,8 @@ fun BlockDropScreen(
                     onToggleButtonsEnabled = onToggleButtonsEnabled,
                     onToggleGesturesEnabled = onToggleGesturesEnabled,
                     onToggleMusicEnabled = onToggleMusicEnabled,
+                    onMusicVolumeChanged = onMusicVolumeChanged,
+                    onSfxVolumeChanged = onSfxVolumeChanged,
                     onToggleParticlesEnabled = onToggleParticlesEnabled,
                     onCycleParticleQuality = onCycleParticleQuality,
                 )
@@ -387,6 +400,7 @@ fun BlockDropScreen(
                     onStartGame = onStartGame,
                     onResume = onResume,
                     onQuit = onQuit,
+                    onExitApp = onExitApp,
                     onMuteToggle = onMuteToggle,
                     onOpenMusicLibrary = onOpenMusicLibrary,
                     onOpenSettings = onOpenSettings,
@@ -416,6 +430,7 @@ private fun GameScreenContent(
     onStartGame: () -> Unit,
     onResume: () -> Unit,
     onQuit: () -> Unit,
+    onExitApp: () -> Unit,
     onMuteToggle: () -> Unit,
     onOpenMusicLibrary: () -> Unit,
     onOpenSettings: () -> Unit,
@@ -432,12 +447,13 @@ private fun GameScreenContent(
     onSubmitScore: () -> Unit,
     onShowScoreboard: () -> Unit,
 ) {
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Bottom)),
     ) {
-        val showControls = uiModel.buttonsEnabled && uiModel.state != GameState.Idle && uiModel.state != GameState.GameOver
+        val showControls = uiModel.buttonsEnabled && uiModel.state == GameState.Running
+        val overlayWidth = minOf(maxWidth - 32.dp, 340.dp).coerceAtLeast(220.dp)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -471,9 +487,6 @@ private fun GameScreenContent(
                 ) {
                     Playfield(
                         uiModel = uiModel,
-                        onStartGame = onStartGame,
-                        onResume = onResume,
-                        onQuit = onQuit,
                         onMoveLeft = onMoveLeft,
                         onMoveRight = onMoveRight,
                         onRotateClockwise = onRotateClockwise,
@@ -482,9 +495,6 @@ private fun GameScreenContent(
                         onHardDrop = onHardDrop,
                         onHold = onHold,
                         onDropDelay = onDropDelay,
-                        onNicknameChanged = onNicknameChanged,
-                        onSubmitScore = onSubmitScore,
-                        onShowScoreboard = onShowScoreboard,
                     )
                 }
             }
@@ -502,6 +512,90 @@ private fun GameScreenContent(
                         .align(Alignment.BottomCenter)
                         .padding(bottom = GameUiTokens.ControlPadBottomPadding),
                 )
+            }
+        }
+
+        if (
+            uiModel.state == GameState.Idle ||
+            uiModel.state == GameState.Paused ||
+            uiModel.state == GameState.GameOver
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.68f)),
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.ime.only(WindowInsetsSides.Bottom)),
+                    contentAlignment = Alignment.Center,
+            ) {
+                when (uiModel.state) {
+                    GameState.Idle -> CompactOverlayCard(
+                        title = stringResource(R.string.block_drop_title),
+                        titleLogoRes = R.drawable.mod_fall_logo,
+                        subtitle = null,
+                        width = overlayWidth,
+                        showContainer = false,
+                        actions = listOf(
+                            OverlayMenuAction(
+                                text = stringResource(R.string.start_game),
+                                onClick = onStartGame,
+                                style = OverlayActionStyle.Fresh,
+                            ),
+                            OverlayMenuAction(
+                                text = stringResource(R.string.scoreboard_button),
+                                onClick = onShowScoreboard,
+                            ),
+                            OverlayMenuAction(
+                                text = stringResource(R.string.settings_title),
+                                onClick = onOpenSettings,
+                            ),
+                            OverlayMenuAction(
+                                text = stringResource(R.string.music_library_title),
+                                onClick = onOpenMusicLibrary,
+                            ),
+                            OverlayMenuAction(
+                                text = stringResource(R.string.quit_button),
+                                onClick = onExitApp,
+                                style = OverlayActionStyle.Dark,
+                            ),
+                        ),
+                    )
+
+                    GameState.Paused -> CompactOverlayCard(
+                        title = stringResource(R.string.paused_title),
+                        subtitle = stringResource(R.string.pause_menu_subtitle),
+                        width = overlayWidth,
+                        actions = listOf(
+                            OverlayMenuAction(
+                                text = stringResource(R.string.resume_button),
+                                onClick = onResume,
+                                style = OverlayActionStyle.Fresh,
+                            ),
+                            OverlayMenuAction(
+                                text = stringResource(R.string.restart_button),
+                                onClick = onStartGame,
+                            ),
+                            OverlayMenuAction(
+                                text = stringResource(R.string.menu_button),
+                                onClick = onQuit,
+                                style = OverlayActionStyle.Dark,
+                            ),
+                        ),
+                    )
+
+                    GameState.GameOver -> GameOverOverlayCard(
+                        uiModel = uiModel,
+                        width = overlayWidth,
+                        onPrimaryClick = onStartGame,
+                        onSecondaryClick = onQuit,
+                        onNicknameChanged = onNicknameChanged,
+                        onSubmitScore = onSubmitScore,
+                        onShowScoreboard = onShowScoreboard,
+                    )
+                }
             }
         }
     }
@@ -646,9 +740,6 @@ private fun HudIconButton(
 @Composable
 private fun Playfield(
     uiModel: GameUiModel,
-    onStartGame: () -> Unit,
-    onResume: () -> Unit,
-    onQuit: () -> Unit,
     onMoveLeft: () -> Unit,
     onMoveRight: () -> Unit,
     onRotateClockwise: () -> Unit,
@@ -657,9 +748,6 @@ private fun Playfield(
     onHardDrop: () -> Unit,
     onHold: () -> Unit,
     onDropDelay: () -> Unit,
-    onNicknameChanged: (String) -> Unit,
-    onSubmitScore: () -> Unit,
-    onShowScoreboard: () -> Unit,
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),
@@ -742,40 +830,6 @@ private fun Playfield(
                             }
                         },
                 )
-
-                when (uiModel.state) {
-                    GameState.Idle -> CompactOverlayCard(
-                        title = stringResource(R.string.block_drop_title),
-                        subtitle = null,
-                        width = (boardWidth.value * 0.78f).dp,
-                        primaryLabel = stringResource(R.string.start_game),
-                        onPrimaryClick = onStartGame,
-                    )
-
-                    GameState.GameOver -> GameOverOverlayCard(
-                        uiModel = uiModel,
-                        width = (boardWidth.value * 0.84f).dp,
-                        onPrimaryClick = onStartGame,
-                        onSecondaryClick = onQuit,
-                        onNicknameChanged = onNicknameChanged,
-                        onSubmitScore = onSubmitScore,
-                        onShowScoreboard = onShowScoreboard,
-                    )
-
-                    GameState.Paused -> CompactOverlayCard(
-                        title = stringResource(R.string.paused_title),
-                        subtitle = stringResource(R.string.pause_menu_subtitle),
-                        width = (boardWidth.value * 0.8f).dp,
-                        primaryLabel = stringResource(R.string.resume_button),
-                        onPrimaryClick = onResume,
-                        secondaryLabel = stringResource(R.string.restart_button),
-                        onSecondaryClick = onStartGame,
-                        tertiaryLabel = stringResource(R.string.menu_button),
-                        onTertiaryClick = onQuit,
-                    )
-
-                    else -> Unit
-                }
             }
         }
     }
@@ -813,12 +867,11 @@ private fun GameOverOverlayCard(
     Column(
         modifier = Modifier
             .width(width)
-            .windowInsetsPadding(WindowInsets.ime.only(WindowInsetsSides.Bottom))
-            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(10.dp))
+            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.96f), RoundedCornerShape(10.dp))
             .border(1.dp, Color.White.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
             .padding(horizontal = 20.dp, vertical = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
             text = stringResource(R.string.game_over_title),
@@ -850,12 +903,11 @@ private fun GameOverOverlayCard(
                 },
             )
 
-            Button(
+            OverlayActionButton(
+                text = stringResource(R.string.save_score_button),
                 onClick = onSubmitScore,
                 enabled = !uiModel.isSubmittingScore,
-            ) {
-                Text(stringResource(R.string.save_score_button))
-            }
+            )
         } else {
             val submissionText = when {
                 uiModel.didQualifyForScoreboard == true && uiModel.qualifiedRank != null ->
@@ -871,82 +923,208 @@ private fun GameOverOverlayCard(
                 color = TextWhite.copy(alpha = 0.92f),
                 textAlign = TextAlign.Center,
             )
-            FilledTonalButton(onClick = onShowScoreboard) {
-                Text(stringResource(R.string.scoreboard_button))
-            }
+            OverlayActionButton(
+                text = stringResource(R.string.scoreboard_button),
+                onClick = onShowScoreboard,
+            )
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Button(onClick = onPrimaryClick) {
-                Text(stringResource(R.string.restart_button))
-            }
-            FilledTonalButton(onClick = onSecondaryClick) {
-                Text(stringResource(R.string.menu_button))
-            }
-        }
+        OverlayActionButton(
+            text = stringResource(R.string.restart_button),
+            onClick = onPrimaryClick,
+        )
+        OverlayActionButton(
+            text = stringResource(R.string.menu_button),
+            onClick = onSecondaryClick,
+        )
     }
 }
 
 @Composable
 private fun CompactOverlayCard(
     title: String,
+    titleLogoRes: Int? = null,
     subtitle: String?,
     width: Dp,
-    primaryLabel: String,
-    onPrimaryClick: () -> Unit,
-    secondaryLabel: String? = null,
-    onSecondaryClick: (() -> Unit)? = null,
-    tertiaryLabel: String? = null,
-    onTertiaryClick: (() -> Unit)? = null,
+    showContainer: Boolean = true,
+    actions: List<OverlayMenuAction>,
 ) {
+    val containerModifier = if (showContainer) {
+        Modifier
+            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.96f), RoundedCornerShape(10.dp))
+            .border(1.dp, Color.White.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
+            .padding(horizontal = 20.dp, vertical = 18.dp)
+    } else {
+        Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+    }
     Column(
         modifier = Modifier
             .width(width)
-            .background(GameUiTokens.BackgroundCenter.copy(alpha = 0.95f), RoundedCornerShape(10.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
-            .padding(horizontal = 20.dp, vertical = 18.dp),
+            .then(containerModifier),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Black,
-            color = TextWhite,
-            textAlign = TextAlign.Center,
-        )
+        if (titleLogoRes != null) {
+            Image(
+                painter = painterResource(titleLogoRes),
+                contentDescription = title,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(92.dp),
+            )
+        } else {
+            Text(
+                text = title.uppercase(),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Black,
+                color = TextWhite,
+                textAlign = TextAlign.Center,
+            )
+        }
         if (subtitle != null) {
             Text(
-                text = subtitle,
+                text = subtitle.uppercase(),
                 style = MaterialTheme.typography.titleMedium,
                 color = TextWhite.copy(alpha = 0.92f),
                 textAlign = TextAlign.Center,
             )
         }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Button(onClick = onPrimaryClick) {
-                Text(primaryLabel)
-            }
-            if (secondaryLabel != null && onSecondaryClick != null) {
-                FilledTonalButton(onClick = onSecondaryClick) {
-                    Text(secondaryLabel)
-                }
-            }
-            if (tertiaryLabel != null && onTertiaryClick != null) {
-                TextButton(onClick = onTertiaryClick) {
-                    Text(tertiaryLabel)
-                }
-            }
+        actions.forEach { action ->
+            OverlayActionButton(
+                text = action.text,
+                onClick = action.onClick,
+                style = action.style,
+            )
         }
     }
+}
+
+private data class OverlayMenuAction(
+    val text: String,
+    val onClick: () -> Unit,
+    val style: OverlayActionStyle = OverlayActionStyle.Default,
+)
+
+private enum class OverlayActionStyle {
+    Default,
+    Fresh,
+    Dark,
+}
+
+@Composable
+private fun OverlayActionButton(
+    text: String,
+    onClick: () -> Unit,
+    enabled: Boolean = true,
+    style: OverlayActionStyle = OverlayActionStyle.Default,
+) {
+    val backgroundBrush = when (style) {
+        OverlayActionStyle.Fresh -> Brush.horizontalGradient(
+            colors = listOf(
+                Color(0xFF39E6C1),
+                Color(0xFF21A9B8),
+                Color(0xFF1C7DCC),
+            ),
+        )
+        OverlayActionStyle.Dark -> Brush.horizontalGradient(
+            colors = listOf(
+                Color(0xFF0B1220),
+                Color(0xFF17283E),
+                Color(0xFF0B1220),
+            ),
+        )
+        OverlayActionStyle.Default -> Brush.horizontalGradient(
+            colors = listOf(
+                Color(0xFF1E4F9D).copy(alpha = 0.86f),
+                Color(0xFF326CB9).copy(alpha = 0.82f),
+                Color(0xFF193C77).copy(alpha = 0.88f),
+            ),
+        )
+    }
+    val borderColor = when (style) {
+        OverlayActionStyle.Fresh -> Color(0xFFC7FFF0).copy(alpha = 0.86f)
+        OverlayActionStyle.Dark -> Color(0xFF7F96BA).copy(alpha = 0.46f)
+        OverlayActionStyle.Default -> Color(0xFF8FC8FF).copy(alpha = 0.62f)
+    }
+    val blockColor = when (style) {
+        OverlayActionStyle.Fresh -> Color(0xFFB8FFF0)
+        OverlayActionStyle.Dark -> Color(0xFF6F86A8)
+        OverlayActionStyle.Default -> Color(0xFF9BD3FF)
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(54.dp)
+            .graphicsLayer {
+                alpha = if (enabled) 1f else 0.45f
+            }
+            .background(
+                brush = backgroundBrush,
+                shape = RoundedCornerShape(5.dp),
+            )
+            .border(2.dp, borderColor, RoundedCornerShape(5.dp))
+            .clickable(
+                enabled = enabled,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        TetrominoButtonMark(
+            color = blockColor,
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 13.dp),
+        )
+        Text(
+            text = text.uppercase(),
+            color = TextWhite.copy(alpha = 0.96f),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 0.8.sp,
+        )
+        TetrominoButtonMark(
+            color = blockColor,
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = 13.dp)
+                .graphicsLayer { rotationZ = 180f },
+        )
+    }
+}
+
+@Composable
+private fun TetrominoButtonMark(
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            ButtonBlock(color.copy(alpha = 0.32f))
+            ButtonBlock(color.copy(alpha = 0.88f))
+            ButtonBlock(Color.Transparent)
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            ButtonBlock(color.copy(alpha = 0.88f))
+            ButtonBlock(color.copy(alpha = 0.88f))
+            ButtonBlock(color.copy(alpha = 0.88f))
+        }
+    }
+}
+
+@Composable
+private fun ButtonBlock(color: Color) {
+    Box(
+        modifier = Modifier
+            .size(7.dp)
+            .background(color, RoundedCornerShape(1.dp)),
+    )
 }
 
 // ─── Settings Panel ─────────────────────────────────────────────────────────────
@@ -959,6 +1137,8 @@ private fun SettingsPanel(
     onToggleButtonsEnabled: () -> Unit,
     onToggleGesturesEnabled: () -> Unit,
     onToggleMusicEnabled: () -> Unit,
+    onMusicVolumeChanged: (Float) -> Unit,
+    onSfxVolumeChanged: (Float) -> Unit,
     onToggleParticlesEnabled: () -> Unit,
     onCycleParticleQuality: () -> Unit,
 ) {
@@ -1010,13 +1190,23 @@ private fun SettingsPanel(
             onToggle = onToggleMusicEnabled,
             enabled = true,
         )
+        RetroVolumeRow(
+            label = stringResource(R.string.music_volume_setting),
+            volume = uiModel.musicVolume,
+            onVolumeChanged = onMusicVolumeChanged,
+        )
+        RetroVolumeRow(
+            label = stringResource(R.string.sfx_volume_setting),
+            volume = uiModel.sfxVolume,
+            onVolumeChanged = onSfxVolumeChanged,
+        )
         RetroSettingRow(
             label = stringResource(R.string.enable_particles_setting),
             checked = uiModel.particlesEnabled,
             onToggle = onToggleParticlesEnabled,
             enabled = true,
         )
-        RetroActionRow(
+        RetroSwitchActionRow(
             label = stringResource(R.string.particle_quality_setting),
             value = stringResource(
                 if (uiModel.particleQuality == com.bigbangit.blockdrop.ui.model.ParticleQuality.High) {
@@ -1025,7 +1215,8 @@ private fun SettingsPanel(
                     R.string.particle_quality_low
                 },
             ),
-            onClick = onCycleParticleQuality,
+            checked = uiModel.particleQuality == com.bigbangit.blockdrop.ui.model.ParticleQuality.High,
+            onToggle = onCycleParticleQuality,
         )
         RetroActionRow(
             label = stringResource(R.string.main_tune_setting),
@@ -1035,6 +1226,51 @@ private fun SettingsPanel(
                 ?: uiModel.mainTrackPathOrUri?.substringAfterLast('/')
                 ?: stringResource(R.string.none_label),
             onClick = onOpenMusicLibrary,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "VERSION ${BuildConfig.VERSION_NAME}",
+            modifier = Modifier.fillMaxWidth(),
+            color = TextWhite.copy(alpha = 0.46f),
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            letterSpacing = 0.8.sp,
+        )
+    }
+}
+
+@Composable
+private fun RetroVolumeRow(
+    label: String,
+    volume: Float,
+    onVolumeChanged: (Float) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White.copy(alpha = 0.06f), RoundedCornerShape(8.dp))
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(label, color = TextWhite, fontWeight = FontWeight.SemiBold)
+            Text(
+                text = "${(volume.coerceIn(0f, 1f) * 100).toInt()}%",
+                color = TextWhite.copy(alpha = 0.7f),
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        Slider(
+            value = volume.coerceIn(0f, 1f),
+            onValueChange = onVolumeChanged,
+            valueRange = 0f..1f,
+            steps = 9,
         )
     }
 }
@@ -1056,6 +1292,32 @@ private fun RetroSettingRow(
     ) {
         Text(label, color = TextWhite, fontWeight = FontWeight.SemiBold)
         Checkbox(checked = checked, onCheckedChange = { if (enabled) onToggle() }, enabled = enabled)
+    }
+}
+
+@Composable
+private fun RetroSwitchActionRow(
+    label: String,
+    value: String,
+    checked: Boolean,
+    onToggle: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White.copy(alpha = 0.06f), RoundedCornerShape(8.dp))
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(label, color = TextWhite, fontWeight = FontWeight.SemiBold)
+            Text(value, color = TextWhite.copy(alpha = 0.7f), style = MaterialTheme.typography.bodySmall)
+        }
+        Switch(
+            checked = checked,
+            onCheckedChange = { onToggle() },
+        )
     }
 }
 
@@ -1097,6 +1359,7 @@ private fun BlockDropScreenPreview() {
             onPause = {},
             onResume = {},
             onQuit = {},
+            onExitApp = {},
             onMuteToggle = {},
             onOpenMusicLibrary = {},
             onCloseMusicLibrary = {},
@@ -1125,6 +1388,8 @@ private fun BlockDropScreenPreview() {
             onToggleButtonsEnabled = {},
             onToggleGesturesEnabled = {},
             onToggleMusicEnabled = {},
+            onMusicVolumeChanged = {},
+            onSfxVolumeChanged = {},
             onToggleParticlesEnabled = {},
             onCycleParticleQuality = {},
             onSetMainTrack = {},
