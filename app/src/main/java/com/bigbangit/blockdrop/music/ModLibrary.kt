@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.documentfile.provider.DocumentFile
 import java.io.File
 
@@ -71,6 +72,7 @@ class ModLibrary(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun scanMediaStore(): List<ModTrackInfo> {
         val appContext = context ?: return emptyList()
         val downloadsModsSelection = buildString {
