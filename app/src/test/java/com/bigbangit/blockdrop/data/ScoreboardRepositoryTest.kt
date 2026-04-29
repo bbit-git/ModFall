@@ -15,10 +15,10 @@ class ScoreboardRepositoryTest {
 
     @Test
     fun buildUpdatedEntriesEvictsLowestEntryWhenCandidateQualifies() {
-        val existingEntries = (1..10).map { index ->
+        val existingEntries = (1..ScoreboardRepository.MaxEntries).map { index ->
             ScoreboardEntry(
                 nickname = "P$index",
-                score = 1_100 - (index * 10),
+                score = 2_100 - (index * 10),
                 level = index,
                 lines = index * 2,
             )
@@ -28,23 +28,23 @@ class ScoreboardRepositoryTest {
             existingEntries = existingEntries,
             candidate = ScoreboardEntry(
                 nickname = "ACE",
-                score = 1_500,
+                score = 3_000,
                 level = 2,
                 lines = 20,
             ),
         )
 
-        assertEquals(10, updatedEntries.size)
+        assertEquals(ScoreboardRepository.MaxEntries, updatedEntries.size)
         assertEquals("ACE", updatedEntries.first().nickname)
-        assertFalse(updatedEntries.any { it.nickname == "P10" })
+        assertFalse(updatedEntries.any { it.nickname == "P${ScoreboardRepository.MaxEntries}" })
     }
 
     @Test
     fun buildUpdatedEntriesRejectsCandidateThatDoesNotQualify() {
-        val existingEntries = (1..10).map { index ->
+        val existingEntries = (1..ScoreboardRepository.MaxEntries).map { index ->
             ScoreboardEntry(
                 nickname = "P$index",
-                score = 1_100 - (index * 10),
+                score = 2_100 - (index * 10),
                 level = index,
                 lines = index * 2,
             )

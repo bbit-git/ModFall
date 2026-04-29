@@ -76,7 +76,7 @@
     <string name="save_score_button">SAVE SCORE</string>
     <string name="score_saved">Score saved.</string>
     <string name="score_saved_ranked">Ranked #%1$d on the local board.</string>
-    <string name="not_in_top_ten">Score did not make the top 10.</string>
+    <string name="not_in_top_ten">Score did not make the top 100.</string>
     <string name="scoreboard_button">SCOREBOARD</string>
     <string name="scoreboard_title">LOCAL SCOREBOARD</string>
     <string name="scoreboard_empty">No scores saved yet.</string>
