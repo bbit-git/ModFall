@@ -22,8 +22,6 @@
     <string name="hard_drop_short">TVRDÉ SPUŠTĚNÍ</string>
     <string name="hold_action">Držet</string>
     <string name="drop_delay">Zpoždění pádu</string>
-
-    
     <string name="block_drop_title">MOD FALL</string>
     <string name="game_over_title">KONEC HRY</string>
     <string name="score_display">SKÓRE: %1$d</string>
@@ -63,8 +61,26 @@
     <string name="scoreboard_lines_header">ŘÁDKY</string>
     <string name="music_library_set_main_track">Nastavit jako hlavní melodii</string>
 
-    
-    <string name="music_library_title">Hudební knihovna</string><string name="music_library_back_description">Zavřít hudební knihovnu</string><string name="music_library_refresh">Obnovit hudební knihovnu</string><string name="music_library_pick_folder">Nastavit složku s hudbou</string><string name="music_library_pause">Pozastavit hudbu</string><string name="music_library_stop">Zastavit hudbu</string><string name="music_library_play">Přehrát aktuální skladbu</string><string name="music_library_play_track">Přehrát skladbu</string><string name="music_library_muted_placeholder">Hudba je ztlumená</string><string name="music_library_no_track_placeholder">Nebyla vybrána žádná skladba</string><string name="music_library_track_load_error">Nepodařilo se načíst %1$s</string><string name="music_library_empty_title">Nebyly nalezeny žádné hudební soubory</string><string name="music_library_empty_hint">Umístěte soubory .mod / .xm / .s3m / .it do Download/Mods/</string><string name="music_library_empty_api33_hint">V Androidu 13 a novějším vyberte složku Mods, aby aplikace mohla číst uživatelské soubory.</string><string name="music_library_empty_selected_folder_hint">Vybraná složka je čitelná, ale zatím v ní nebyly nalezeny žádné platné module soubory.</string><string name="tutorial_title">JAK HRÁT</string>
+
+    <string name="music_library_title">Hudební knihovna</string>
+    <string name="music_library_back_description">Zavřít hudební knihovnu</string>
+    <string name="music_library_refresh">Obnovit hudební knihovnu</string>
+    <string name="music_library_pick_folder">Nastavit složku s hudbou</string>
+    <string name="music_library_pause">Pozastavit hudbu</string>
+    <string name="music_library_stop">Zastavit hudbu</string>
+    <string name="music_library_play">Přehrát aktuální skladbu</string>
+    <string name="music_library_play_track">Přehrát skladbu</string>
+    <string name="music_library_muted_placeholder">Hudba je ztlumená</string>
+    <string name="music_library_no_track_placeholder">Nebyla vybrána žádná skladba</string>
+    <string name="music_library_track_load_error">Nepodařilo se načíst %1$s</string>
+    <string name="music_library_empty_title">Nebyly nalezeny žádné hudební soubory</string>
+    <string name="music_library_empty_hint">Umístěte soubory .mod / .xm / .s3m / .it do
+        Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">V Androidu 13 a novějším vyberte složku Mods, aby
+        aplikace mohla číst uživatelské soubory.</string>
+    <string name="music_library_empty_selected_folder_hint">Vybraná složka je čitelná, ale zatím v
+        ní nebyly nalezeny žádné platné module soubory.</string>
+    <string name="tutorial_title">JAK HRÁT</string>
     <string name="tutorial_section_movement">POHYB</string>
     <string name="tutorial_section_dropping">SPUŠTĚNÍ</string>
     <string name="tutorial_section_strategy">STRATEGIE</string>
@@ -72,28 +88,37 @@
     <string name="tutorial_got_it">MÁM TO!</string>
 
     <string name="tutorial_movement_grab_label">Chytit blok</string>
-    <string name="tutorial_movement_grab_desc">Dotkněte se aktivního bloku a táhněte vodorovně pro přesun po sloupcích.</string>
+    <string name="tutorial_movement_grab_desc">Dotkněte se aktivního bloku a táhněte vodorovně pro
+        přesun po sloupcích.</string>
     <string name="tutorial_movement_swipe_label">Přejetím se posuňte</string>
     <string name="tutorial_movement_swipe_desc">Přejeďte jinde na desce pro pohyb s DAS/ARR.</string>
     <string name="tutorial_movement_rotation_label">Otáčení</string>
-    <string name="tutorial_movement_rotation_desc">Klepněte na pravou polovinu pro otočení po směru hodinových ručiček, na levou pro proti.</string>
+    <string name="tutorial_movement_rotation_desc">Klepněte na pravou polovinu pro otočení po směru
+        hodinových ručiček, na levou pro proti.</string>
 
     <string name="tutorial_dropping_soft_label">Pomalé spuštění</string>
-    <string name="tutorial_dropping_soft_desc">Pomalu táhněte dolů jinde pro rychlejší pád (+1 bod/řádek).</string>
+    <string name="tutorial_dropping_soft_desc">Pomalu táhněte dolů jinde pro rychlejší pád (+1
+        bod/řádek).</string>
     <string name="tutorial_dropping_hard_label">Tvrdé spuštění</string>
-    <string name="tutorial_dropping_hard_desc">Rychle přejeďte dolů pro okamžité zablokování (+2 body/řádek).</string>
+    <string name="tutorial_dropping_hard_desc">Rychle přejeďte dolů pro okamžité zablokování (+2
+        body/řádek).</string>
     <string name="tutorial_dropping_delay_label">Zpoždění pádu</string>
-    <string name="tutorial_dropping_delay_desc">Přejeďte nahoru pro dočasné pozastavení gravitace (jednou na blok).</string>
+    <string name="tutorial_dropping_delay_desc">Přejeďte nahoru pro dočasné pozastavení gravitace
+        (jednou na blok).</string>
 
     <string name="tutorial_strategy_hold_label">Držení</string>
-    <string name="tutorial_strategy_hold_desc">Klepněte na panel DRŽET nebo tlačítko pro výměnu aktivního bloku.</string>
+    <string name="tutorial_strategy_hold_desc">Klepněte na panel DRŽET nebo tlačítko pro výměnu
+        aktivního bloku.</string>
     <string name="tutorial_strategy_ghost_label">Duch</string>
-    <string name="tutorial_strategy_ghost_desc">Sledujte projekci na podlaze, abyste viděli přesné místo dopadu.</string>
+    <string name="tutorial_strategy_ghost_desc">Sledujte projekci na podlaze, abyste viděli přesné
+        místo dopadu.</string>
     <string name="tutorial_strategy_queue_label">Fronta</string>
-    <string name="tutorial_strategy_queue_desc">Fronta vpravo ukazuje příští bloky. Zmenšuje se jak postupujete úrovněmi!</string>
+    <string name="tutorial_strategy_queue_desc">Fronta vpravo ukazuje příští bloky. Zmenšuje se jak
+        postupujete úrovněmi!</string>
 
     <string name="tutorial_scoring_lines_label">Vymazané řady</string>
-    <string name="tutorial_scoring_lines_desc">Vymažte řady pro skóre! Násobič úrovně platí na všechny.</string>
+    <string name="tutorial_scoring_lines_desc">Vymažte řady pro skóre! Násobič úrovně platí na
+        všechny.</string>
     <string name="tutorial_scoring_tspin_label">T-Spiny</string>
     <string name="tutorial_scoring_tspin_desc">Vsuňte T-figuru do úzkého prostoru pro masivní bonus.</string>
     <string name="tutorial_scoring_combos_label">Kombinace</string>
@@ -113,11 +138,16 @@
     <string name="music_library_disabled_placeholder">Přehrávání hudby je vypnuté</string>
     <string name="tutorial_section_music">HUDBA</string>
     <string name="tutorial_music_set_folder_label">Nastavit složku hudby</string>
-    <string name="tutorial_music_set_folder_desc">Otevřete Nastavení, vstupte do Hudební knihovny, klepněte na Nastavit složku s hudbou a vyberte složku se soubory .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_folder_desc">Otevřete Nastavení, vstupte do Hudební knihovny,
+        klepněte na Nastavit složku s hudbou a vyberte složku se soubory .mod / .xm / .s3m / .it.</string>
     <string name="tutorial_music_set_main_label">Vybrat hlavní melodii</string>
-    <string name="tutorial_music_set_main_desc">Po skenování vyberte skladbu v Hudební knihovně a klepněte na Nastavit jako hlavní melodii, pokud chcete, aby se automaticky spustila s novou hrou.</string>
+    <string name="tutorial_music_set_main_desc">Po skenování vyberte skladbu v Hudební knihovně a
+        klepněte na Nastavit jako hlavní melodii, pokud chcete, aby se automaticky spustila s novou
+        hrou.</string>
     <string name="tutorial_music_download_label">Kde získat Mods</string>
-    <string name="tutorial_music_download_desc">Příklady zdrojů: The Mod Archive (modarchive.org) a scene.org (files.scene.org). Stáhněte tam soubory modulů a potom je vložte do Download/Mods/ nebo do vybrané složky s hudbou.</string>
+    <string name="tutorial_music_download_desc">Příklady zdrojů: The Mod Archive (modarchive.org) a
+        scene.org (files.scene.org). Stáhněte tam soubory modulů a potom je vložte do Download/Mods/
+        nebo do vybrané složky s hudbou.</string>
     <string name="language_setting">Jazyk</string>
     <string name="language_system_default">Výchozí systém</string>
 </resources>

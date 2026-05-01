@@ -1,5 +1,119 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Mod Fall</string><string name="start_game">เริ่มเกม</string><string name="game_state_label">สถานะ: %1$s</string><string name="score_label">คะแนน: %1$d</string><string name="level_label">เลเวล: %1$d</string><string name="hold_label">เก็บ</string><string name="next_label_caps">ถัดไป</string><string name="lines_label">แถว</string><string name="score_label_caps">คะแนน</string><string name="level_label_caps">เลเวล</string><string name="score_stat_compact">คะแนน %1$d</string><string name="level_stat_compact">เลเวล %1$d</string><string name="lines_stat_compact">แถว %1$d</string><string name="none_label">ไม่มี</string><string name="move_left">ซ้าย</string><string name="move_right">ขวา</string><string name="rotate_ccw">หมุนทวนเข็ม</string><string name="rotate_cw">หมุนตามเข็ม</string><string name="soft_drop">ตกช้า</string><string name="hard_drop">ตกทันที</string><string name="hard_drop_short">ตกทันที</string><string name="hold_action">เก็บ</string><string name="drop_delay">หน่วงการตก</string><string name="block_drop_title">MOD FALL</string><string name="game_over_title">จบเกม</string><string name="score_display">คะแนน: %1$d</string><string name="paused_title">หยุดชั่วคราว</string><string name="pause_menu_subtitle">เล่นต่อ เริ่มใหม่ หรือออกไปเมนู</string><string name="resume_button">เล่นต่อ</string><string name="restart_button">เริ่มใหม่</string><string name="menu_button">เมนู</string><string name="quit_button">ออก</string><string name="cancel_button">ยกเลิก</string><string name="close_button">ปิด</string><string name="exit_confirm_title">ออกจากเกม?</string><string name="exit_confirm_message">ความคืบหน้าปัจจุบันจะหายไป</string><string name="help_description">ช่วยเหลือ</string><string name="mute_description">ปิดเสียง</string><string name="settings_description">การตั้งค่า</string><string name="settings_title">การตั้งค่า</string><string name="show_buttons_setting">แสดงปุ่ม</string><string name="enable_gestures_setting">เปิดใช้ท่าทางสัมผัส</string><string name="enable_music_setting">เปิดใช้เพลง</string><string name="main_tune_setting">เพลงหลัก</string><string name="settings_input_method_rule">เปิดใช้อย่างน้อยหนึ่งวิธีควบคุมไว้เสมอ</string><string name="nickname_label">ชื่อเล่น</string><string name="nickname_placeholder">สูงสุด 12 ตัวอักษร</string><string name="nickname_required">ป้อนชื่อเล่นเพื่อบันทึกคะแนน</string><string name="save_score_button">บันทึกคะแนน</string><string name="score_saved">บันทึกคะแนนแล้ว</string><string name="score_saved_ranked">อันดับ #%1$d บนกระดานท้องถิ่น</string><string name="not_in_top_ten">คะแนนไม่ติด 100 อันดับแรก</string><string name="scoreboard_button">ตารางคะแนน</string><string name="scoreboard_title">ตารางคะแนนท้องถิ่น</string><string name="scoreboard_empty">ยังไม่มีคะแนนที่บันทึกไว้</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">ชื่อ</string><string name="scoreboard_score_header">คะแนน</string><string name="scoreboard_level_header">LVL</string><string name="scoreboard_lines_header">แถว</string><string name="music_library_set_main_track">ตั้งเป็นเพลงหลัก</string><string name="music_library_title">คลังเพลง</string><string name="music_library_back_description">ปิดคลังเพลง</string><string name="music_library_refresh">รีเฟรชคลังเพลง</string><string name="music_library_pick_folder">ตั้งค่าโฟลเดอร์เพลง</string><string name="music_library_pause">หยุดเพลงชั่วคราว</string><string name="music_library_stop">หยุดเพลง</string><string name="music_library_play">เล่นแทร็กปัจจุบัน</string><string name="music_library_play_track">เล่นแทร็ก</string><string name="music_library_muted_placeholder">ปิดเสียงเพลงอยู่</string><string name="music_library_no_track_placeholder">ยังไม่ได้เลือกแทร็ก</string><string name="music_library_track_load_error">ไม่สามารถโหลด %1$s ได้</string><string name="music_library_empty_title">ไม่พบไฟล์เพลง</string><string name="music_library_empty_hint">วางไฟล์ .mod / .xm / .s3m / .it ไว้ใน Download/Mods/</string><string name="music_library_empty_api33_hint">บน Android 13 ขึ้นไป ให้เลือกโฟลเดอร์ Mods เพื่อให้แอปอ่านไฟล์ที่ผู้ใช้เพิ่มได้</string><string name="music_library_empty_selected_folder_hint">โฟลเดอร์ที่เลือกอ่านได้ แต่ยังไม่พบไฟล์ module ที่ใช้งานได้</string><string name="tutorial_title">วิธีเล่น</string><string name="tutorial_section_movement">การเคลื่อนที่</string><string name="tutorial_section_dropping">การตก</string><string name="tutorial_section_strategy">กลยุทธ์</string><string name="tutorial_section_scoring">การทำคะแนน</string><string name="tutorial_got_it">เข้าใจแล้ว!</string><string name="tutorial_movement_grab_label">จับบล็อก</string><string name="tutorial_movement_grab_desc">แตะบล็อกที่ใช้งานแล้วลากแนวนอนเพื่อย้ายทีละคอลัมน์</string><string name="tutorial_movement_swipe_label">ปัดเพื่อย้าย</string><string name="tutorial_movement_swipe_desc">ปัดที่อื่นบนกระดานเพื่อย้ายบล็อกด้วย DAS/ARR</string><string name="tutorial_movement_rotation_label">การหมุน</string><string name="tutorial_movement_rotation_desc">แตะครึ่งขวาของกระดานเพื่อหมุนตามเข็มนาฬิกา ครึ่งซ้ายเพื่อหมุนทวนเข็ม</string><string name="tutorial_dropping_soft_label">ตกช้า</string><string name="tutorial_dropping_soft_desc">ลากลงช้า ๆ ที่อื่นเพื่อให้ตกเร็วขึ้น (+1 คะแนน/แถว)</string><string name="tutorial_dropping_hard_label">ตกทันที</string><string name="tutorial_dropping_hard_desc">ปัดลงเร็ว ๆ เพื่อล็อกทันที (+2 คะแนน/แถว)</string><string name="tutorial_dropping_delay_label">หน่วงการตก</string><string name="tutorial_dropping_delay_desc">ปัดขึ้นเพื่อหยุดแรงโน้มถ่วงชั่วคราว (หนึ่งครั้งต่อบล็อก)</string><string name="tutorial_strategy_hold_label">เก็บ</string><string name="tutorial_strategy_hold_desc">แตะแผงเก็บหรือปุ่มเพื่อสลับบล็อกที่ใช้งานไว้ใช้ภายหลัง</string><string name="tutorial_strategy_ghost_label">บล็อกเงา</string><string name="tutorial_strategy_ghost_desc">ดูเงาฉายบนพื้นเพื่อเห็นตำแหน่งที่บล็อกจะตกลงพอดี</string><string name="tutorial_strategy_queue_label">คิวถัดไป</string><string name="tutorial_strategy_queue_desc">คิวด้านขวาแสดงบล็อกที่จะมา คิวจะสั้นลงเมื่อเลเวลสูงขึ้น!</string><string name="tutorial_scoring_lines_label">ลบแถว</string><string name="tutorial_scoring_lines_desc">ลบแถวเพื่อทำคะแนน! ตัวคูณเลเวลใช้กับการลบทุกครั้ง</string><string name="tutorial_scoring_tspin_label">T-Spins</string><string name="tutorial_scoring_tspin_desc">หมุนบล็อก T เข้าไปในช่องแคบเพื่อรับคะแนนโบนัสมากมาย</string><string name="tutorial_scoring_combos_label">คอมโบ</string><string name="tutorial_scoring_combos_desc">ลบแถวต่อเนื่องกันเพื่อสร้างตัวคูณคอมโบ</string><string name="tutorial_scoring_allclear_label">เคลียร์หมด</string><string name="tutorial_scoring_allclear_desc">ทำให้กระดานว่างทั้งหมดเพื่อรับรางวัลคะแนนสูงสุด</string>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">เริ่มเกม</string>
+    <string name="game_state_label">สถานะ: %1$s</string>
+    <string name="score_label">คะแนน: %1$d</string>
+    <string name="level_label">เลเวล: %1$d</string>
+    <string name="hold_label">เก็บ</string>
+    <string name="next_label_caps">ถัดไป</string>
+    <string name="lines_label">แถว</string>
+    <string name="score_label_caps">คะแนน</string>
+    <string name="level_label_caps">เลเวล</string>
+    <string name="score_stat_compact">คะแนน %1$d</string>
+    <string name="level_stat_compact">เลเวล %1$d</string>
+    <string name="lines_stat_compact">แถว %1$d</string>
+    <string name="none_label">ไม่มี</string>
+    <string name="move_left">ซ้าย</string>
+    <string name="move_right">ขวา</string>
+    <string name="rotate_ccw">หมุนทวนเข็ม</string>
+    <string name="rotate_cw">หมุนตามเข็ม</string>
+    <string name="soft_drop">ตกช้า</string>
+    <string name="hard_drop">ตกทันที</string>
+    <string name="hard_drop_short">ตกทันที</string>
+    <string name="hold_action">เก็บ</string>
+    <string name="drop_delay">หน่วงการตก</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">จบเกม</string>
+    <string name="score_display">คะแนน: %1$d</string>
+    <string name="paused_title">หยุดชั่วคราว</string>
+    <string name="pause_menu_subtitle">เล่นต่อ เริ่มใหม่ หรือออกไปเมนู</string>
+    <string name="resume_button">เล่นต่อ</string>
+    <string name="restart_button">เริ่มใหม่</string>
+    <string name="menu_button">เมนู</string>
+    <string name="quit_button">ออก</string>
+    <string name="cancel_button">ยกเลิก</string>
+    <string name="close_button">ปิด</string>
+    <string name="exit_confirm_title">ออกจากเกม?</string>
+    <string name="exit_confirm_message">ความคืบหน้าปัจจุบันจะหายไป</string>
+    <string name="help_description">ช่วยเหลือ</string>
+    <string name="mute_description">ปิดเสียง</string>
+    <string name="settings_description">การตั้งค่า</string>
+    <string name="settings_title">การตั้งค่า</string>
+    <string name="show_buttons_setting">แสดงปุ่ม</string>
+    <string name="enable_gestures_setting">เปิดใช้ท่าทางสัมผัส</string>
+    <string name="enable_music_setting">เปิดใช้เพลง</string>
+    <string name="main_tune_setting">เพลงหลัก</string>
+    <string name="settings_input_method_rule">เปิดใช้อย่างน้อยหนึ่งวิธีควบคุมไว้เสมอ</string>
+    <string name="nickname_label">ชื่อเล่น</string>
+    <string name="nickname_placeholder">สูงสุด 12 ตัวอักษร</string>
+    <string name="nickname_required">ป้อนชื่อเล่นเพื่อบันทึกคะแนน</string>
+    <string name="save_score_button">บันทึกคะแนน</string>
+    <string name="score_saved">บันทึกคะแนนแล้ว</string>
+    <string name="score_saved_ranked">อันดับ #%1$d บนกระดานท้องถิ่น</string>
+    <string name="not_in_top_ten">คะแนนไม่ติด 100 อันดับแรก</string>
+    <string name="scoreboard_button">ตารางคะแนน</string>
+    <string name="scoreboard_title">ตารางคะแนนท้องถิ่น</string>
+    <string name="scoreboard_empty">ยังไม่มีคะแนนที่บันทึกไว้</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">ชื่อ</string>
+    <string name="scoreboard_score_header">คะแนน</string>
+    <string name="scoreboard_level_header">LVL</string>
+    <string name="scoreboard_lines_header">แถว</string>
+    <string name="music_library_set_main_track">ตั้งเป็นเพลงหลัก</string>
+    <string name="music_library_title">คลังเพลง</string>
+    <string name="music_library_back_description">ปิดคลังเพลง</string>
+    <string name="music_library_refresh">รีเฟรชคลังเพลง</string>
+    <string name="music_library_pick_folder">ตั้งค่าโฟลเดอร์เพลง</string>
+    <string name="music_library_pause">หยุดเพลงชั่วคราว</string>
+    <string name="music_library_stop">หยุดเพลง</string>
+    <string name="music_library_play">เล่นแทร็กปัจจุบัน</string>
+    <string name="music_library_play_track">เล่นแทร็ก</string>
+    <string name="music_library_muted_placeholder">ปิดเสียงเพลงอยู่</string>
+    <string name="music_library_no_track_placeholder">ยังไม่ได้เลือกแทร็ก</string>
+    <string name="music_library_track_load_error">ไม่สามารถโหลด %1$s ได้</string>
+    <string name="music_library_empty_title">ไม่พบไฟล์เพลง</string>
+    <string name="music_library_empty_hint">วางไฟล์ .mod / .xm / .s3m / .it ไว้ใน Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">บน Android 13 ขึ้นไป ให้เลือกโฟลเดอร์ Mods
+        เพื่อให้แอปอ่านไฟล์ที่ผู้ใช้เพิ่มได้</string>
+    <string name="music_library_empty_selected_folder_hint">โฟลเดอร์ที่เลือกอ่านได้ แต่ยังไม่พบไฟล์
+        module ที่ใช้งานได้</string>
+    <string name="tutorial_title">วิธีเล่น</string>
+    <string name="tutorial_section_movement">การเคลื่อนที่</string>
+    <string name="tutorial_section_dropping">การตก</string>
+    <string name="tutorial_section_strategy">กลยุทธ์</string>
+    <string name="tutorial_section_scoring">การทำคะแนน</string>
+    <string name="tutorial_got_it">เข้าใจแล้ว!</string>
+    <string name="tutorial_movement_grab_label">จับบล็อก</string>
+    <string name="tutorial_movement_grab_desc">แตะบล็อกที่ใช้งานแล้วลากแนวนอนเพื่อย้ายทีละคอลัมน์</string>
+    <string name="tutorial_movement_swipe_label">ปัดเพื่อย้าย</string>
+    <string name="tutorial_movement_swipe_desc">ปัดที่อื่นบนกระดานเพื่อย้ายบล็อกด้วย DAS/ARR</string>
+    <string name="tutorial_movement_rotation_label">การหมุน</string>
+    <string name="tutorial_movement_rotation_desc">แตะครึ่งขวาของกระดานเพื่อหมุนตามเข็มนาฬิกา
+        ครึ่งซ้ายเพื่อหมุนทวนเข็ม</string>
+    <string name="tutorial_dropping_soft_label">ตกช้า</string>
+    <string name="tutorial_dropping_soft_desc">ลากลงช้า ๆ ที่อื่นเพื่อให้ตกเร็วขึ้น (+1 คะแนน/แถว)</string>
+    <string name="tutorial_dropping_hard_label">ตกทันที</string>
+    <string name="tutorial_dropping_hard_desc">ปัดลงเร็ว ๆ เพื่อล็อกทันที (+2 คะแนน/แถว)</string>
+    <string name="tutorial_dropping_delay_label">หน่วงการตก</string>
+    <string name="tutorial_dropping_delay_desc">ปัดขึ้นเพื่อหยุดแรงโน้มถ่วงชั่วคราว
+        (หนึ่งครั้งต่อบล็อก)</string>
+    <string name="tutorial_strategy_hold_label">เก็บ</string>
+    <string name="tutorial_strategy_hold_desc">
+        แตะแผงเก็บหรือปุ่มเพื่อสลับบล็อกที่ใช้งานไว้ใช้ภายหลัง</string>
+    <string name="tutorial_strategy_ghost_label">บล็อกเงา</string>
+    <string name="tutorial_strategy_ghost_desc">ดูเงาฉายบนพื้นเพื่อเห็นตำแหน่งที่บล็อกจะตกลงพอดี</string>
+    <string name="tutorial_strategy_queue_label">คิวถัดไป</string>
+    <string name="tutorial_strategy_queue_desc">คิวด้านขวาแสดงบล็อกที่จะมา
+        คิวจะสั้นลงเมื่อเลเวลสูงขึ้น!</string>
+    <string name="tutorial_scoring_lines_label">ลบแถว</string>
+    <string name="tutorial_scoring_lines_desc">ลบแถวเพื่อทำคะแนน! ตัวคูณเลเวลใช้กับการลบทุกครั้ง</string>
+    <string name="tutorial_scoring_tspin_label">T-Spins</string>
+    <string name="tutorial_scoring_tspin_desc">หมุนบล็อก T เข้าไปในช่องแคบเพื่อรับคะแนนโบนัสมากมาย</string>
+    <string name="tutorial_scoring_combos_label">คอมโบ</string>
+    <string name="tutorial_scoring_combos_desc">ลบแถวต่อเนื่องกันเพื่อสร้างตัวคูณคอมโบ</string>
+    <string name="tutorial_scoring_allclear_label">เคลียร์หมด</string>
+    <string name="tutorial_scoring_allclear_desc">ทำให้กระดานว่างทั้งหมดเพื่อรับรางวัลคะแนนสูงสุด</string>
     <string name="level_and_lines_stat_compact">เลเวล %1$d · แถว %2$d</string>
     <string name="sound_on_description">เปิดเสียง</string>
     <string name="sound_off_description">ปิดเสียง</string>
@@ -12,11 +126,15 @@
     <string name="music_library_disabled_placeholder">การเล่นเพลงถูกปิดใช้งาน</string>
     <string name="tutorial_section_music">เพลง</string>
     <string name="tutorial_music_set_folder_label">ตั้งค่าโฟลเดอร์เพลง</string>
-    <string name="tutorial_music_set_folder_desc">เปิดการตั้งค่า เข้าไปที่คลังเพลง แตะตั้งค่าโฟลเดอร์เพลง แล้วเลือกโฟลเดอร์ที่มีไฟล์ .mod / .xm / .s3m / .it ของคุณ</string>
+    <string name="tutorial_music_set_folder_desc">เปิดการตั้งค่า เข้าไปที่คลังเพลง
+        แตะตั้งค่าโฟลเดอร์เพลง แล้วเลือกโฟลเดอร์ที่มีไฟล์ .mod / .xm / .s3m / .it ของคุณ</string>
     <string name="tutorial_music_set_main_label">เลือกเพลงหลัก</string>
-    <string name="tutorial_music_set_main_desc">หลังจากสแกนแล้ว เลือกแทร็กในคลังเพลงและแตะตั้งเป็นเพลงหลัก หากต้องการให้เริ่มเล่นอัตโนมัติเมื่อเริ่มเกมใหม่</string>
+    <string name="tutorial_music_set_main_desc">หลังจากสแกนแล้ว
+        เลือกแทร็กในคลังเพลงและแตะตั้งเป็นเพลงหลัก หากต้องการให้เริ่มเล่นอัตโนมัติเมื่อเริ่มเกมใหม่</string>
     <string name="tutorial_music_download_label">หา Mods ได้ที่ไหน</string>
-    <string name="tutorial_music_download_desc">แหล่งตัวอย่าง: The Mod Archive (modarchive.org) และ scene.org (files.scene.org). ดาวน์โหลดไฟล์โมดูลจากที่นั่น แล้ววางไว้ใน Download/Mods/ หรือโฟลเดอร์เพลงที่คุณเลือก</string>
+    <string name="tutorial_music_download_desc">แหล่งตัวอย่าง: The Mod Archive (modarchive.org) และ
+        scene.org (files.scene.org). ดาวน์โหลดไฟล์โมดูลจากที่นั่น แล้ววางไว้ใน Download/Mods/
+        หรือโฟลเดอร์เพลงที่คุณเลือก</string>
     <string name="language_setting">ภาษา</string>
     <string name="language_system_default">ค่าเริ่มต้นของระบบ</string>
 </resources>

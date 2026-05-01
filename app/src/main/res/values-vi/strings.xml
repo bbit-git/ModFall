@@ -1,5 +1,126 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Mod Fall</string><string name="start_game">Bắt đầu trò chơi</string><string name="game_state_label">Trạng thái: %1$s</string><string name="score_label">Điểm: %1$d</string><string name="level_label">Cấp: %1$d</string><string name="hold_label">GIỮ</string><string name="next_label_caps">TIẾP</string><string name="lines_label">DÒNG</string><string name="score_label_caps">ĐIỂM</string><string name="level_label_caps">CẤP</string><string name="score_stat_compact">Điểm %1$d</string><string name="level_stat_compact">Cấp %1$d</string><string name="lines_stat_compact">Dòng %1$d</string><string name="none_label">Không có</string><string name="move_left">Trái</string><string name="move_right">Phải</string><string name="rotate_ccw">Xoay ngược chiều</string><string name="rotate_cw">Xoay thuận chiều</string><string name="soft_drop">Rơi mềm</string><string name="hard_drop">Rơi nhanh</string><string name="hard_drop_short">RƠI NHANH</string><string name="hold_action">Giữ</string><string name="drop_delay">Trì hoãn rơi</string><string name="block_drop_title">MOD FALL</string><string name="game_over_title">KẾT THÚC</string><string name="score_display">ĐIỂM: %1$d</string><string name="paused_title">TẠM DỪNG</string><string name="pause_menu_subtitle">Tiếp tục, chơi lại hoặc thoát về menu.</string><string name="resume_button">TIẾP TỤC</string><string name="restart_button">CHƠI LẠI</string><string name="menu_button">MENU</string><string name="quit_button">THOÁT</string><string name="cancel_button">HỦY</string><string name="close_button">ĐÓNG</string><string name="exit_confirm_title">Thoát trò chơi?</string><string name="exit_confirm_message">Tiến trình hiện tại sẽ bị mất.</string><string name="help_description">Trợ giúp</string><string name="mute_description">Tắt tiếng</string><string name="settings_description">Cài đặt</string><string name="settings_title">Cài đặt</string><string name="show_buttons_setting">Hiện nút</string><string name="enable_gestures_setting">Bật cử chỉ</string><string name="enable_music_setting">Bật nhạc</string><string name="main_tune_setting">Giai điệu chính</string><string name="settings_input_method_rule">Luôn bật ít nhất một cách điều khiển.</string><string name="nickname_label">Biệt danh</string><string name="nickname_placeholder">Tối đa 12 ký tự</string><string name="nickname_required">Nhập biệt danh để lưu điểm.</string><string name="save_score_button">LƯU ĐIỂM</string><string name="score_saved">Đã lưu điểm.</string><string name="score_saved_ranked">Xếp hạng #%1$d trên bảng cục bộ.</string><string name="not_in_top_ten">Điểm không vào top 100.</string><string name="scoreboard_button">BẢNG ĐIỂM</string><string name="scoreboard_title">BẢNG ĐIỂM CỤC BỘ</string><string name="scoreboard_empty">Chưa có điểm nào được lưu.</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">TÊN</string><string name="scoreboard_score_header">ĐIỂM</string><string name="scoreboard_level_header">CẤP</string><string name="scoreboard_lines_header">DÒNG</string><string name="music_library_set_main_track">Đặt làm giai điệu chính</string><string name="music_library_title">Thu vien nhac</string><string name="music_library_back_description">Dong thu vien nhac</string><string name="music_library_refresh">Lam moi thu vien nhac</string><string name="music_library_pick_folder">Dat thu muc nhac</string><string name="music_library_pause">Tam dung nhac</string><string name="music_library_stop">Dung nhac</string><string name="music_library_play">Phat bai hien tai</string><string name="music_library_play_track">Phat bai hat</string><string name="music_library_muted_placeholder">Nhac dang bi tat tieng</string><string name="music_library_no_track_placeholder">Chua chon bai hat nao</string><string name="music_library_track_load_error">Khong the tai %1$s</string><string name="music_library_empty_title">Khong tim thay tep nhac</string><string name="music_library_empty_hint">Dat cac tep .mod / .xm / .s3m / .it vao Download/Mods/</string><string name="music_library_empty_api33_hint">Tren Android 13+, hay chon thu muc Mods de ung dung co the doc cac tep do nguoi dung them vao.</string><string name="music_library_empty_selected_folder_hint">Thu muc da chon co the doc duoc, nhung chua tim thay tep module hop le nao.</string><string name="tutorial_title">CÁCH CHƠI</string><string name="tutorial_section_movement">DI CHUYỂN</string><string name="tutorial_section_dropping">RƠI</string><string name="tutorial_section_strategy">CHIẾN THUẬT</string><string name="tutorial_section_scoring">GHI ĐIỂM</string><string name="tutorial_got_it">ĐÃ HIỂU!</string><string name="tutorial_movement_grab_label">Giữ khối</string><string name="tutorial_movement_grab_desc">Chạm vào khối đang rơi và kéo ngang để di chuyển từng cột.</string><string name="tutorial_movement_swipe_label">Vuốt di chuyển</string><string name="tutorial_movement_swipe_desc">Vuốt ở vị trí khác trên bàn để di chuyển khối bằng DAS/ARR.</string><string name="tutorial_movement_rotation_label">Xoay</string><string name="tutorial_movement_rotation_desc">Chạm nửa phải bàn để xoay thuận chiều, nửa trái để xoay ngược chiều.</string><string name="tutorial_dropping_soft_label">Rơi mềm</string><string name="tutorial_dropping_soft_desc">Kéo chậm xuống ở nơi khác để rơi nhanh hơn (+1 điểm/hàng).</string><string name="tutorial_dropping_hard_label">Rơi nhanh</string><string name="tutorial_dropping_hard_desc">Vuốt nhanh xuống để khóa ngay (+2 điểm/hàng).</string><string name="tutorial_dropping_delay_label">Trì hoãn rơi</string><string name="tutorial_dropping_delay_desc">Vuốt lên để tạm ngưng trọng lực (mỗi khối một lần).</string><string name="tutorial_strategy_hold_label">Giữ</string><string name="tutorial_strategy_hold_desc">Chạm bảng GIỮ hoặc nút để đổi khối đang rơi và dùng sau.</string><string name="tutorial_strategy_ghost_label">Khối bóng</string><string name="tutorial_strategy_ghost_desc">Nhìn hình chiếu dưới đáy để biết chính xác khối sẽ rơi ở đâu.</string><string name="tutorial_strategy_queue_label">Hàng đợi tiếp theo</string><string name="tutorial_strategy_queue_desc">Hàng đợi bên phải hiển thị các khối sắp tới. Nó sẽ ngắn lại khi bạn lên cấp!</string><string name="tutorial_scoring_lines_label">Xóa dòng</string><string name="tutorial_scoring_lines_desc">Xóa hàng để ghi điểm! Hệ số cấp áp dụng cho mọi lần xóa.</string><string name="tutorial_scoring_tspin_label">T-Spins</string><string name="tutorial_scoring_tspin_desc">Xoay khối T vào khe hẹp để nhận rất nhiều điểm thưởng.</string><string name="tutorial_scoring_combos_label">Combo</string><string name="tutorial_scoring_combos_desc">Xóa dòng ở các lượt đặt liên tiếp để tăng hệ số combo.</string><string name="tutorial_scoring_allclear_label">Xóa sạch</string><string name="tutorial_scoring_allclear_desc">Làm trống toàn bộ bàn để nhận phần thưởng điểm tối đa.</string>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">Bắt đầu trò chơi</string>
+    <string name="game_state_label">Trạng thái: %1$s</string>
+    <string name="score_label">Điểm: %1$d</string>
+    <string name="level_label">Cấp: %1$d</string>
+    <string name="hold_label">GIỮ</string>
+    <string name="next_label_caps">TIẾP</string>
+    <string name="lines_label">DÒNG</string>
+    <string name="score_label_caps">ĐIỂM</string>
+    <string name="level_label_caps">CẤP</string>
+    <string name="score_stat_compact">Điểm %1$d</string>
+    <string name="level_stat_compact">Cấp %1$d</string>
+    <string name="lines_stat_compact">Dòng %1$d</string>
+    <string name="none_label">Không có</string>
+    <string name="move_left">Trái</string>
+    <string name="move_right">Phải</string>
+    <string name="rotate_ccw">Xoay ngược chiều</string>
+    <string name="rotate_cw">Xoay thuận chiều</string>
+    <string name="soft_drop">Rơi mềm</string>
+    <string name="hard_drop">Rơi nhanh</string>
+    <string name="hard_drop_short">RƠI NHANH</string>
+    <string name="hold_action">Giữ</string>
+    <string name="drop_delay">Trì hoãn rơi</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">KẾT THÚC</string>
+    <string name="score_display">ĐIỂM: %1$d</string>
+    <string name="paused_title">TẠM DỪNG</string>
+    <string name="pause_menu_subtitle">Tiếp tục, chơi lại hoặc thoát về menu.</string>
+    <string name="resume_button">TIẾP TỤC</string>
+    <string name="restart_button">CHƠI LẠI</string>
+    <string name="menu_button">MENU</string>
+    <string name="quit_button">THOÁT</string>
+    <string name="cancel_button">HỦY</string>
+    <string name="close_button">ĐÓNG</string>
+    <string name="exit_confirm_title">Thoát trò chơi?</string>
+    <string name="exit_confirm_message">Tiến trình hiện tại sẽ bị mất.</string>
+    <string name="help_description">Trợ giúp</string>
+    <string name="mute_description">Tắt tiếng</string>
+    <string name="settings_description">Cài đặt</string>
+    <string name="settings_title">Cài đặt</string>
+    <string name="show_buttons_setting">Hiện nút</string>
+    <string name="enable_gestures_setting">Bật cử chỉ</string>
+    <string name="enable_music_setting">Bật nhạc</string>
+    <string name="main_tune_setting">Giai điệu chính</string>
+    <string name="settings_input_method_rule">Luôn bật ít nhất một cách điều khiển.</string>
+    <string name="nickname_label">Biệt danh</string>
+    <string name="nickname_placeholder">Tối đa 12 ký tự</string>
+    <string name="nickname_required">Nhập biệt danh để lưu điểm.</string>
+    <string name="save_score_button">LƯU ĐIỂM</string>
+    <string name="score_saved">Đã lưu điểm.</string>
+    <string name="score_saved_ranked">Xếp hạng #%1$d trên bảng cục bộ.</string>
+    <string name="not_in_top_ten">Điểm không vào top 100.</string>
+    <string name="scoreboard_button">BẢNG ĐIỂM</string>
+    <string name="scoreboard_title">BẢNG ĐIỂM CỤC BỘ</string>
+    <string name="scoreboard_empty">Chưa có điểm nào được lưu.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">TÊN</string>
+    <string name="scoreboard_score_header">ĐIỂM</string>
+    <string name="scoreboard_level_header">CẤP</string>
+    <string name="scoreboard_lines_header">DÒNG</string>
+    <string name="music_library_set_main_track">Đặt làm giai điệu chính</string>
+    <string name="music_library_title">Thu vien nhac</string>
+    <string name="music_library_back_description">Dong thu vien nhac</string>
+    <string name="music_library_refresh">Lam moi thu vien nhac</string>
+    <string name="music_library_pick_folder">Dat thu muc nhac</string>
+    <string name="music_library_pause">Tam dung nhac</string>
+    <string name="music_library_stop">Dung nhac</string>
+    <string name="music_library_play">Phat bai hien tai</string>
+    <string name="music_library_play_track">Phat bai hat</string>
+    <string name="music_library_muted_placeholder">Nhac dang bi tat tieng</string>
+    <string name="music_library_no_track_placeholder">Chua chon bai hat nao</string>
+    <string name="music_library_track_load_error">Khong the tai %1$s</string>
+    <string name="music_library_empty_title">Khong tim thay tep nhac</string>
+    <string name="music_library_empty_hint">Dat cac tep .mod / .xm / .s3m / .it vao Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">Tren Android 13+, hay chon thu muc Mods de ung
+        dung co the doc cac tep do nguoi dung them vao.</string>
+    <string name="music_library_empty_selected_folder_hint">Thu muc da chon co the doc duoc, nhung
+        chua tim thay tep module hop le nao.</string>
+    <string name="tutorial_title">CÁCH CHƠI</string>
+    <string name="tutorial_section_movement">DI CHUYỂN</string>
+    <string name="tutorial_section_dropping">RƠI</string>
+    <string name="tutorial_section_strategy">CHIẾN THUẬT</string>
+    <string name="tutorial_section_scoring">GHI ĐIỂM</string>
+    <string name="tutorial_got_it">ĐÃ HIỂU!</string>
+    <string name="tutorial_movement_grab_label">Giữ khối</string>
+    <string name="tutorial_movement_grab_desc">Chạm vào khối đang rơi và kéo ngang để di chuyển từng
+        cột.</string>
+    <string name="tutorial_movement_swipe_label">Vuốt di chuyển</string>
+    <string name="tutorial_movement_swipe_desc">Vuốt ở vị trí khác trên bàn để di chuyển khối bằng
+        DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Xoay</string>
+    <string name="tutorial_movement_rotation_desc">Chạm nửa phải bàn để xoay thuận chiều, nửa trái
+        để xoay ngược chiều.</string>
+    <string name="tutorial_dropping_soft_label">Rơi mềm</string>
+    <string name="tutorial_dropping_soft_desc">Kéo chậm xuống ở nơi khác để rơi nhanh hơn (+1
+        điểm/hàng).</string>
+    <string name="tutorial_dropping_hard_label">Rơi nhanh</string>
+    <string name="tutorial_dropping_hard_desc">Vuốt nhanh xuống để khóa ngay (+2 điểm/hàng).</string>
+    <string name="tutorial_dropping_delay_label">Trì hoãn rơi</string>
+    <string name="tutorial_dropping_delay_desc">Vuốt lên để tạm ngưng trọng lực (mỗi khối một lần).</string>
+    <string name="tutorial_strategy_hold_label">Giữ</string>
+    <string name="tutorial_strategy_hold_desc">Chạm bảng GIỮ hoặc nút để đổi khối đang rơi và dùng
+        sau.</string>
+    <string name="tutorial_strategy_ghost_label">Khối bóng</string>
+    <string name="tutorial_strategy_ghost_desc">Nhìn hình chiếu dưới đáy để biết chính xác khối sẽ
+        rơi ở đâu.</string>
+    <string name="tutorial_strategy_queue_label">Hàng đợi tiếp theo</string>
+    <string name="tutorial_strategy_queue_desc">Hàng đợi bên phải hiển thị các khối sắp tới. Nó sẽ
+        ngắn lại khi bạn lên cấp!</string>
+    <string name="tutorial_scoring_lines_label">Xóa dòng</string>
+    <string name="tutorial_scoring_lines_desc">Xóa hàng để ghi điểm! Hệ số cấp áp dụng cho mọi lần
+        xóa.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spins</string>
+    <string name="tutorial_scoring_tspin_desc">Xoay khối T vào khe hẹp để nhận rất nhiều điểm
+        thưởng.</string>
+    <string name="tutorial_scoring_combos_label">Combo</string>
+    <string name="tutorial_scoring_combos_desc">Xóa dòng ở các lượt đặt liên tiếp để tăng hệ số
+        combo.</string>
+    <string name="tutorial_scoring_allclear_label">Xóa sạch</string>
+    <string name="tutorial_scoring_allclear_desc">Làm trống toàn bộ bàn để nhận phần thưởng điểm tối
+        đa.</string>
     <string name="level_and_lines_stat_compact">Cấp %1$d · Dòng %2$d</string>
     <string name="sound_on_description">Bật âm thanh</string>
     <string name="sound_off_description">Tắt âm thanh</string>
@@ -12,11 +133,15 @@
     <string name="music_library_disabled_placeholder">Phát nhạc đã bị tắt</string>
     <string name="tutorial_section_music">NHẠC</string>
     <string name="tutorial_music_set_folder_label">Đặt thư mục nhạc</string>
-    <string name="tutorial_music_set_folder_desc">Mở Cài đặt, vào Thư viện nhạc, chạm Đặt thư mục nhạc, rồi chọn thư mục chứa các tệp .mod / .xm / .s3m / .it của bạn.</string>
+    <string name="tutorial_music_set_folder_desc">Mở Cài đặt, vào Thư viện nhạc, chạm Đặt thư mục
+        nhạc, rồi chọn thư mục chứa các tệp .mod / .xm / .s3m / .it của bạn.</string>
     <string name="tutorial_music_set_main_label">Chọn giai điệu chính</string>
-    <string name="tutorial_music_set_main_desc">Sau khi quét, chọn một bản trong Thư viện nhạc và chạm Đặt làm giai điệu chính nếu bạn muốn nó tự động bắt đầu cùng ván mới.</string>
+    <string name="tutorial_music_set_main_desc">Sau khi quét, chọn một bản trong Thư viện nhạc và
+        chạm Đặt làm giai điệu chính nếu bạn muốn nó tự động bắt đầu cùng ván mới.</string>
     <string name="tutorial_music_download_label">Nơi lấy Mods</string>
-    <string name="tutorial_music_download_desc">Nguồn ví dụ: The Mod Archive (modarchive.org) và scene.org (files.scene.org). Tải tệp module ở đó, rồi đặt chúng vào Download/Mods/ hoặc thư mục nhạc bạn đã chọn.</string>
+    <string name="tutorial_music_download_desc">Nguồn ví dụ: The Mod Archive (modarchive.org) và
+        scene.org (files.scene.org). Tải tệp module ở đó, rồi đặt chúng vào Download/Mods/ hoặc thư
+        mục nhạc bạn đã chọn.</string>
     <string name="language_setting">Ngôn ngữ</string>
     <string name="language_system_default">Mặc định hệ thống</string>
 </resources>

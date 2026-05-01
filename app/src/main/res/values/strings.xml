@@ -70,8 +70,10 @@
     <string name="music_library_track_load_error">Could not load %1$s</string>
     <string name="music_library_empty_title">No music files found</string>
     <string name="music_library_empty_hint">Place .mod / .xm / .s3m / .it files in Download/Mods/</string>
-    <string name="music_library_empty_api33_hint">On Android 13+, pick your Mods folder so the app can read user-added files.</string>
-    <string name="music_library_empty_selected_folder_hint">The selected folder is readable, but no valid module files were found yet.</string>
+    <string name="music_library_empty_api33_hint">On Android 13+, pick your Mods folder so the app
+        can read user-added files.</string>
+    <string name="music_library_empty_selected_folder_hint">The selected folder is readable, but no
+        valid module files were found yet.</string>
     <string name="nickname_label">Nickname</string>
     <string name="nickname_placeholder">Up to 12 characters</string>
     <string name="nickname_required">Enter a nickname to save the score.</string>
@@ -98,41 +100,58 @@
     <string name="tutorial_got_it">GOT IT!</string>
 
     <string name="tutorial_movement_grab_label">Grab Piece</string>
-    <string name="tutorial_movement_grab_desc">Touch active piece and drag horizontally to move it column-by-column.</string>
+    <string name="tutorial_movement_grab_desc">Touch active piece and drag horizontally to move it
+        column-by-column.</string>
     <string name="tutorial_movement_swipe_label">Swipe Move</string>
-    <string name="tutorial_movement_swipe_desc">Swipe anywhere else on the board to move pieces with DAS/ARR.</string>
+    <string name="tutorial_movement_swipe_desc">Swipe anywhere else on the board to move pieces with
+        DAS/ARR.</string>
     <string name="tutorial_movement_rotation_label">Rotation</string>
-    <string name="tutorial_movement_rotation_desc">Tap the right half of the board to rotate clockwise, left half for counter-clockwise.</string>
+    <string name="tutorial_movement_rotation_desc">Tap the right half of the board to rotate
+        clockwise, left half for counter-clockwise.</string>
 
     <string name="tutorial_dropping_soft_label">Soft Drop</string>
-    <string name="tutorial_dropping_soft_desc">Slow drag downward anywhere else to drop faster (+1 pt/row).</string>
+    <string name="tutorial_dropping_soft_desc">Slow drag downward anywhere else to drop faster (+1
+        pt/row).</string>
     <string name="tutorial_dropping_hard_label">Hard Drop</string>
-    <string name="tutorial_dropping_hard_desc">Fast flick downward anywhere else to lock instantly (+2 pts/row).</string>
+    <string name="tutorial_dropping_hard_desc">Fast flick downward anywhere else to lock instantly
+        (+2 pts/row).</string>
     <string name="tutorial_dropping_delay_label">Drop Delay</string>
-    <string name="tutorial_dropping_delay_desc">Swipe upward to freeze gravity temporarily (once per piece).</string>
+    <string name="tutorial_dropping_delay_desc">Swipe upward to freeze gravity temporarily (once per
+        piece).</string>
 
     <string name="tutorial_strategy_hold_label">Hold</string>
-    <string name="tutorial_strategy_hold_desc">Tap the HOLD panel or button to swap the active piece for later use.</string>
+    <string name="tutorial_strategy_hold_desc">Tap the HOLD panel or button to swap the active piece
+        for later use.</string>
     <string name="tutorial_strategy_ghost_label">Ghost Piece</string>
-    <string name="tutorial_strategy_ghost_desc">Watch the projection on the floor to see exactly where your piece will land.</string>
+    <string name="tutorial_strategy_ghost_desc">Watch the projection on the floor to see exactly
+        where your piece will land.</string>
     <string name="tutorial_strategy_queue_label">Next Queue</string>
-    <string name="tutorial_strategy_queue_desc">The queue on the right shows upcoming pieces. It shrinks as you level up!</string>
+    <string name="tutorial_strategy_queue_desc">The queue on the right shows upcoming pieces. It
+        shrinks as you level up!</string>
 
     <string name="tutorial_scoring_lines_label">Line Clears</string>
-    <string name="tutorial_scoring_lines_desc">Clear rows to score! Level multiplier applies to all clears.</string>
+    <string name="tutorial_scoring_lines_desc">Clear rows to score! Level multiplier applies to all
+        clears.</string>
     <string name="tutorial_scoring_tspin_label">T-Spins</string>
-    <string name="tutorial_scoring_tspin_desc">Rotate a T-piece into a tight spot for massive bonus points.</string>
+    <string name="tutorial_scoring_tspin_desc">Rotate a T-piece into a tight spot for massive bonus
+        points.</string>
     <string name="tutorial_scoring_combos_label">Combos</string>
-    <string name="tutorial_scoring_combos_desc">Clear lines in consecutive placements to build a combo multiplier.</string>
+    <string name="tutorial_scoring_combos_desc">Clear lines in consecutive placements to build a
+        combo multiplier.</string>
     <string name="tutorial_scoring_allclear_label">All Clear</string>
-    <string name="tutorial_scoring_allclear_desc">Empty the entire board for the ultimate score reward.</string>
+    <string name="tutorial_scoring_allclear_desc">Empty the entire board for the ultimate score
+        reward.</string>
 
     <string name="tutorial_music_set_folder_label">Set Music Folder</string>
-    <string name="tutorial_music_set_folder_desc">Open Settings, enter Music Library, tap Set music folder, then pick the folder that contains your .mod / .xm / .s3m / .it files.</string>
+    <string name="tutorial_music_set_folder_desc">Open Settings, enter Music Library, tap Set music
+        folder, then pick the folder that contains your .mod / .xm / .s3m / .it files.</string>
     <string name="tutorial_music_set_main_label">Choose Main Tune</string>
-    <string name="tutorial_music_set_main_desc">After scanning, pick a track in Music Library and tap Set as main tune if you want it to start automatically with a new game.</string>
+    <string name="tutorial_music_set_main_desc">After scanning, pick a track in Music Library and
+        tap Set as main tune if you want it to start automatically with a new game.</string>
     <string name="tutorial_music_download_label">Where to Get Mods</string>
-    <string name="tutorial_music_download_desc">Example sources: The Mod Archive (modarchive.org) and scene.org (files.scene.org). Download module files there, then place them in Download/Mods/ or your selected music folder.</string>
+    <string name="tutorial_music_download_desc">Example sources: The Mod Archive (modarchive.org)
+        and scene.org (files.scene.org). Download module files there, then place them in
+        Download/Mods/ or your selected music folder.</string>
     <string name="language_setting">Language</string>
     <string name="language_system_default">System default</string>
 </resources>

@@ -1,5 +1,128 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Mod Fall</string><string name="start_game">Oyunu başlat</string><string name="game_state_label">Durum: %1$s</string><string name="score_label">Puan: %1$d</string><string name="level_label">Seviye: %1$d</string><string name="hold_label">TUT</string><string name="next_label_caps">SONRA</string><string name="lines_label">SATIR</string><string name="score_label_caps">PUAN</string><string name="level_label_caps">SEVİYE</string><string name="score_stat_compact">Puan %1$d</string><string name="level_stat_compact">Seviye %1$d</string><string name="lines_stat_compact">Satır %1$d</string><string name="none_label">Yok</string><string name="move_left">Sol</string><string name="move_right">Sağ</string><string name="rotate_ccw">Sola döndür</string><string name="rotate_cw">Sağa döndür</string><string name="soft_drop">Yumuşak düşüş</string><string name="hard_drop">Sert düşüş</string><string name="hard_drop_short">SERT DÜŞÜŞ</string><string name="hold_action">Tut</string><string name="drop_delay">Düşüş gecikmesi</string><string name="block_drop_title">MOD FALL</string><string name="game_over_title">OYUN BİTTİ</string><string name="score_display">PUAN: %1$d</string><string name="paused_title">DURAKLATILDI</string><string name="pause_menu_subtitle">Devam et, yeniden başlat veya menüye çık.</string><string name="resume_button">DEVAM ET</string><string name="restart_button">YENİDEN BAŞLAT</string><string name="menu_button">MENÜ</string><string name="quit_button">ÇIK</string><string name="cancel_button">İPTAL</string><string name="close_button">KAPAT</string><string name="exit_confirm_title">Oyundan çıkılsın mı?</string><string name="exit_confirm_message">Mevcut ilerleme kaybolacak.</string><string name="help_description">Yardım</string><string name="mute_description">Sessize al</string><string name="settings_description">Ayarlar</string><string name="settings_title">Ayarlar</string><string name="show_buttons_setting">Düğmeleri göster</string><string name="enable_gestures_setting">Hareketleri etkinleştir</string><string name="enable_music_setting">Müziği etkinleştir</string><string name="main_tune_setting">Ana parça</string><string name="settings_input_method_rule">En az bir giriş yöntemini etkin bırakın.</string><string name="nickname_label">Takma ad</string><string name="nickname_placeholder">En fazla 12 karakter</string><string name="nickname_required">Skoru kaydetmek için bir takma ad girin.</string><string name="save_score_button">SKORU KAYDET</string><string name="score_saved">Skor kaydedildi.</string><string name="score_saved_ranked">Yerel tabloda #%1$d sırada.</string><string name="not_in_top_ten">Skor ilk 100’e giremedi.</string><string name="scoreboard_button">SKOR TABLOSU</string><string name="scoreboard_title">YEREL SKOR TABLOSU</string><string name="scoreboard_empty">Henüz kayıtlı skor yok.</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">AD</string><string name="scoreboard_score_header">PUAN</string><string name="scoreboard_level_header">SVY</string><string name="scoreboard_lines_header">SATIR</string><string name="music_library_set_main_track">Ana parça olarak ayarla</string><string name="music_library_title">Muzik kutuphanesi</string><string name="music_library_back_description">Muzik kutuphanesini kapat</string><string name="music_library_refresh">Muzik kutuphanesini yenile</string><string name="music_library_pick_folder">Muzik klasorunu ayarla</string><string name="music_library_pause">Muzigi duraklat</string><string name="music_library_stop">Muzigi durdur</string><string name="music_library_play">Guncel parcayi cal</string><string name="music_library_play_track">Parcayi cal</string><string name="music_library_muted_placeholder">Muzik sessize alindi</string><string name="music_library_no_track_placeholder">Secili parca yok</string><string name="music_library_track_load_error">%1$s yuklenemedi</string><string name="music_library_empty_title">Muzik dosyasi bulunamadi</string><string name="music_library_empty_hint">.mod / .xm / .s3m / .it dosyalarini Download/Mods/ icine koyun</string><string name="music_library_empty_api33_hint">Android 13+ surumlerinde uygulamanin kullanici tarafindan eklenen dosyalari okuyabilmesi icin Mods klasorunu secin.</string><string name="music_library_empty_selected_folder_hint">Secilen klasor okunabiliyor, ancak henuz gecerli module dosyasi bulunamadi.</string><string name="tutorial_title">NASIL OYNANIR</string><string name="tutorial_section_movement">HAREKET</string><string name="tutorial_section_dropping">DÜŞÜRME</string><string name="tutorial_section_strategy">STRATEJİ</string><string name="tutorial_section_scoring">PUANLAMA</string><string name="tutorial_got_it">ANLADIM!</string><string name="tutorial_movement_grab_label">Parçayı tut</string><string name="tutorial_movement_grab_desc">Etkin parçaya dokunup yatay sürükleyerek sütun sütun hareket ettirin.</string><string name="tutorial_movement_swipe_label">Kaydırarak hareket</string><string name="tutorial_movement_swipe_desc">DAS/ARR ile parçaları hareket ettirmek için tahtanın başka bir yerinde kaydırın.</string><string name="tutorial_movement_rotation_label">Döndürme</string><string name="tutorial_movement_rotation_desc">Saat yönünde döndürmek için tahtanın sağ yarısına, ters yönde döndürmek için sol yarısına dokunun.</string><string name="tutorial_dropping_soft_label">Yumuşak düşüş</string><string name="tutorial_dropping_soft_desc">Daha hızlı düşürmek için başka bir yerde yavaşça aşağı sürükleyin (+1 puan/satır).</string><string name="tutorial_dropping_hard_label">Sert düşüş</string><string name="tutorial_dropping_hard_desc">Anında kilitlemek için hızlıca aşağı kaydırın (+2 puan/satır).</string><string name="tutorial_dropping_delay_label">Düşüş gecikmesi</string><string name="tutorial_dropping_delay_desc">Yerçekimini geçici olarak dondurmak için yukarı kaydırın (parça başına bir kez).</string><string name="tutorial_strategy_hold_label">Tut</string><string name="tutorial_strategy_hold_desc">Etkin parçayı daha sonra kullanmak üzere değiştirmek için TUT paneline veya düğmeye dokunun.</string><string name="tutorial_strategy_ghost_label">Hayalet parça</string><string name="tutorial_strategy_ghost_desc">Parçanızın tam olarak nereye ineceğini görmek için zemindeki izdüşüme bakın.</string><string name="tutorial_strategy_queue_label">Sıradaki kuyruk</string><string name="tutorial_strategy_queue_desc">Sağdaki kuyruk gelecek parçaları gösterir. Seviye atladıkça küçülür!</string><string name="tutorial_scoring_lines_label">Satır temizleme</string><string name="tutorial_scoring_lines_desc">Puan almak için satırları temizleyin! Seviye çarpanı tüm temizlemelere uygulanır.</string><string name="tutorial_scoring_tspin_label">T-Spinler</string><string name="tutorial_scoring_tspin_desc">Büyük bonus puanlar için T parçasını dar bir boşluğa döndürün.</string><string name="tutorial_scoring_combos_label">Kombolar</string><string name="tutorial_scoring_combos_desc">Kombo çarpanı oluşturmak için ardışık yerleştirmelerde satır temizleyin.</string><string name="tutorial_scoring_allclear_label">Tam temizlik</string><string name="tutorial_scoring_allclear_desc">En büyük puan ödülü için tüm tahtayı boşaltın.</string>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">Oyunu başlat</string>
+    <string name="game_state_label">Durum: %1$s</string>
+    <string name="score_label">Puan: %1$d</string>
+    <string name="level_label">Seviye: %1$d</string>
+    <string name="hold_label">TUT</string>
+    <string name="next_label_caps">SONRA</string>
+    <string name="lines_label">SATIR</string>
+    <string name="score_label_caps">PUAN</string>
+    <string name="level_label_caps">SEVİYE</string>
+    <string name="score_stat_compact">Puan %1$d</string>
+    <string name="level_stat_compact">Seviye %1$d</string>
+    <string name="lines_stat_compact">Satır %1$d</string>
+    <string name="none_label">Yok</string>
+    <string name="move_left">Sol</string>
+    <string name="move_right">Sağ</string>
+    <string name="rotate_ccw">Sola döndür</string>
+    <string name="rotate_cw">Sağa döndür</string>
+    <string name="soft_drop">Yumuşak düşüş</string>
+    <string name="hard_drop">Sert düşüş</string>
+    <string name="hard_drop_short">SERT DÜŞÜŞ</string>
+    <string name="hold_action">Tut</string>
+    <string name="drop_delay">Düşüş gecikmesi</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">OYUN BİTTİ</string>
+    <string name="score_display">PUAN: %1$d</string>
+    <string name="paused_title">DURAKLATILDI</string>
+    <string name="pause_menu_subtitle">Devam et, yeniden başlat veya menüye çık.</string>
+    <string name="resume_button">DEVAM ET</string>
+    <string name="restart_button">YENİDEN BAŞLAT</string>
+    <string name="menu_button">MENÜ</string>
+    <string name="quit_button">ÇIK</string>
+    <string name="cancel_button">İPTAL</string>
+    <string name="close_button">KAPAT</string>
+    <string name="exit_confirm_title">Oyundan çıkılsın mı?</string>
+    <string name="exit_confirm_message">Mevcut ilerleme kaybolacak.</string>
+    <string name="help_description">Yardım</string>
+    <string name="mute_description">Sessize al</string>
+    <string name="settings_description">Ayarlar</string>
+    <string name="settings_title">Ayarlar</string>
+    <string name="show_buttons_setting">Düğmeleri göster</string>
+    <string name="enable_gestures_setting">Hareketleri etkinleştir</string>
+    <string name="enable_music_setting">Müziği etkinleştir</string>
+    <string name="main_tune_setting">Ana parça</string>
+    <string name="settings_input_method_rule">En az bir giriş yöntemini etkin bırakın.</string>
+    <string name="nickname_label">Takma ad</string>
+    <string name="nickname_placeholder">En fazla 12 karakter</string>
+    <string name="nickname_required">Skoru kaydetmek için bir takma ad girin.</string>
+    <string name="save_score_button">SKORU KAYDET</string>
+    <string name="score_saved">Skor kaydedildi.</string>
+    <string name="score_saved_ranked">Yerel tabloda #%1$d sırada.</string>
+    <string name="not_in_top_ten">Skor ilk 100’e giremedi.</string>
+    <string name="scoreboard_button">SKOR TABLOSU</string>
+    <string name="scoreboard_title">YEREL SKOR TABLOSU</string>
+    <string name="scoreboard_empty">Henüz kayıtlı skor yok.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">AD</string>
+    <string name="scoreboard_score_header">PUAN</string>
+    <string name="scoreboard_level_header">SVY</string>
+    <string name="scoreboard_lines_header">SATIR</string>
+    <string name="music_library_set_main_track">Ana parça olarak ayarla</string>
+    <string name="music_library_title">Muzik kutuphanesi</string>
+    <string name="music_library_back_description">Muzik kutuphanesini kapat</string>
+    <string name="music_library_refresh">Muzik kutuphanesini yenile</string>
+    <string name="music_library_pick_folder">Muzik klasorunu ayarla</string>
+    <string name="music_library_pause">Muzigi duraklat</string>
+    <string name="music_library_stop">Muzigi durdur</string>
+    <string name="music_library_play">Guncel parcayi cal</string>
+    <string name="music_library_play_track">Parcayi cal</string>
+    <string name="music_library_muted_placeholder">Muzik sessize alindi</string>
+    <string name="music_library_no_track_placeholder">Secili parca yok</string>
+    <string name="music_library_track_load_error">%1$s yuklenemedi</string>
+    <string name="music_library_empty_title">Muzik dosyasi bulunamadi</string>
+    <string name="music_library_empty_hint">.mod / .xm / .s3m / .it dosyalarini Download/Mods/ icine
+        koyun</string>
+    <string name="music_library_empty_api33_hint">Android 13+ surumlerinde uygulamanin kullanici
+        tarafindan eklenen dosyalari okuyabilmesi icin Mods klasorunu secin.</string>
+    <string name="music_library_empty_selected_folder_hint">Secilen klasor okunabiliyor, ancak henuz
+        gecerli module dosyasi bulunamadi.</string>
+    <string name="tutorial_title">NASIL OYNANIR</string>
+    <string name="tutorial_section_movement">HAREKET</string>
+    <string name="tutorial_section_dropping">DÜŞÜRME</string>
+    <string name="tutorial_section_strategy">STRATEJİ</string>
+    <string name="tutorial_section_scoring">PUANLAMA</string>
+    <string name="tutorial_got_it">ANLADIM!</string>
+    <string name="tutorial_movement_grab_label">Parçayı tut</string>
+    <string name="tutorial_movement_grab_desc">Etkin parçaya dokunup yatay sürükleyerek sütun sütun
+        hareket ettirin.</string>
+    <string name="tutorial_movement_swipe_label">Kaydırarak hareket</string>
+    <string name="tutorial_movement_swipe_desc">DAS/ARR ile parçaları hareket ettirmek için tahtanın
+        başka bir yerinde kaydırın.</string>
+    <string name="tutorial_movement_rotation_label">Döndürme</string>
+    <string name="tutorial_movement_rotation_desc">Saat yönünde döndürmek için tahtanın sağ
+        yarısına, ters yönde döndürmek için sol yarısına dokunun.</string>
+    <string name="tutorial_dropping_soft_label">Yumuşak düşüş</string>
+    <string name="tutorial_dropping_soft_desc">Daha hızlı düşürmek için başka bir yerde yavaşça
+        aşağı sürükleyin (+1 puan/satır).</string>
+    <string name="tutorial_dropping_hard_label">Sert düşüş</string>
+    <string name="tutorial_dropping_hard_desc">Anında kilitlemek için hızlıca aşağı kaydırın (+2
+        puan/satır).</string>
+    <string name="tutorial_dropping_delay_label">Düşüş gecikmesi</string>
+    <string name="tutorial_dropping_delay_desc">Yerçekimini geçici olarak dondurmak için yukarı
+        kaydırın (parça başına bir kez).</string>
+    <string name="tutorial_strategy_hold_label">Tut</string>
+    <string name="tutorial_strategy_hold_desc">Etkin parçayı daha sonra kullanmak üzere değiştirmek
+        için TUT paneline veya düğmeye dokunun.</string>
+    <string name="tutorial_strategy_ghost_label">Hayalet parça</string>
+    <string name="tutorial_strategy_ghost_desc">Parçanızın tam olarak nereye ineceğini görmek için
+        zemindeki izdüşüme bakın.</string>
+    <string name="tutorial_strategy_queue_label">Sıradaki kuyruk</string>
+    <string name="tutorial_strategy_queue_desc">Sağdaki kuyruk gelecek parçaları gösterir. Seviye
+        atladıkça küçülür!</string>
+    <string name="tutorial_scoring_lines_label">Satır temizleme</string>
+    <string name="tutorial_scoring_lines_desc">Puan almak için satırları temizleyin! Seviye çarpanı
+        tüm temizlemelere uygulanır.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spinler</string>
+    <string name="tutorial_scoring_tspin_desc">Büyük bonus puanlar için T parçasını dar bir boşluğa
+        döndürün.</string>
+    <string name="tutorial_scoring_combos_label">Kombolar</string>
+    <string name="tutorial_scoring_combos_desc">Kombo çarpanı oluşturmak için ardışık
+        yerleştirmelerde satır temizleyin.</string>
+    <string name="tutorial_scoring_allclear_label">Tam temizlik</string>
+    <string name="tutorial_scoring_allclear_desc">En büyük puan ödülü için tüm tahtayı boşaltın.</string>
     <string name="level_and_lines_stat_compact">Seviye %1$d · Satır %2$d</string>
     <string name="sound_on_description">Ses açık</string>
     <string name="sound_off_description">Ses kapalı</string>
@@ -12,11 +135,16 @@
     <string name="music_library_disabled_placeholder">Müzik çalma devre dışı</string>
     <string name="tutorial_section_music">MÜZİK</string>
     <string name="tutorial_music_set_folder_label">Müzik klasörünü ayarla</string>
-    <string name="tutorial_music_set_folder_desc">Ayarlar açın, Müzik Kitaplığına girin, Müzik klasörünü ayarla seçeneğine dokunun ve .mod / .xm / .s3m / .it dosyalarınızı içeren klasörü seçin.</string>
+    <string name="tutorial_music_set_folder_desc">Ayarlar açın, Müzik Kitaplığına girin, Müzik
+        klasörünü ayarla seçeneğine dokunun ve .mod / .xm / .s3m / .it dosyalarınızı içeren klasörü
+        seçin.</string>
     <string name="tutorial_music_set_main_label">Ana ezgiyi seç</string>
-    <string name="tutorial_music_set_main_desc">Tarama sonrasında Müzik Kitaplığında bir parça seçin ve yeni oyunla otomatik başlamasını istiyorsanız Ana ezgi olarak ayarla seçeneğine dokunun.</string>
+    <string name="tutorial_music_set_main_desc">Tarama sonrasında Müzik Kitaplığında bir parça seçin
+        ve yeni oyunla otomatik başlamasını istiyorsanız Ana ezgi olarak ayarla seçeneğine dokunun.</string>
     <string name="tutorial_music_download_label">Mods nereden alınır</string>
-    <string name="tutorial_music_download_desc">Örnek kaynaklar: The Mod Archive (modarchive.org) ve scene.org (files.scene.org). Modül dosyalarını oradan indirin, sonra Download/Mods/ içine veya seçtiğiniz müzik klasörüne koyun.</string>
+    <string name="tutorial_music_download_desc">Örnek kaynaklar: The Mod Archive (modarchive.org) ve
+        scene.org (files.scene.org). Modül dosyalarını oradan indirin, sonra Download/Mods/ içine
+        veya seçtiğiniz müzik klasörüne koyun.</string>
     <string name="language_setting">Dil</string>
     <string name="language_system_default">Sistem varsayılanı</string>
 </resources>

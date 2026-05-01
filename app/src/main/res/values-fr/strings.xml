@@ -1,5 +1,129 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Mod Fall</string><string name="start_game">Lancer la partie</string><string name="game_state_label">État : %1$s</string><string name="score_label">Score : %1$d</string><string name="level_label">Niveau : %1$d</string><string name="hold_label">RÉSERVE</string><string name="next_label_caps">SUIV.</string><string name="lines_label">LIGNES</string><string name="score_label_caps">SCORE</string><string name="level_label_caps">NIVEAU</string><string name="score_stat_compact">Score %1$d</string><string name="level_stat_compact">Niveau %1$d</string><string name="lines_stat_compact">Lignes %1$d</string><string name="none_label">Aucun</string><string name="move_left">Gauche</string><string name="move_right">Droite</string><string name="rotate_ccw">Rotation antihoraire</string><string name="rotate_cw">Rotation horaire</string><string name="soft_drop">Chute douce</string><string name="hard_drop">Chute rapide</string><string name="hard_drop_short">CHUTE RAPIDE</string><string name="hold_action">Réserver</string><string name="drop_delay">Délai de chute</string><string name="block_drop_title">MOD FALL</string><string name="game_over_title">PARTIE TERMINÉE</string><string name="score_display">SCORE : %1$d</string><string name="paused_title">PAUSE</string><string name="pause_menu_subtitle">Reprendre, recommencer ou quitter vers le menu.</string><string name="resume_button">REPRENDRE</string><string name="restart_button">RECOMMENCER</string><string name="menu_button">MENU</string><string name="quit_button">QUITTER</string><string name="cancel_button">ANNULER</string><string name="close_button">FERMER</string><string name="exit_confirm_title">Quitter la partie ?</string><string name="exit_confirm_message">La progression actuelle sera perdue.</string><string name="help_description">Aide</string><string name="mute_description">Couper le son</string><string name="settings_description">Paramètres</string><string name="settings_title">Paramètres</string><string name="show_buttons_setting">Afficher les boutons</string><string name="enable_gestures_setting">Activer les gestes</string><string name="enable_music_setting">Activer la musique</string><string name="main_tune_setting">Morceau principal</string><string name="settings_input_method_rule">Gardez au moins une méthode de saisie activée.</string><string name="nickname_label">Pseudo</string><string name="nickname_placeholder">Jusqu’à 12 caractères</string><string name="nickname_required">Saisissez un pseudo pour enregistrer le score.</string><string name="save_score_button">ENREGISTRER LE SCORE</string><string name="score_saved">Score enregistré.</string><string name="score_saved_ranked">Classé #%1$d dans le tableau local.</string><string name="not_in_top_ten">Le score n’est pas entré dans le top 100.</string><string name="scoreboard_button">SCORES</string><string name="scoreboard_title">SCORES LOCAUX</string><string name="scoreboard_empty">Aucun score enregistré pour le moment.</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">NOM</string><string name="scoreboard_score_header">SCORE</string><string name="scoreboard_level_header">NIV.</string><string name="scoreboard_lines_header">LIGNES</string><string name="music_library_set_main_track">Définir comme morceau principal</string><string name="music_library_title">Bibliotheque musicale</string><string name="music_library_back_description">Fermer la bibliotheque musicale</string><string name="music_library_refresh">Actualiser la bibliotheque musicale</string><string name="music_library_pick_folder">Definir le dossier musical</string><string name="music_library_pause">Mettre la musique en pause</string><string name="music_library_stop">Arreter la musique</string><string name="music_library_play">Lire la piste actuelle</string><string name="music_library_play_track">Lire la piste</string><string name="music_library_muted_placeholder">La musique est coupee</string><string name="music_library_no_track_placeholder">Aucune piste selectionnee</string><string name="music_library_track_load_error">Impossible de charger %1$s</string><string name="music_library_empty_title">Aucun fichier musical trouve</string><string name="music_library_empty_hint">Placez les fichiers .mod / .xm / .s3m / .it dans Download/Mods/</string><string name="music_library_empty_api33_hint">Sous Android 13+, choisissez votre dossier Mods pour que l application puisse lire les fichiers ajoutes par l utilisateur.</string><string name="music_library_empty_selected_folder_hint">Le dossier selectionne est lisible, mais aucun fichier module valide n y a encore ete trouve.</string><string name="tutorial_title">COMMENT JOUER</string><string name="tutorial_section_movement">DÉPLACEMENT</string><string name="tutorial_section_dropping">CHUTE</string><string name="tutorial_section_strategy">STRATÉGIE</string><string name="tutorial_section_scoring">SCORE</string><string name="tutorial_got_it">COMPRIS !</string><string name="tutorial_movement_grab_label">Saisir la pièce</string><string name="tutorial_movement_grab_desc">Touchez la pièce active et faites-la glisser horizontalement pour la déplacer colonne par colonne.</string><string name="tutorial_movement_swipe_label">Déplacement par glissement</string><string name="tutorial_movement_swipe_desc">Faites glisser ailleurs sur le plateau pour déplacer les pièces avec DAS/ARR.</string><string name="tutorial_movement_rotation_label">Rotation</string><string name="tutorial_movement_rotation_desc">Touchez la moitié droite du plateau pour tourner dans le sens horaire, la moitié gauche pour l’inverse.</string><string name="tutorial_dropping_soft_label">Chute douce</string><string name="tutorial_dropping_soft_desc">Glissez lentement vers le bas ailleurs pour tomber plus vite (+1 pt/ligne).</string><string name="tutorial_dropping_hard_label">Chute rapide</string><string name="tutorial_dropping_hard_desc">Faites un geste rapide vers le bas pour verrouiller instantanément (+2 pts/ligne).</string><string name="tutorial_dropping_delay_label">Délai de chute</string><string name="tutorial_dropping_delay_desc">Glissez vers le haut pour figer temporairement la gravité (une fois par pièce).</string><string name="tutorial_strategy_hold_label">Réserve</string><string name="tutorial_strategy_hold_desc">Touchez le panneau RÉSERVE ou le bouton pour échanger la pièce active pour plus tard.</string><string name="tutorial_strategy_ghost_label">Pièce fantôme</string><string name="tutorial_strategy_ghost_desc">Regardez la projection au sol pour voir exactement où votre pièce atterrira.</string><string name="tutorial_strategy_queue_label">File suivante</string><string name="tutorial_strategy_queue_desc">La file à droite affiche les prochaines pièces. Elle rétrécit quand vous montez de niveau !</string><string name="tutorial_scoring_lines_label">Lignes effacées</string><string name="tutorial_scoring_lines_desc">Effacez des lignes pour marquer ! Le multiplicateur de niveau s’applique à toutes.</string><string name="tutorial_scoring_tspin_label">T-Spins</string><string name="tutorial_scoring_tspin_desc">Faites pivoter une pièce T dans un espace étroit pour un gros bonus.</string><string name="tutorial_scoring_combos_label">Combos</string><string name="tutorial_scoring_combos_desc">Effacez des lignes sur des placements consécutifs pour créer un multiplicateur de combo.</string><string name="tutorial_scoring_allclear_label">Tout effacé</string><string name="tutorial_scoring_allclear_desc">Videz tout le plateau pour obtenir la récompense ultime.</string>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">Lancer la partie</string>
+    <string name="game_state_label">État : %1$s</string>
+    <string name="score_label">Score : %1$d</string>
+    <string name="level_label">Niveau : %1$d</string>
+    <string name="hold_label">RÉSERVE</string>
+    <string name="next_label_caps">SUIV.</string>
+    <string name="lines_label">LIGNES</string>
+    <string name="score_label_caps">SCORE</string>
+    <string name="level_label_caps">NIVEAU</string>
+    <string name="score_stat_compact">Score %1$d</string>
+    <string name="level_stat_compact">Niveau %1$d</string>
+    <string name="lines_stat_compact">Lignes %1$d</string>
+    <string name="none_label">Aucun</string>
+    <string name="move_left">Gauche</string>
+    <string name="move_right">Droite</string>
+    <string name="rotate_ccw">Rotation antihoraire</string>
+    <string name="rotate_cw">Rotation horaire</string>
+    <string name="soft_drop">Chute douce</string>
+    <string name="hard_drop">Chute rapide</string>
+    <string name="hard_drop_short">CHUTE RAPIDE</string>
+    <string name="hold_action">Réserver</string>
+    <string name="drop_delay">Délai de chute</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">PARTIE TERMINÉE</string>
+    <string name="score_display">SCORE : %1$d</string>
+    <string name="paused_title">PAUSE</string>
+    <string name="pause_menu_subtitle">Reprendre, recommencer ou quitter vers le menu.</string>
+    <string name="resume_button">REPRENDRE</string>
+    <string name="restart_button">RECOMMENCER</string>
+    <string name="menu_button">MENU</string>
+    <string name="quit_button">QUITTER</string>
+    <string name="cancel_button">ANNULER</string>
+    <string name="close_button">FERMER</string>
+    <string name="exit_confirm_title">Quitter la partie ?</string>
+    <string name="exit_confirm_message">La progression actuelle sera perdue.</string>
+    <string name="help_description">Aide</string>
+    <string name="mute_description">Couper le son</string>
+    <string name="settings_description">Paramètres</string>
+    <string name="settings_title">Paramètres</string>
+    <string name="show_buttons_setting">Afficher les boutons</string>
+    <string name="enable_gestures_setting">Activer les gestes</string>
+    <string name="enable_music_setting">Activer la musique</string>
+    <string name="main_tune_setting">Morceau principal</string>
+    <string name="settings_input_method_rule">Gardez au moins une méthode de saisie activée.</string>
+    <string name="nickname_label">Pseudo</string>
+    <string name="nickname_placeholder">Jusqu’à 12 caractères</string>
+    <string name="nickname_required">Saisissez un pseudo pour enregistrer le score.</string>
+    <string name="save_score_button">ENREGISTRER LE SCORE</string>
+    <string name="score_saved">Score enregistré.</string>
+    <string name="score_saved_ranked">Classé #%1$d dans le tableau local.</string>
+    <string name="not_in_top_ten">Le score n’est pas entré dans le top 100.</string>
+    <string name="scoreboard_button">SCORES</string>
+    <string name="scoreboard_title">SCORES LOCAUX</string>
+    <string name="scoreboard_empty">Aucun score enregistré pour le moment.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">NOM</string>
+    <string name="scoreboard_score_header">SCORE</string>
+    <string name="scoreboard_level_header">NIV.</string>
+    <string name="scoreboard_lines_header">LIGNES</string>
+    <string name="music_library_set_main_track">Définir comme morceau principal</string>
+    <string name="music_library_title">Bibliotheque musicale</string>
+    <string name="music_library_back_description">Fermer la bibliotheque musicale</string>
+    <string name="music_library_refresh">Actualiser la bibliotheque musicale</string>
+    <string name="music_library_pick_folder">Definir le dossier musical</string>
+    <string name="music_library_pause">Mettre la musique en pause</string>
+    <string name="music_library_stop">Arreter la musique</string>
+    <string name="music_library_play">Lire la piste actuelle</string>
+    <string name="music_library_play_track">Lire la piste</string>
+    <string name="music_library_muted_placeholder">La musique est coupee</string>
+    <string name="music_library_no_track_placeholder">Aucune piste selectionnee</string>
+    <string name="music_library_track_load_error">Impossible de charger %1$s</string>
+    <string name="music_library_empty_title">Aucun fichier musical trouve</string>
+    <string name="music_library_empty_hint">Placez les fichiers .mod / .xm / .s3m / .it dans
+        Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">Sous Android 13+, choisissez votre dossier Mods
+        pour que l application puisse lire les fichiers ajoutes par l utilisateur.</string>
+    <string name="music_library_empty_selected_folder_hint">Le dossier selectionne est lisible, mais
+        aucun fichier module valide n y a encore ete trouve.</string>
+    <string name="tutorial_title">COMMENT JOUER</string>
+    <string name="tutorial_section_movement">DÉPLACEMENT</string>
+    <string name="tutorial_section_dropping">CHUTE</string>
+    <string name="tutorial_section_strategy">STRATÉGIE</string>
+    <string name="tutorial_section_scoring">SCORE</string>
+    <string name="tutorial_got_it">COMPRIS !</string>
+    <string name="tutorial_movement_grab_label">Saisir la pièce</string>
+    <string name="tutorial_movement_grab_desc">Touchez la pièce active et faites-la glisser
+        horizontalement pour la déplacer colonne par colonne.</string>
+    <string name="tutorial_movement_swipe_label">Déplacement par glissement</string>
+    <string name="tutorial_movement_swipe_desc">Faites glisser ailleurs sur le plateau pour déplacer
+        les pièces avec DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Rotation</string>
+    <string name="tutorial_movement_rotation_desc">Touchez la moitié droite du plateau pour tourner
+        dans le sens horaire, la moitié gauche pour l’inverse.</string>
+    <string name="tutorial_dropping_soft_label">Chute douce</string>
+    <string name="tutorial_dropping_soft_desc">Glissez lentement vers le bas ailleurs pour tomber
+        plus vite (+1 pt/ligne).</string>
+    <string name="tutorial_dropping_hard_label">Chute rapide</string>
+    <string name="tutorial_dropping_hard_desc">Faites un geste rapide vers le bas pour verrouiller
+        instantanément (+2 pts/ligne).</string>
+    <string name="tutorial_dropping_delay_label">Délai de chute</string>
+    <string name="tutorial_dropping_delay_desc">Glissez vers le haut pour figer temporairement la
+        gravité (une fois par pièce).</string>
+    <string name="tutorial_strategy_hold_label">Réserve</string>
+    <string name="tutorial_strategy_hold_desc">Touchez le panneau RÉSERVE ou le bouton pour échanger
+        la pièce active pour plus tard.</string>
+    <string name="tutorial_strategy_ghost_label">Pièce fantôme</string>
+    <string name="tutorial_strategy_ghost_desc">Regardez la projection au sol pour voir exactement
+        où votre pièce atterrira.</string>
+    <string name="tutorial_strategy_queue_label">File suivante</string>
+    <string name="tutorial_strategy_queue_desc">La file à droite affiche les prochaines pièces. Elle
+        rétrécit quand vous montez de niveau !</string>
+    <string name="tutorial_scoring_lines_label">Lignes effacées</string>
+    <string name="tutorial_scoring_lines_desc">Effacez des lignes pour marquer ! Le multiplicateur
+        de niveau s’applique à toutes.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spins</string>
+    <string name="tutorial_scoring_tspin_desc">Faites pivoter une pièce T dans un espace étroit pour
+        un gros bonus.</string>
+    <string name="tutorial_scoring_combos_label">Combos</string>
+    <string name="tutorial_scoring_combos_desc">Effacez des lignes sur des placements consécutifs
+        pour créer un multiplicateur de combo.</string>
+    <string name="tutorial_scoring_allclear_label">Tout effacé</string>
+    <string name="tutorial_scoring_allclear_desc">Videz tout le plateau pour obtenir la récompense
+        ultime.</string>
     <string name="level_and_lines_stat_compact">Niveau %1$d · Lignes %2$d</string>
     <string name="sound_on_description">Son activé</string>
     <string name="sound_off_description">Son désactivé</string>
@@ -12,11 +136,17 @@
     <string name="music_library_disabled_placeholder">La lecture de musique est désactivée</string>
     <string name="tutorial_section_music">MUSIQUE</string>
     <string name="tutorial_music_set_folder_label">Définir le dossier musique</string>
-    <string name="tutorial_music_set_folder_desc">Ouvrez Paramètres, entrez dans Bibliothèque musicale, touchez Définir le dossier musique, puis choisissez le dossier contenant vos fichiers .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_folder_desc">Ouvrez Paramètres, entrez dans Bibliothèque
+        musicale, touchez Définir le dossier musique, puis choisissez le dossier contenant vos
+        fichiers .mod / .xm / .s3m / .it.</string>
     <string name="tutorial_music_set_main_label">Choisir le thème principal</string>
-    <string name="tutorial_music_set_main_desc">Après le scan, choisissez une piste dans Bibliothèque musicale et touchez Définir comme thème principal si vous voulez un lancement automatique avec une nouvelle partie.</string>
+    <string name="tutorial_music_set_main_desc">Après le scan, choisissez une piste dans
+        Bibliothèque musicale et touchez Définir comme thème principal si vous voulez un lancement
+        automatique avec une nouvelle partie.</string>
     <string name="tutorial_music_download_label">Où obtenir des Mods</string>
-    <string name="tutorial_music_download_desc">Sources exemples : The Mod Archive (modarchive.org) et scene.org (files.scene.org). Téléchargez des fichiers de modules, puis placez-les dans Download/Mods/ ou dans votre dossier de musique sélectionné.</string>
+    <string name="tutorial_music_download_desc">Sources exemples : The Mod Archive (modarchive.org)
+        et scene.org (files.scene.org). Téléchargez des fichiers de modules, puis placez-les dans
+        Download/Mods/ ou dans votre dossier de musique sélectionné.</string>
     <string name="language_setting">Langue</string>
     <string name="language_system_default">Paramètre système</string>
 </resources>

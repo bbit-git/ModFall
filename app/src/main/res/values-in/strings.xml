@@ -1,5 +1,128 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Mod Fall</string><string name="start_game">Mulai game</string><string name="game_state_label">Status: %1$s</string><string name="score_label">Skor: %1$d</string><string name="level_label">Level: %1$d</string><string name="hold_label">SIMPAN</string><string name="next_label_caps">BERIKUT</string><string name="lines_label">BARIS</string><string name="score_label_caps">SKOR</string><string name="level_label_caps">LEVEL</string><string name="score_stat_compact">Skor %1$d</string><string name="level_stat_compact">Level %1$d</string><string name="lines_stat_compact">Baris %1$d</string><string name="none_label">Tidak ada</string><string name="move_left">Kiri</string><string name="move_right">Kanan</string><string name="rotate_ccw">Putar kiri</string><string name="rotate_cw">Putar kanan</string><string name="soft_drop">Jatuh pelan</string><string name="hard_drop">Jatuh cepat</string><string name="hard_drop_short">JATUH CEPAT</string><string name="hold_action">Simpan</string><string name="drop_delay">Tunda jatuh</string><string name="block_drop_title">MOD FALL</string><string name="game_over_title">GAME OVER</string><string name="score_display">SKOR: %1$d</string><string name="paused_title">DIJEDA</string><string name="pause_menu_subtitle">Lanjutkan, mulai ulang, atau keluar ke menu.</string><string name="resume_button">LANJUTKAN</string><string name="restart_button">MULAI ULANG</string><string name="menu_button">MENU</string><string name="quit_button">KELUAR</string><string name="cancel_button">BATAL</string><string name="close_button">TUTUP</string><string name="exit_confirm_title">Keluar dari game?</string><string name="exit_confirm_message">Progres saat ini akan hilang.</string><string name="help_description">Bantuan</string><string name="mute_description">Bisukan</string><string name="settings_description">सेटिंग्स</string><string name="settings_title">सेटिंग्स</string><string name="show_buttons_setting">बटन दिखाएं</string><string name="enable_gestures_setting">जेस्चर सक्षम करें</string><string name="enable_music_setting">संगीत सक्षम करें</string><string name="main_tune_setting">मुख्य धुन</string><string name="settings_input_method_rule">कम से कम एक इनपुट तरीका सक्षम रखें।</string><string name="nickname_label">Nama panggilan</string><string name="nickname_placeholder">Maksimal 12 karakter</string><string name="nickname_required">Masukkan nama panggilan untuk menyimpan skor.</string><string name="save_score_button">SIMPAN SKOR</string><string name="score_saved">Skor disimpan.</string><string name="score_saved_ranked">Peringkat #%1$d di papan lokal.</string><string name="not_in_top_ten">Skor tidak masuk 100 teratas.</string><string name="scoreboard_button">PAPAN SKOR</string><string name="scoreboard_title">PAPAN SKOR LOKAL</string><string name="scoreboard_empty">Belum ada skor tersimpan.</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">NAMA</string><string name="scoreboard_score_header">SKOR</string><string name="scoreboard_level_header">LVL</string><string name="scoreboard_lines_header">BARIS</string><string name="music_library_set_main_track">मुख्य धुन के रूप में सेट करें</string><string name="music_library_title">Perpustakaan musik</string><string name="music_library_back_description">Tutup perpustakaan musik</string><string name="music_library_refresh">Muat ulang perpustakaan musik</string><string name="music_library_pick_folder">Atur folder musik</string><string name="music_library_pause">Jeda musik</string><string name="music_library_stop">Hentikan musik</string><string name="music_library_play">Putar trek saat ini</string><string name="music_library_play_track">Putar trek</string><string name="music_library_muted_placeholder">Musik dibisukan</string><string name="music_library_no_track_placeholder">Belum ada trek yang dipilih</string><string name="music_library_track_load_error">Tidak dapat memuat %1$s</string><string name="music_library_empty_title">Tidak ada file musik yang ditemukan</string><string name="music_library_empty_hint">Letakkan file .mod / .xm / .s3m / .it di Download/Mods/</string><string name="music_library_empty_api33_hint">Di Android 13+, pilih folder Mods agar aplikasi dapat membaca file yang ditambahkan pengguna.</string><string name="music_library_empty_selected_folder_hint">Folder yang dipilih dapat dibaca, tetapi belum ada file module yang valid.</string><string name="tutorial_title">CARA BERMAIN</string><string name="tutorial_section_movement">GERAKAN</string><string name="tutorial_section_dropping">JATUH</string><string name="tutorial_section_strategy">STRATEGI</string><string name="tutorial_section_scoring">SKOR</string><string name="tutorial_got_it">MENGERTI!</string><string name="tutorial_movement_grab_label">Ambil keping</string><string name="tutorial_movement_grab_desc">Sentuh keping aktif dan seret secara horizontal untuk memindahkannya kolom demi kolom.</string><string name="tutorial_movement_swipe_label">Geser bergerak</string><string name="tutorial_movement_swipe_desc">Geser di tempat lain pada papan untuk memindahkan keping dengan DAS/ARR.</string><string name="tutorial_movement_rotation_label">Rotasi</string><string name="tutorial_movement_rotation_desc">Ketuk sisi kanan papan untuk memutar searah jarum jam, sisi kiri untuk berlawanan arah.</string><string name="tutorial_dropping_soft_label">Jatuh pelan</string><string name="tutorial_dropping_soft_desc">Seret perlahan ke bawah di tempat lain agar jatuh lebih cepat (+1 poin/baris).</string><string name="tutorial_dropping_hard_label">Jatuh cepat</string><string name="tutorial_dropping_hard_desc">Jentik cepat ke bawah untuk mengunci seketika (+2 poin/baris).</string><string name="tutorial_dropping_delay_label">Tunda jatuh</string><string name="tutorial_dropping_delay_desc">Geser ke atas untuk membekukan gravitasi sementara (sekali per keping).</string><string name="tutorial_strategy_hold_label">Simpan</string><string name="tutorial_strategy_hold_desc">Ketuk panel SIMPAN atau tombol untuk menukar keping aktif agar dipakai nanti.</string><string name="tutorial_strategy_ghost_label">Keping bayangan</string><string name="tutorial_strategy_ghost_desc">Lihat proyeksi di lantai untuk mengetahui tepat di mana keping akan mendarat.</string><string name="tutorial_strategy_queue_label">Antrean berikutnya</string><string name="tutorial_strategy_queue_desc">Antrean di kanan menampilkan keping yang akan datang. Antrean mengecil saat level naik!</string><string name="tutorial_scoring_lines_label">Hapus baris</string><string name="tutorial_scoring_lines_desc">Hapus baris untuk mencetak skor! Pengali level berlaku untuk semua hapusan.</string><string name="tutorial_scoring_tspin_label">T-Spin</string><string name="tutorial_scoring_tspin_desc">Putar keping T ke celah sempit untuk bonus poin besar.</string><string name="tutorial_scoring_combos_label">Kombo</string><string name="tutorial_scoring_combos_desc">Hapus baris dalam penempatan beruntun untuk membangun pengali kombo.</string><string name="tutorial_scoring_allclear_label">Bersih total</string><string name="tutorial_scoring_allclear_desc">Kosongkan seluruh papan untuk hadiah skor tertinggi.</string>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">Mulai game</string>
+    <string name="game_state_label">Status: %1$s</string>
+    <string name="score_label">Skor: %1$d</string>
+    <string name="level_label">Level: %1$d</string>
+    <string name="hold_label">SIMPAN</string>
+    <string name="next_label_caps">BERIKUT</string>
+    <string name="lines_label">BARIS</string>
+    <string name="score_label_caps">SKOR</string>
+    <string name="level_label_caps">LEVEL</string>
+    <string name="score_stat_compact">Skor %1$d</string>
+    <string name="level_stat_compact">Level %1$d</string>
+    <string name="lines_stat_compact">Baris %1$d</string>
+    <string name="none_label">Tidak ada</string>
+    <string name="move_left">Kiri</string>
+    <string name="move_right">Kanan</string>
+    <string name="rotate_ccw">Putar kiri</string>
+    <string name="rotate_cw">Putar kanan</string>
+    <string name="soft_drop">Jatuh pelan</string>
+    <string name="hard_drop">Jatuh cepat</string>
+    <string name="hard_drop_short">JATUH CEPAT</string>
+    <string name="hold_action">Simpan</string>
+    <string name="drop_delay">Tunda jatuh</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">GAME OVER</string>
+    <string name="score_display">SKOR: %1$d</string>
+    <string name="paused_title">DIJEDA</string>
+    <string name="pause_menu_subtitle">Lanjutkan, mulai ulang, atau keluar ke menu.</string>
+    <string name="resume_button">LANJUTKAN</string>
+    <string name="restart_button">MULAI ULANG</string>
+    <string name="menu_button">MENU</string>
+    <string name="quit_button">KELUAR</string>
+    <string name="cancel_button">BATAL</string>
+    <string name="close_button">TUTUP</string>
+    <string name="exit_confirm_title">Keluar dari game?</string>
+    <string name="exit_confirm_message">Progres saat ini akan hilang.</string>
+    <string name="help_description">Bantuan</string>
+    <string name="mute_description">Bisukan</string>
+    <string name="settings_description">सेटिंग्स</string>
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="show_buttons_setting">बटन दिखाएं</string>
+    <string name="enable_gestures_setting">जेस्चर सक्षम करें</string>
+    <string name="enable_music_setting">संगीत सक्षम करें</string>
+    <string name="main_tune_setting">मुख्य धुन</string>
+    <string name="settings_input_method_rule">कम से कम एक इनपुट तरीका सक्षम रखें।</string>
+    <string name="nickname_label">Nama panggilan</string>
+    <string name="nickname_placeholder">Maksimal 12 karakter</string>
+    <string name="nickname_required">Masukkan nama panggilan untuk menyimpan skor.</string>
+    <string name="save_score_button">SIMPAN SKOR</string>
+    <string name="score_saved">Skor disimpan.</string>
+    <string name="score_saved_ranked">Peringkat #%1$d di papan lokal.</string>
+    <string name="not_in_top_ten">Skor tidak masuk 100 teratas.</string>
+    <string name="scoreboard_button">PAPAN SKOR</string>
+    <string name="scoreboard_title">PAPAN SKOR LOKAL</string>
+    <string name="scoreboard_empty">Belum ada skor tersimpan.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">NAMA</string>
+    <string name="scoreboard_score_header">SKOR</string>
+    <string name="scoreboard_level_header">LVL</string>
+    <string name="scoreboard_lines_header">BARIS</string>
+    <string name="music_library_set_main_track">मुख्य धुन के रूप में सेट करें</string>
+    <string name="music_library_title">Perpustakaan musik</string>
+    <string name="music_library_back_description">Tutup perpustakaan musik</string>
+    <string name="music_library_refresh">Muat ulang perpustakaan musik</string>
+    <string name="music_library_pick_folder">Atur folder musik</string>
+    <string name="music_library_pause">Jeda musik</string>
+    <string name="music_library_stop">Hentikan musik</string>
+    <string name="music_library_play">Putar trek saat ini</string>
+    <string name="music_library_play_track">Putar trek</string>
+    <string name="music_library_muted_placeholder">Musik dibisukan</string>
+    <string name="music_library_no_track_placeholder">Belum ada trek yang dipilih</string>
+    <string name="music_library_track_load_error">Tidak dapat memuat %1$s</string>
+    <string name="music_library_empty_title">Tidak ada file musik yang ditemukan</string>
+    <string name="music_library_empty_hint">Letakkan file .mod / .xm / .s3m / .it di Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">Di Android 13+, pilih folder Mods agar aplikasi
+        dapat membaca file yang ditambahkan pengguna.</string>
+    <string name="music_library_empty_selected_folder_hint">Folder yang dipilih dapat dibaca, tetapi
+        belum ada file module yang valid.</string>
+    <string name="tutorial_title">CARA BERMAIN</string>
+    <string name="tutorial_section_movement">GERAKAN</string>
+    <string name="tutorial_section_dropping">JATUH</string>
+    <string name="tutorial_section_strategy">STRATEGI</string>
+    <string name="tutorial_section_scoring">SKOR</string>
+    <string name="tutorial_got_it">MENGERTI!</string>
+    <string name="tutorial_movement_grab_label">Ambil keping</string>
+    <string name="tutorial_movement_grab_desc">Sentuh keping aktif dan seret secara horizontal untuk
+        memindahkannya kolom demi kolom.</string>
+    <string name="tutorial_movement_swipe_label">Geser bergerak</string>
+    <string name="tutorial_movement_swipe_desc">Geser di tempat lain pada papan untuk memindahkan
+        keping dengan DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Rotasi</string>
+    <string name="tutorial_movement_rotation_desc">Ketuk sisi kanan papan untuk memutar searah jarum
+        jam, sisi kiri untuk berlawanan arah.</string>
+    <string name="tutorial_dropping_soft_label">Jatuh pelan</string>
+    <string name="tutorial_dropping_soft_desc">Seret perlahan ke bawah di tempat lain agar jatuh
+        lebih cepat (+1 poin/baris).</string>
+    <string name="tutorial_dropping_hard_label">Jatuh cepat</string>
+    <string name="tutorial_dropping_hard_desc">Jentik cepat ke bawah untuk mengunci seketika (+2
+        poin/baris).</string>
+    <string name="tutorial_dropping_delay_label">Tunda jatuh</string>
+    <string name="tutorial_dropping_delay_desc">Geser ke atas untuk membekukan gravitasi sementara
+        (sekali per keping).</string>
+    <string name="tutorial_strategy_hold_label">Simpan</string>
+    <string name="tutorial_strategy_hold_desc">Ketuk panel SIMPAN atau tombol untuk menukar keping
+        aktif agar dipakai nanti.</string>
+    <string name="tutorial_strategy_ghost_label">Keping bayangan</string>
+    <string name="tutorial_strategy_ghost_desc">Lihat proyeksi di lantai untuk mengetahui tepat di
+        mana keping akan mendarat.</string>
+    <string name="tutorial_strategy_queue_label">Antrean berikutnya</string>
+    <string name="tutorial_strategy_queue_desc">Antrean di kanan menampilkan keping yang akan
+        datang. Antrean mengecil saat level naik!</string>
+    <string name="tutorial_scoring_lines_label">Hapus baris</string>
+    <string name="tutorial_scoring_lines_desc">Hapus baris untuk mencetak skor! Pengali level
+        berlaku untuk semua hapusan.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spin</string>
+    <string name="tutorial_scoring_tspin_desc">Putar keping T ke celah sempit untuk bonus poin
+        besar.</string>
+    <string name="tutorial_scoring_combos_label">Kombo</string>
+    <string name="tutorial_scoring_combos_desc">Hapus baris dalam penempatan beruntun untuk
+        membangun pengali kombo.</string>
+    <string name="tutorial_scoring_allclear_label">Bersih total</string>
+    <string name="tutorial_scoring_allclear_desc">Kosongkan seluruh papan untuk hadiah skor
+        tertinggi.</string>
     <string name="level_and_lines_stat_compact">Level %1$d · Baris %2$d</string>
     <string name="sound_on_description">Suara aktif</string>
     <string name="sound_off_description">Suara mati</string>
@@ -12,11 +135,15 @@
     <string name="music_library_disabled_placeholder">Pemutaran musik dinonaktifkan</string>
     <string name="tutorial_section_music">MUSIK</string>
     <string name="tutorial_music_set_folder_label">Atur Folder Musik</string>
-    <string name="tutorial_music_set_folder_desc">Buka Pengaturan, masuk ke Pustaka Musik, ketuk Atur folder musik, lalu pilih folder yang berisi file .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_folder_desc">Buka Pengaturan, masuk ke Pustaka Musik, ketuk
+        Atur folder musik, lalu pilih folder yang berisi file .mod / .xm / .s3m / .it.</string>
     <string name="tutorial_music_set_main_label">Pilih Lagu Utama</string>
-    <string name="tutorial_music_set_main_desc">Setelah memindai, pilih trek di Pustaka Musik dan ketuk Atur sebagai lagu utama jika Anda ingin lagu itu mulai otomatis saat game baru.</string>
+    <string name="tutorial_music_set_main_desc">Setelah memindai, pilih trek di Pustaka Musik dan
+        ketuk Atur sebagai lagu utama jika Anda ingin lagu itu mulai otomatis saat game baru.</string>
     <string name="tutorial_music_download_label">Tempat Mendapatkan Mods</string>
-    <string name="tutorial_music_download_desc">Contoh sumber: The Mod Archive (modarchive.org) dan scene.org (files.scene.org). Unduh file modul di sana, lalu letakkan di Download/Mods/ atau folder musik pilihan Anda.</string>
+    <string name="tutorial_music_download_desc">Contoh sumber: The Mod Archive (modarchive.org) dan
+        scene.org (files.scene.org). Unduh file modul di sana, lalu letakkan di Download/Mods/ atau
+        folder musik pilihan Anda.</string>
     <string name="language_setting">Bahasa</string>
     <string name="language_system_default">Default sistem</string>
 </resources>

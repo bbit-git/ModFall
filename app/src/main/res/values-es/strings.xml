@@ -1,5 +1,129 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Mod Fall</string><string name="start_game">Iniciar juego</string><string name="game_state_label">Estado: %1$s</string><string name="score_label">Puntuación: %1$d</string><string name="level_label">Nivel: %1$d</string><string name="hold_label">GUARDAR</string><string name="next_label_caps">SIG.</string><string name="lines_label">LÍNEAS</string><string name="score_label_caps">PUNTOS</string><string name="level_label_caps">NIVEL</string><string name="score_stat_compact">Puntos %1$d</string><string name="level_stat_compact">Nivel %1$d</string><string name="lines_stat_compact">Líneas %1$d</string><string name="none_label">Ninguno</string><string name="move_left">Izquierda</string><string name="move_right">Derecha</string><string name="rotate_ccw">Girar antihorario</string><string name="rotate_cw">Girar horario</string><string name="soft_drop">Caída suave</string><string name="hard_drop">Caída dura</string><string name="hard_drop_short">CAÍDA DURA</string><string name="hold_action">Guardar</string><string name="drop_delay">Retrasar caída</string><string name="block_drop_title">MOD FALL</string><string name="game_over_title">FIN DEL JUEGO</string><string name="score_display">PUNTOS: %1$d</string><string name="paused_title">PAUSA</string><string name="pause_menu_subtitle">Continúa, reinicia o sal al menú.</string><string name="resume_button">CONTINUAR</string><string name="restart_button">REINICIAR</string><string name="menu_button">MENÚ</string><string name="quit_button">SALIR</string><string name="cancel_button">CANCELAR</string><string name="close_button">CERRAR</string><string name="exit_confirm_title">¿Salir del juego?</string><string name="exit_confirm_message">Se perderá el progreso actual.</string><string name="help_description">Ayuda</string><string name="mute_description">Silenciar</string><string name="settings_description">Configuración</string><string name="settings_title">Configuración</string><string name="show_buttons_setting">Mostrar botones</string><string name="enable_gestures_setting">Activar gestos</string><string name="enable_music_setting">Activar música</string><string name="main_tune_setting">Tema principal</string><string name="settings_input_method_rule">Mantén habilitado al menos un método de entrada.</string><string name="nickname_label">Apodo</string><string name="nickname_placeholder">Hasta 12 caracteres</string><string name="nickname_required">Introduce un apodo para guardar la puntuación.</string><string name="save_score_button">GUARDAR PUNTOS</string><string name="score_saved">Puntuación guardada.</string><string name="score_saved_ranked">Puesto #%1$d en la tabla local.</string><string name="not_in_top_ten">La puntuación no entró en el top 100.</string><string name="scoreboard_button">MARCADOR</string><string name="scoreboard_title">MARCADOR LOCAL</string><string name="scoreboard_empty">Aún no hay puntuaciones guardadas.</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">NOMBRE</string><string name="scoreboard_score_header">PUNTOS</string><string name="scoreboard_level_header">NVL</string><string name="scoreboard_lines_header">LÍNEAS</string><string name="music_library_set_main_track">Establecer como tema principal</string><string name="music_library_title">Biblioteca de musica</string><string name="music_library_back_description">Cerrar biblioteca de musica</string><string name="music_library_refresh">Actualizar biblioteca de musica</string><string name="music_library_pick_folder">Elegir carpeta de musica</string><string name="music_library_pause">Pausar musica</string><string name="music_library_stop">Detener musica</string><string name="music_library_play">Reproducir pista actual</string><string name="music_library_play_track">Reproducir pista</string><string name="music_library_muted_placeholder">La musica esta silenciada</string><string name="music_library_no_track_placeholder">No hay ninguna pista seleccionada</string><string name="music_library_track_load_error">No se pudo cargar %1$s</string><string name="music_library_empty_title">No se encontraron archivos de musica</string><string name="music_library_empty_hint">Coloca archivos .mod / .xm / .s3m / .it en Download/Mods/</string><string name="music_library_empty_api33_hint">En Android 13 o superior, elige tu carpeta Mods para que la app pueda leer archivos agregados por el usuario.</string><string name="music_library_empty_selected_folder_hint">La carpeta seleccionada se puede leer, pero aun no se encontraron archivos module validos.</string><string name="tutorial_title">CÓMO JUGAR</string><string name="tutorial_section_movement">MOVIMIENTO</string><string name="tutorial_section_dropping">CAÍDA</string><string name="tutorial_section_strategy">ESTRATEGIA</string><string name="tutorial_section_scoring">PUNTUACIÓN</string><string name="tutorial_got_it">¡ENTENDIDO!</string><string name="tutorial_movement_grab_label">Agarrar pieza</string><string name="tutorial_movement_grab_desc">Toca la pieza activa y arrástrala horizontalmente para moverla columna por columna.</string><string name="tutorial_movement_swipe_label">Mover con deslizamiento</string><string name="tutorial_movement_swipe_desc">Desliza en cualquier otro punto del tablero para mover piezas con DAS/ARR.</string><string name="tutorial_movement_rotation_label">Rotación</string><string name="tutorial_movement_rotation_desc">Toca la mitad derecha del tablero para girar en sentido horario, o la izquierda para antihorario.</string><string name="tutorial_dropping_soft_label">Caída suave</string><string name="tutorial_dropping_soft_desc">Arrastra lentamente hacia abajo en otro punto para caer más rápido (+1 pto/fila).</string><string name="tutorial_dropping_hard_label">Caída dura</string><string name="tutorial_dropping_hard_desc">Desliza rápido hacia abajo para fijar al instante (+2 pts/fila).</string><string name="tutorial_dropping_delay_label">Retrasar caída</string><string name="tutorial_dropping_delay_desc">Desliza hacia arriba para congelar la gravedad temporalmente (una vez por pieza).</string><string name="tutorial_strategy_hold_label">Guardar</string><string name="tutorial_strategy_hold_desc">Toca el panel GUARDAR o el botón para cambiar la pieza activa para usarla más tarde.</string><string name="tutorial_strategy_ghost_label">Pieza fantasma</string><string name="tutorial_strategy_ghost_desc">Mira la proyección en el suelo para ver exactamente dónde caerá tu pieza.</string><string name="tutorial_strategy_queue_label">Cola siguiente</string><string name="tutorial_strategy_queue_desc">La cola de la derecha muestra las próximas piezas. ¡Se reduce al subir de nivel!</string><string name="tutorial_scoring_lines_label">Líneas eliminadas</string><string name="tutorial_scoring_lines_desc">¡Elimina filas para puntuar! El multiplicador de nivel se aplica a todas.</string><string name="tutorial_scoring_tspin_label">T-Spins</string><string name="tutorial_scoring_tspin_desc">Gira una pieza T en un hueco estrecho para obtener muchos puntos extra.</string><string name="tutorial_scoring_combos_label">Combos</string><string name="tutorial_scoring_combos_desc">Elimina líneas en jugadas consecutivas para crear un multiplicador de combo.</string><string name="tutorial_scoring_allclear_label">Todo limpio</string><string name="tutorial_scoring_allclear_desc">Vacía todo el tablero para conseguir la máxima recompensa.</string>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">Iniciar juego</string>
+    <string name="game_state_label">Estado: %1$s</string>
+    <string name="score_label">Puntuación: %1$d</string>
+    <string name="level_label">Nivel: %1$d</string>
+    <string name="hold_label">GUARDAR</string>
+    <string name="next_label_caps">SIG.</string>
+    <string name="lines_label">LÍNEAS</string>
+    <string name="score_label_caps">PUNTOS</string>
+    <string name="level_label_caps">NIVEL</string>
+    <string name="score_stat_compact">Puntos %1$d</string>
+    <string name="level_stat_compact">Nivel %1$d</string>
+    <string name="lines_stat_compact">Líneas %1$d</string>
+    <string name="none_label">Ninguno</string>
+    <string name="move_left">Izquierda</string>
+    <string name="move_right">Derecha</string>
+    <string name="rotate_ccw">Girar antihorario</string>
+    <string name="rotate_cw">Girar horario</string>
+    <string name="soft_drop">Caída suave</string>
+    <string name="hard_drop">Caída dura</string>
+    <string name="hard_drop_short">CAÍDA DURA</string>
+    <string name="hold_action">Guardar</string>
+    <string name="drop_delay">Retrasar caída</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">FIN DEL JUEGO</string>
+    <string name="score_display">PUNTOS: %1$d</string>
+    <string name="paused_title">PAUSA</string>
+    <string name="pause_menu_subtitle">Continúa, reinicia o sal al menú.</string>
+    <string name="resume_button">CONTINUAR</string>
+    <string name="restart_button">REINICIAR</string>
+    <string name="menu_button">MENÚ</string>
+    <string name="quit_button">SALIR</string>
+    <string name="cancel_button">CANCELAR</string>
+    <string name="close_button">CERRAR</string>
+    <string name="exit_confirm_title">¿Salir del juego?</string>
+    <string name="exit_confirm_message">Se perderá el progreso actual.</string>
+    <string name="help_description">Ayuda</string>
+    <string name="mute_description">Silenciar</string>
+    <string name="settings_description">Configuración</string>
+    <string name="settings_title">Configuración</string>
+    <string name="show_buttons_setting">Mostrar botones</string>
+    <string name="enable_gestures_setting">Activar gestos</string>
+    <string name="enable_music_setting">Activar música</string>
+    <string name="main_tune_setting">Tema principal</string>
+    <string name="settings_input_method_rule">Mantén habilitado al menos un método de entrada.</string>
+    <string name="nickname_label">Apodo</string>
+    <string name="nickname_placeholder">Hasta 12 caracteres</string>
+    <string name="nickname_required">Introduce un apodo para guardar la puntuación.</string>
+    <string name="save_score_button">GUARDAR PUNTOS</string>
+    <string name="score_saved">Puntuación guardada.</string>
+    <string name="score_saved_ranked">Puesto #%1$d en la tabla local.</string>
+    <string name="not_in_top_ten">La puntuación no entró en el top 100.</string>
+    <string name="scoreboard_button">MARCADOR</string>
+    <string name="scoreboard_title">MARCADOR LOCAL</string>
+    <string name="scoreboard_empty">Aún no hay puntuaciones guardadas.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">NOMBRE</string>
+    <string name="scoreboard_score_header">PUNTOS</string>
+    <string name="scoreboard_level_header">NVL</string>
+    <string name="scoreboard_lines_header">LÍNEAS</string>
+    <string name="music_library_set_main_track">Establecer como tema principal</string>
+    <string name="music_library_title">Biblioteca de musica</string>
+    <string name="music_library_back_description">Cerrar biblioteca de musica</string>
+    <string name="music_library_refresh">Actualizar biblioteca de musica</string>
+    <string name="music_library_pick_folder">Elegir carpeta de musica</string>
+    <string name="music_library_pause">Pausar musica</string>
+    <string name="music_library_stop">Detener musica</string>
+    <string name="music_library_play">Reproducir pista actual</string>
+    <string name="music_library_play_track">Reproducir pista</string>
+    <string name="music_library_muted_placeholder">La musica esta silenciada</string>
+    <string name="music_library_no_track_placeholder">No hay ninguna pista seleccionada</string>
+    <string name="music_library_track_load_error">No se pudo cargar %1$s</string>
+    <string name="music_library_empty_title">No se encontraron archivos de musica</string>
+    <string name="music_library_empty_hint">Coloca archivos .mod / .xm / .s3m / .it en
+        Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">En Android 13 o superior, elige tu carpeta Mods
+        para que la app pueda leer archivos agregados por el usuario.</string>
+    <string name="music_library_empty_selected_folder_hint">La carpeta seleccionada se puede leer,
+        pero aun no se encontraron archivos module validos.</string>
+    <string name="tutorial_title">CÓMO JUGAR</string>
+    <string name="tutorial_section_movement">MOVIMIENTO</string>
+    <string name="tutorial_section_dropping">CAÍDA</string>
+    <string name="tutorial_section_strategy">ESTRATEGIA</string>
+    <string name="tutorial_section_scoring">PUNTUACIÓN</string>
+    <string name="tutorial_got_it">¡ENTENDIDO!</string>
+    <string name="tutorial_movement_grab_label">Agarrar pieza</string>
+    <string name="tutorial_movement_grab_desc">Toca la pieza activa y arrástrala horizontalmente
+        para moverla columna por columna.</string>
+    <string name="tutorial_movement_swipe_label">Mover con deslizamiento</string>
+    <string name="tutorial_movement_swipe_desc">Desliza en cualquier otro punto del tablero para
+        mover piezas con DAS/ARR.</string>
+    <string name="tutorial_movement_rotation_label">Rotación</string>
+    <string name="tutorial_movement_rotation_desc">Toca la mitad derecha del tablero para girar en
+        sentido horario, o la izquierda para antihorario.</string>
+    <string name="tutorial_dropping_soft_label">Caída suave</string>
+    <string name="tutorial_dropping_soft_desc">Arrastra lentamente hacia abajo en otro punto para
+        caer más rápido (+1 pto/fila).</string>
+    <string name="tutorial_dropping_hard_label">Caída dura</string>
+    <string name="tutorial_dropping_hard_desc">Desliza rápido hacia abajo para fijar al instante (+2
+        pts/fila).</string>
+    <string name="tutorial_dropping_delay_label">Retrasar caída</string>
+    <string name="tutorial_dropping_delay_desc">Desliza hacia arriba para congelar la gravedad
+        temporalmente (una vez por pieza).</string>
+    <string name="tutorial_strategy_hold_label">Guardar</string>
+    <string name="tutorial_strategy_hold_desc">Toca el panel GUARDAR o el botón para cambiar la
+        pieza activa para usarla más tarde.</string>
+    <string name="tutorial_strategy_ghost_label">Pieza fantasma</string>
+    <string name="tutorial_strategy_ghost_desc">Mira la proyección en el suelo para ver exactamente
+        dónde caerá tu pieza.</string>
+    <string name="tutorial_strategy_queue_label">Cola siguiente</string>
+    <string name="tutorial_strategy_queue_desc">La cola de la derecha muestra las próximas piezas.
+        ¡Se reduce al subir de nivel!</string>
+    <string name="tutorial_scoring_lines_label">Líneas eliminadas</string>
+    <string name="tutorial_scoring_lines_desc">¡Elimina filas para puntuar! El multiplicador de
+        nivel se aplica a todas.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spins</string>
+    <string name="tutorial_scoring_tspin_desc">Gira una pieza T en un hueco estrecho para obtener
+        muchos puntos extra.</string>
+    <string name="tutorial_scoring_combos_label">Combos</string>
+    <string name="tutorial_scoring_combos_desc">Elimina líneas en jugadas consecutivas para crear un
+        multiplicador de combo.</string>
+    <string name="tutorial_scoring_allclear_label">Todo limpio</string>
+    <string name="tutorial_scoring_allclear_desc">Vacía todo el tablero para conseguir la máxima
+        recompensa.</string>
     <string name="level_and_lines_stat_compact">Nivel %1$d · Líneas %2$d</string>
     <string name="sound_on_description">Sonido activado</string>
     <string name="sound_off_description">Sonido desactivado</string>
@@ -12,11 +136,17 @@
     <string name="music_library_disabled_placeholder">La reproducción de música está desactivada</string>
     <string name="tutorial_section_music">MÚSICA</string>
     <string name="tutorial_music_set_folder_label">Definir carpeta de música</string>
-    <string name="tutorial_music_set_folder_desc">Abre Ajustes, entra en Biblioteca musical, toca Definir carpeta de música y elige la carpeta que contiene tus archivos .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_folder_desc">Abre Ajustes, entra en Biblioteca musical, toca
+        Definir carpeta de música y elige la carpeta que contiene tus archivos .mod / .xm / .s3m /
+        .it.</string>
     <string name="tutorial_music_set_main_label">Elegir tema principal</string>
-    <string name="tutorial_music_set_main_desc">Después del escaneo, elige una pista en Biblioteca musical y toca Definir como tema principal si quieres que empiece automáticamente con una partida nueva.</string>
+    <string name="tutorial_music_set_main_desc">Después del escaneo, elige una pista en Biblioteca
+        musical y toca Definir como tema principal si quieres que empiece automáticamente con una
+        partida nueva.</string>
     <string name="tutorial_music_download_label">Dónde conseguir Mods</string>
-    <string name="tutorial_music_download_desc">Fuentes de ejemplo: The Mod Archive (modarchive.org) y scene.org (files.scene.org). Descarga allí archivos de módulos y luego colócalos en Download/Mods/ o en la carpeta de música seleccionada.</string>
+    <string name="tutorial_music_download_desc">Fuentes de ejemplo: The Mod Archive (modarchive.org)
+        y scene.org (files.scene.org). Descarga allí archivos de módulos y luego colócalos en
+        Download/Mods/ o en la carpeta de música seleccionada.</string>
     <string name="language_setting">Idioma</string>
     <string name="language_system_default">Predeterminado del sistema</string>
 </resources>
