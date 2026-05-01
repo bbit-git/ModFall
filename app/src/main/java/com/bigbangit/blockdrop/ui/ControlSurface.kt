@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.bigbangit.blockdrop.core.GameConstants
 import com.bigbangit.blockdrop.core.GameState
+import com.bigbangit.blockdrop.core.TetrominoType
 import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.GameUiModel
@@ -25,6 +26,7 @@ import kotlin.math.abs
 @Composable
 fun ControlSurface(
     uiModel: GameUiModel,
+    enabled: Boolean,
     onMoveLeft: () -> Unit,
     onMoveRight: () -> Unit,
     onRotateClockwise: () -> Unit,
@@ -32,6 +34,9 @@ fun ControlSurface(
     onSoftDrop: () -> Unit,
     onHardDrop: () -> Unit,
     onDropDelay: () -> Unit,
+    heldPiece: TetrominoType? = null,
+    canHold: Boolean = true,
+    nextPieces: List<TetrominoType> = emptyList(),
     modifier: Modifier = Modifier,
 ) {
     var boardSize by remember { mutableStateOf(IntSize.Zero) }
@@ -47,6 +52,7 @@ fun ControlSurface(
         modifier = modifier
             .onSizeChanged { boardSize = it }
             .pointerInput(boardSize) {
+                if (!enabled) return@pointerInput
                 val width = boardSize.width.toFloat().takeIf { it > 0f } ?: return@pointerInput
                 val height = boardSize.height.toFloat().takeIf { it > 0f } ?: return@pointerInput
                 val cellWidth = width / GameConstants.BOARD_WIDTH
@@ -161,7 +167,12 @@ fun ControlSurface(
                 }
             },
     ) {
-        BoardCanvas(uiModel = uiModel)
+        BoardCanvas(
+            uiModel = uiModel,
+            heldPiece = heldPiece,
+            canHold = canHold,
+            nextPieces = nextPieces,
+        )
     }
 }
 

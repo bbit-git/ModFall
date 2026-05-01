@@ -2,9 +2,9 @@ package com.bigbangit.blockdrop.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BoardBackground = Color(0xFF1A1A2E)
-val AppBackgroundCenter = Color(0xFF0D0D1A)
-val AppBackgroundEdge = Color(0xFF000000)
+val BoardBackground = Color(0xFF0D1B2A)
+val AppBackgroundCenter = Color(0xFF0D1B2A)
+val AppBackgroundEdge = Color(0xFF0D1B2A)
 val GridLineColor = Color(0x0AFFFFFF) // 4% white
 
 val TetrominoI = Color(0xFF29BFFF)

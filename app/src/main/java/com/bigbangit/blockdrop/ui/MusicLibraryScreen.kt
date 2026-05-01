@@ -1,7 +1,6 @@
 package com.bigbangit.blockdrop.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MusicNote
@@ -20,6 +18,8 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -42,8 +42,10 @@ import com.bigbangit.blockdrop.ui.theme.TextWhite
 @Composable
 fun MusicLibraryScreen(
     isMuted: Boolean,
+    musicEnabled: Boolean,
     availableTracks: List<ModTrackInfo>,
     currentTrack: ModTrackInfo?,
+    mainTrackPathOrUri: String?,
     isMusicPlaying: Boolean,
     musicFolderUri: String?,
     trackLoadError: String?,
@@ -51,6 +53,7 @@ fun MusicLibraryScreen(
     onRefresh: () -> Unit,
     onPickMusicFolder: () -> Unit,
     onSelectTrack: (ModTrackInfo) -> Unit,
+    onSelectMainTrack: (ModTrackInfo) -> Unit,
     onPauseMusic: () -> Unit,
     onResumeMusic: () -> Unit,
     onStopMusic: () -> Unit,
@@ -100,6 +103,7 @@ fun MusicLibraryScreen(
 
         CurrentTrackCard(
             isMuted = isMuted,
+            musicEnabled = musicEnabled,
             currentTrack = currentTrack,
             isMusicPlaying = isMusicPlaying,
             onPauseMusic = onPauseMusic,
@@ -132,17 +136,26 @@ fun MusicLibraryScreen(
                 )
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp),
                 ) {
-                    items(
+                    itemsIndexed(
                         items = availableTracks,
-                        key = { it.pathOrUri },
-                    ) { track ->
+                        key = { _, track -> track.pathOrUri },
+                    ) { index, track ->
                         MusicTrackRow(
                             track = track,
                             isCurrentTrack = currentTrack?.pathOrUri == track.pathOrUri,
+                            isMainTrack = mainTrackPathOrUri == track.pathOrUri,
+                            musicEnabled = musicEnabled && !isMuted,
                             onPlay = { onSelectTrack(track) },
+                            onSelectMainTrack = { onSelectMainTrack(track) },
                         )
+                        if (index < availableTracks.lastIndex) {
+                            HorizontalDivider(
+                                color = Color.White.copy(alpha = 0.12f),
+                                thickness = 1.dp,
+                            )
+                        }
                     }
                 }
             }
@@ -153,6 +166,7 @@ fun MusicLibraryScreen(
 @Composable
 private fun CurrentTrackCard(
     isMuted: Boolean,
+    musicEnabled: Boolean,
     currentTrack: ModTrackInfo?,
     isMusicPlaying: Boolean,
     onPauseMusic: () -> Unit,
@@ -162,9 +176,7 @@ private fun CurrentTrackCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.14f), RoundedCornerShape(20.dp))
-            .padding(horizontal = 14.dp, vertical = 10.dp),
+            .padding(horizontal = 4.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -175,7 +187,11 @@ private fun CurrentTrackCard(
         )
 
         Text(
-            text = currentTrackLabel(isMuted = isMuted, currentTrack = currentTrack),
+            text = currentTrackLabel(
+                isMuted = isMuted,
+                musicEnabled = musicEnabled,
+                currentTrack = currentTrack,
+            ),
             modifier = Modifier.weight(1f),
             style = MaterialTheme.typography.bodyLarge,
             color = TextWhite,
@@ -183,7 +199,7 @@ private fun CurrentTrackCard(
             overflow = TextOverflow.Ellipsis,
         )
 
-        if (!isMuted && currentTrack != null) {
+        if (!isMuted && musicEnabled && currentTrack != null) {
             if (isMusicPlaying) {
                 IconButton(onClick = onPauseMusic) {
                     Icon(
@@ -219,26 +235,19 @@ private fun CurrentTrackCard(
 fun MusicTrackRow(
     track: ModTrackInfo,
     isCurrentTrack: Boolean,
+    isMainTrack: Boolean,
+    musicEnabled: Boolean,
     onPlay: () -> Unit,
+    onSelectMainTrack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val containerColor = if (isCurrentTrack) {
-        Color(0xFF97AEFF).copy(alpha = 0.22f)
-    } else {
-        Color.White.copy(alpha = 0.06f)
-    }
-    val borderColor = if (isCurrentTrack) {
-        Color(0xFFC6D2FF).copy(alpha = 0.55f)
-    } else {
-        Color.White.copy(alpha = 0.1f)
-    }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(containerColor, RoundedCornerShape(18.dp))
-            .border(1.dp, borderColor, RoundedCornerShape(18.dp))
-            .padding(horizontal = 14.dp, vertical = 10.dp),
+            .background(
+                if (isCurrentTrack) Color(0xFF97AEFF).copy(alpha = 0.12f) else Color.Transparent,
+            )
+            .padding(horizontal = 4.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -255,10 +264,17 @@ fun MusicTrackRow(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
-        IconButton(onClick = onPlay) {
+        IconButton(onClick = onPlay, enabled = musicEnabled) {
             Icon(
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = stringResource(R.string.music_library_play_track),
+                tint = TextWhite,
+            )
+        }
+        IconButton(onClick = onSelectMainTrack) {
+            Icon(
+                imageVector = if (isMainTrack) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                contentDescription = stringResource(R.string.music_library_set_main_track),
                 tint = TextWhite,
             )
         }
@@ -305,10 +321,12 @@ private fun EmptyMusicLibraryState(
 @Composable
 private fun currentTrackLabel(
     isMuted: Boolean,
+    musicEnabled: Boolean,
     currentTrack: ModTrackInfo?,
 ): String {
     return when {
         isMuted -> stringResource(R.string.music_library_muted_placeholder)
+        !musicEnabled -> stringResource(R.string.music_library_disabled_placeholder)
         currentTrack == null -> stringResource(R.string.music_library_no_track_placeholder)
         else -> currentTrack.displayString()
     }

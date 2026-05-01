@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Block Drop</string>
+    <string name="app_name">Mod Fall</string>
     <string name="start_game">Spustiť hru</string>
     <string name="game_state_label">Stav: %1$s</string>
     <string name="score_label">Skóre: %1$d</string>
@@ -24,7 +24,7 @@
     <string name="hold_action">Držať</string>
     <string name="drop_delay">Oneskorenie pádu</string>
 
-    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="block_drop_title">MOD FALL</string>
     <string name="game_over_title">KONIEC HRY</string>
     <string name="score_display">SKÓRE: %1$d</string>
     <string name="paused_title">PAUZA</string>
@@ -39,13 +39,20 @@
     <string name="exit_confirm_message">Aktuálny postup bude stratený.</string>
     <string name="help_description">Pomoc</string>
     <string name="mute_description">Stíšiť</string>
+    <string name="settings_description">Nastavenia</string>
+    <string name="settings_title">Nastavenia</string>
+    <string name="show_buttons_setting">Zobraziť tlačidlá</string>
+    <string name="enable_gestures_setting">Povoliť gestá</string>
+    <string name="enable_music_setting">Povoliť hudbu</string>
+    <string name="main_tune_setting">Hlavná melódia</string>
+    <string name="settings_input_method_rule">Nechajte zapnutý aspoň jeden spôsob ovládania.</string>
     <string name="nickname_label">Prezývka</string>
     <string name="nickname_placeholder">Až 12 znakov</string>
     <string name="nickname_required">Zadaj prezývku na uloženie skóre.</string>
     <string name="save_score_button">ULOŽIŤ SKÓRE</string>
     <string name="score_saved">Skóre uložené.</string>
     <string name="score_saved_ranked">Umiestnenie #%1$d v lokálnej tabuľke.</string>
-    <string name="not_in_top_ten">Skóre sa nevošlo do top 10.</string>
+    <string name="not_in_top_ten">Skóre sa nevošlo do top 100.</string>
     <string name="scoreboard_button">TABUĽKA</string>
     <string name="scoreboard_title">LOKÁLNA TABUĽKA</string>
     <string name="scoreboard_empty">Zatiaľ žiadne uložené skóre.</string>
@@ -54,7 +61,26 @@
     <string name="scoreboard_score_header">SKÓRE</string>
     <string name="scoreboard_level_header">ÚROVEŇ</string>
     <string name="scoreboard_lines_header">RIADKY</string>
+    <string name="music_library_set_main_track">Nastaviť ako hlavnú melódiu</string>
 
+    <string name="music_library_title">Hudobná knižnica</string>
+    <string name="music_library_back_description">Zavrieť hudobnú knižnicu</string>
+    <string name="music_library_refresh">Obnoviť hudobnú knižnicu</string>
+    <string name="music_library_pick_folder">Nastaviť priečinok s hudbou</string>
+    <string name="music_library_pause">Pozastaviť hudbu</string>
+    <string name="music_library_stop">Zastaviť hudbu</string>
+    <string name="music_library_play">Prehrať aktuálnu skladbu</string>
+    <string name="music_library_play_track">Prehrať skladbu</string>
+    <string name="music_library_muted_placeholder">Hudba je stlmená</string>
+    <string name="music_library_no_track_placeholder">Nie je vybraná žiadna skladba</string>
+    <string name="music_library_track_load_error">Nepodarilo sa načítať %1$s</string>
+    <string name="music_library_empty_title">Nenašli sa žiadne hudobné súbory</string>
+    <string name="music_library_empty_hint">Umiestnite súbory .mod / .xm / .s3m / .it do
+        Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">V Android 13+ vyberte priečinok Mods, aby
+        aplikácia mohla čítať súbory pridané používateľom.</string>
+    <string name="music_library_empty_selected_folder_hint">Vybraný priečinok je čitateľný, ale
+        zatiaľ sa nenašli žiadne platné module súbory.</string>
     <string name="tutorial_title">AKO HRAŤ</string>
     <string name="tutorial_section_movement">POHYB</string>
     <string name="tutorial_section_dropping">PÁD</string>
@@ -63,32 +89,66 @@
     <string name="tutorial_got_it">ROZUMIEM!</string>
 
     <string name="tutorial_movement_grab_label">Chytenie bloku</string>
-    <string name="tutorial_movement_grab_desc">Dotkni sa aktívneho bloku a potiahni vodorovne pre pohyb po stĺpcoch.</string>
+    <string name="tutorial_movement_grab_desc">Dotkni sa aktívneho bloku a potiahni vodorovne pre
+        pohyb po stĺpcoch.</string>
     <string name="tutorial_movement_swipe_label">Posuň prstom</string>
-    <string name="tutorial_movement_swipe_desc">Prejdi inde po doske, aby si sa pohyboval pomocou DAS/ARR.</string>
+    <string name="tutorial_movement_swipe_desc">Prejdi inde po doske, aby si sa pohyboval pomocou
+        DAS/ARR.</string>
     <string name="tutorial_movement_rotation_label">Otáčanie</string>
-    <string name="tutorial_movement_rotation_desc">Ťukni do pravej polovice, aby si otočil po smere hodiniek, do ľavej v protismere.</string>
+    <string name="tutorial_movement_rotation_desc">Ťukni do pravej polovice, aby si otočil po smere
+        hodiniek, do ľavej v protismere.</string>
 
     <string name="tutorial_dropping_soft_label">Mäkký pád</string>
-    <string name="tutorial_dropping_soft_desc">Pomaly ťahaj nadol inde, aby si zrýchlil pád (+1 bod/riadok).</string>
+    <string name="tutorial_dropping_soft_desc">Pomaly ťahaj nadol inde, aby si zrýchlil pád (+1
+        bod/riadok).</string>
     <string name="tutorial_dropping_hard_label">Tvrdý pád</string>
-    <string name="tutorial_dropping_hard_desc">Rýchlo pritiahnuté nadol, aby si okamžite zamkol (+2 body/riadok).</string>
+    <string name="tutorial_dropping_hard_desc">Rýchlo pritiahnuté nadol, aby si okamžite zamkol (+2
+        body/riadok).</string>
     <string name="tutorial_dropping_delay_label">Oneskorenie pádu</string>
-    <string name="tutorial_dropping_delay_desc">Prejdi hore, aby si dočasne zastavil gravitáciu (raz na blok).</string>
+    <string name="tutorial_dropping_delay_desc">Prejdi hore, aby si dočasne zastavil gravitáciu (raz
+        na blok).</string>
 
     <string name="tutorial_strategy_hold_label">Držanie</string>
-    <string name="tutorial_strategy_hold_desc">Ťukni na panel DRŽAŤ alebo tlačidlo pre výmenu aktívneho bloku.</string>
+    <string name="tutorial_strategy_hold_desc">Ťukni na panel DRŽAŤ alebo tlačidlo pre výmenu
+        aktívneho bloku.</string>
     <string name="tutorial_strategy_ghost_label">Duch</string>
-    <string name="tutorial_strategy_ghost_desc">Sleduj projekciu na podlahe, aby si vedel, kam figúra dopadne.</string>
+    <string name="tutorial_strategy_ghost_desc">Sleduj projekciu na podlahe, aby si vedel, kam
+        figúra dopadne.</string>
     <string name="tutorial_strategy_queue_label">Rada</string>
-    <string name="tutorial_strategy_queue_desc">Pravá rada ukazuje ďalšie figúry. Zmenšuje sa s postupom úrovní.</string>
+    <string name="tutorial_strategy_queue_desc">Pravá rada ukazuje ďalšie figúry. Zmenšuje sa s
+        postupom úrovní.</string>
 
     <string name="tutorial_scoring_lines_label">Vyčistené riadky</string>
-    <string name="tutorial_scoring_lines_desc">Vyčisti riadky pre skóre! Násobič úrovne platí na všetky.</string>
+    <string name="tutorial_scoring_lines_desc">Vyčisti riadky pre skóre! Násobič úrovne platí na
+        všetky.</string>
     <string name="tutorial_scoring_tspin_label">T-Spiny</string>
     <string name="tutorial_scoring_tspin_desc">Vsuň T-figúru do úzkeho priestoru pre obrovský bonus.</string>
     <string name="tutorial_scoring_combos_label">Kombinácie</string>
     <string name="tutorial_scoring_combos_desc">Vymaž riadky za sebou a buduj násobič komb.</string>
     <string name="tutorial_scoring_allclear_label">Vyčistenie</string>
     <string name="tutorial_scoring_allclear_desc">Vyprázdni celú dosku pre maximálny bonus.</string>
+
+    <string name="level_and_lines_stat_compact">Úroveň %1$d · Riadky %2$d</string>
+    <string name="sound_on_description">Zvuk zapnutý</string>
+    <string name="sound_off_description">Zvuk vypnutý</string>
+    <string name="music_volume_setting">Hlasitosť hudby</string>
+    <string name="sfx_volume_setting">Hlasitosť efektov</string>
+    <string name="enable_particles_setting">Častice</string>
+    <string name="particle_quality_setting">Hustota častíc</string>
+    <string name="particle_quality_low">Nižšia</string>
+    <string name="particle_quality_high">Vyššia</string>
+    <string name="music_library_disabled_placeholder">Prehrávanie hudby je vypnuté</string>
+    <string name="tutorial_section_music">HUDBA</string>
+    <string name="tutorial_music_set_folder_label">Nastaviť priečinok hudby</string>
+    <string name="tutorial_music_set_folder_desc">Otvorte Nastavenia, vstúpte do Hudobnej knižnice,
+        ťuknite na Nastaviť priečinok hudby a vyberte priečinok so súbormi .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_main_label">Vybrať hlavnú melódiu</string>
+    <string name="tutorial_music_set_main_desc">Po skenovaní vyberte skladbu v Hudobnej knižnici a
+        ťuknite na Nastaviť ako hlavnú melódiu, ak chcete, aby sa automaticky spustila s novou hrou.</string>
+    <string name="tutorial_music_download_label">Kde získať Mods</string>
+    <string name="tutorial_music_download_desc">Príklady zdrojov: The Mod Archive (modarchive.org) a
+        scene.org (files.scene.org). Stiahnite tam súbory modulov a potom ich vložte do
+        Download/Mods/ alebo do vybraného priečinka hudby.</string>
+    <string name="language_setting">Jazyk</string>
+    <string name="language_system_default">Predvolené systémom</string>
 </resources>

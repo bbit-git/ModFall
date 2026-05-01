@@ -1,6 +1,6 @@
 # M6 — MOD Music Playback
 
-**Status:** In progress
+**Status:** Completed
 **Depends on:** M4
 
 ## Scope
@@ -35,18 +35,14 @@ Optional background music via tracker module files (MOD, XM, S3M, IT) decoded wi
 - JNI bridge and native C wrapper for libopenmpt complete
 - Library scanning with format filtering and validation
 - Track selection with repeat avoidance
-- ViewModel integration for lifecycle and mute state
+- ViewModel integration for lifecycle, mute state, and music-enabled state
 - TrackInfoOverlay UI component
+- Main-tune preference persisted through settings and preferred on game start
+- Music playback correctly blocked when music is disabled, independent from global mute
 - Unit tests for ModLibrary (10), ModTrackInfo (5), track selection (6)
 - NDK build configuration (CMakeLists.txt, abiFilters)
-
-## Remaining
-
-- Add `onTrackChanged` / track flow to `ModMusicService` interface (remove `is DefaultModMusicService` cast in ViewModel)
-- Convert recursive `playNextTrack()` to iterative loop to avoid stack overflow on many unplayable files
-- Harden `ModPlayer` thread safety (race between playback thread and release)
 - Runtime permission request for `READ_EXTERNAL_STORAGE` on API 23-32
-- Document scoped storage limitation on SDK 33+ (Downloads not directly accessible via File API)
+- Scoped-storage library selection flow for modern Android via music-folder picker
 
 ## Exit criteria
 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Block Drop</string>
+    <string name="app_name">Mod Fall</string>
     <string name="start_game">Rozpocznij grę</string>
     <string name="game_state_label">Stan: %1$s</string>
     <string name="score_label">Wynik: %1$d</string>
@@ -24,7 +24,7 @@
     <string name="hold_action">Zatrzymaj</string>
     <string name="drop_delay">Opóźnienie spadku</string>
 
-    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="block_drop_title">MOD FALL</string>
     <string name="game_over_title">KONIEC GRY</string>
     <string name="score_display">WYNIK: %1$d</string>
     <string name="paused_title">PAUZA</string>
@@ -39,13 +39,20 @@
     <string name="exit_confirm_message">Aktualny postęp zostanie utracony.</string>
     <string name="help_description">Pomoc</string>
     <string name="mute_description">Wycisz</string>
+    <string name="settings_description">Ustawienia</string>
+    <string name="settings_title">Ustawienia</string>
+    <string name="show_buttons_setting">Pokaż przyciski</string>
+    <string name="enable_gestures_setting">Włącz gesty</string>
+    <string name="enable_music_setting">Włącz muzykę</string>
+    <string name="main_tune_setting">Główny utwór</string>
+    <string name="settings_input_method_rule">Pozostaw włączoną co najmniej jedną metodę sterowania.</string>
     <string name="nickname_label">Nick</string>
     <string name="nickname_placeholder">Do 12 znaków</string>
     <string name="nickname_required">Podaj nick, aby zapisać wynik.</string>
     <string name="save_score_button">ZAPISZ WYNIK</string>
     <string name="score_saved">Wynik zapisany.</string>
     <string name="score_saved_ranked">Pozycja #%1$d w lokalnej tabeli.</string>
-    <string name="not_in_top_ten">Wynik nie trafił do pierwszej dziesiątki.</string>
+    <string name="not_in_top_ten">Wynik nie trafił do pierwszej setki.</string>
     <string name="scoreboard_button">TABLICA</string>
     <string name="scoreboard_title">LOKALNA TABLICA</string>
     <string name="scoreboard_empty">Póki co brak zapisanych wyników.</string>
@@ -54,7 +61,25 @@
     <string name="scoreboard_score_header">WYNIK</string>
     <string name="scoreboard_level_header">POZIOM</string>
     <string name="scoreboard_lines_header">LINIE</string>
+    <string name="music_library_set_main_track">Ustaw jako główny utwór</string>
 
+    <string name="music_library_title">Biblioteka muzyki</string>
+    <string name="music_library_back_description">Zamknij bibliotekę muzyki</string>
+    <string name="music_library_refresh">Odśwież bibliotekę muzyki</string>
+    <string name="music_library_pick_folder">Ustaw folder muzyki</string>
+    <string name="music_library_pause">Wstrzymaj muzykę</string>
+    <string name="music_library_stop">Zatrzymaj muzykę</string>
+    <string name="music_library_play">Odtwórz bieżący utwór</string>
+    <string name="music_library_play_track">Odtwórz utwór</string>
+    <string name="music_library_muted_placeholder">Muzyka jest wyciszona</string>
+    <string name="music_library_no_track_placeholder">Nie wybrano utworu</string>
+    <string name="music_library_track_load_error">Nie udało się wczytać %1$s</string>
+    <string name="music_library_empty_title">Nie znaleziono plików muzycznych</string>
+    <string name="music_library_empty_hint">Umieść pliki .mod / .xm / .s3m / .it w Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">Na Androidzie 13+ wybierz folder Mods, aby
+        aplikacja mogła czytać pliki dodane przez użytkownika.</string>
+    <string name="music_library_empty_selected_folder_hint">Wybrany folder jest czytelny, ale nie
+        znaleziono jeszcze prawidłowych plików module.</string>
     <string name="tutorial_title">JAK GRAĆ</string>
     <string name="tutorial_section_movement">Ruch</string>
     <string name="tutorial_section_dropping">Spadek</string>
@@ -63,32 +88,68 @@
     <string name="tutorial_got_it">ROZUMIEM!</string>
 
     <string name="tutorial_movement_grab_label">Chwytanie bloku</string>
-    <string name="tutorial_movement_grab_desc">Dotknij aktywnego bloku i przesuń poziomo, aby przesuwać kolumnami.</string>
+    <string name="tutorial_movement_grab_desc">Dotknij aktywnego bloku i przesuń poziomo, aby
+        przesuwać kolumnami.</string>
     <string name="tutorial_movement_swipe_label">Przesuń palcem</string>
-    <string name="tutorial_movement_swipe_desc">Przesuń w dowolnym innym miejscu planszy, aby poruszać się z DAS/ARR.</string>
+    <string name="tutorial_movement_swipe_desc">Przesuń w dowolnym innym miejscu planszy, aby
+        poruszać się z DAS/ARR.</string>
     <string name="tutorial_movement_rotation_label">Obrót</string>
-    <string name="tutorial_movement_rotation_desc">Stuknij w prawą połowę planszy, aby obrócić zgodnie z ruchem wskazówek, w lewą dla przeciwnie.</string>
+    <string name="tutorial_movement_rotation_desc">Stuknij w prawą połowę planszy, aby obrócić
+        zgodnie z ruchem wskazówek, w lewą dla przeciwnie.</string>
 
     <string name="tutorial_dropping_soft_label">Łagodne opadanie</string>
-    <string name="tutorial_dropping_soft_desc">Powoli przeciągnij w dół w dowolnym innym miejscu, aby szybciej spaść (+1 pkt/wiersz).</string>
+    <string name="tutorial_dropping_soft_desc">Powoli przeciągnij w dół w dowolnym innym miejscu,
+        aby szybciej spaść (+1 pkt/wiersz).</string>
     <string name="tutorial_dropping_hard_label">Twardy spadek</string>
-    <string name="tutorial_dropping_hard_desc">Szybko przesuń w dół, aby natychmiast zatwierdzić (+2 pkt/wiersz).</string>
+    <string name="tutorial_dropping_hard_desc">Szybko przesuń w dół, aby natychmiast zatwierdzić (+2
+        pkt/wiersz).</string>
     <string name="tutorial_dropping_delay_label">Opóźnienie spadku</string>
-    <string name="tutorial_dropping_delay_desc">Przesuń w górę, aby tymczasowo zatrzymać grawitację (raz na figurę).</string>
+    <string name="tutorial_dropping_delay_desc">Przesuń w górę, aby tymczasowo zatrzymać grawitację
+        (raz na figurę).</string>
 
     <string name="tutorial_strategy_hold_label">Przechowanie</string>
-    <string name="tutorial_strategy_hold_desc">Stuknij panel TRZYMAJ lub przycisk, aby zamienić aktywną figurę na później.</string>
+    <string name="tutorial_strategy_hold_desc">Stuknij panel TRZYMAJ lub przycisk, aby zamienić
+        aktywną figurę na później.</string>
     <string name="tutorial_strategy_ghost_label">Widmo</string>
-    <string name="tutorial_strategy_ghost_desc">Obserwuj projekcję na podłodze, aby wiedzieć, gdzie dokładnie wyląduje figura.</string>
+    <string name="tutorial_strategy_ghost_desc">Obserwuj projekcję na podłodze, aby wiedzieć, gdzie
+        dokładnie wyląduje figura.</string>
     <string name="tutorial_strategy_queue_label">Kolejka</string>
-    <string name="tutorial_strategy_queue_desc">Kolejka po prawej pokazuje nadchodzące figury. Kurczy się wraz z awansami poziomu.</string>
+    <string name="tutorial_strategy_queue_desc">Kolejka po prawej pokazuje nadchodzące figury.
+        Kurczy się wraz z awansami poziomu.</string>
 
     <string name="tutorial_scoring_lines_label">Usuwanie linii</string>
-    <string name="tutorial_scoring_lines_desc">Usuń rzędy, aby zdobyć wynik! Mnożnik poziomu dotyczy wszystkich.</string>
+    <string name="tutorial_scoring_lines_desc">Usuń rzędy, aby zdobyć wynik! Mnożnik poziomu dotyczy
+        wszystkich.</string>
     <string name="tutorial_scoring_tspin_label">T-Spiny</string>
-    <string name="tutorial_scoring_tspin_desc">Wsuń figurę T w ciasne miejsce, aby uzyskać ogromny bonus.</string>
+    <string name="tutorial_scoring_tspin_desc">Wsuń figurę T w ciasne miejsce, aby uzyskać ogromny
+        bonus.</string>
     <string name="tutorial_scoring_combos_label">Kombinacje</string>
-    <string name="tutorial_scoring_combos_desc">Zbijaj rzędy jeden po drugim, aby zwiększyć mnożnik combo.</string>
+    <string name="tutorial_scoring_combos_desc">Zbijaj rzędy jeden po drugim, aby zwiększyć mnożnik
+        combo.</string>
     <string name="tutorial_scoring_allclear_label">Czyszczenie</string>
     <string name="tutorial_scoring_allclear_desc">Wyczyść całą planszę, aby zdobyć maksymalny bonus.</string>
+
+    <string name="level_and_lines_stat_compact">Poziom %1$d · Linie %2$d</string>
+    <string name="sound_on_description">Dźwięk włączony</string>
+    <string name="sound_off_description">Dźwięk wyłączony</string>
+    <string name="music_volume_setting">Poziom muzyki</string>
+    <string name="sfx_volume_setting">Poziom SFX</string>
+    <string name="enable_particles_setting">Cząstki</string>
+    <string name="particle_quality_setting">Gęstość cząstek</string>
+    <string name="particle_quality_low">Niższa</string>
+    <string name="particle_quality_high">Wyższa</string>
+    <string name="music_library_disabled_placeholder">Odtwarzanie muzyki jest wyłączone</string>
+    <string name="tutorial_section_music">MUZYKA</string>
+    <string name="tutorial_music_set_folder_label">Ustaw folder muzyki</string>
+    <string name="tutorial_music_set_folder_desc">Otwórz Ustawienia, przejdź do Biblioteki muzyki,
+        stuknij Ustaw folder muzyki, a potem wybierz folder z plikami .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_main_label">Wybierz główny utwór</string>
+    <string name="tutorial_music_set_main_desc">Po skanowaniu wybierz utwór w Bibliotece muzyki i
+        stuknij Ustaw jako główny utwór, jeśli ma startować automatycznie z nową grą.</string>
+    <string name="tutorial_music_download_label">Skąd pobrać Mods</string>
+    <string name="tutorial_music_download_desc">Przykładowe źródła: The Mod Archive (modarchive.org)
+        i scene.org (files.scene.org). Pobierz tam pliki modułów, a następnie umieść je w
+        Download/Mods/ albo w wybranym folderze muzyki.</string>
+    <string name="language_setting">Język</string>
+    <string name="language_system_default">Domyślny systemowy</string>
 </resources>

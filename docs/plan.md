@@ -1,7 +1,7 @@
-# Block Drop implementation plan
+# Mod Fall implementation plan
 
 ## Overview
-- **Name:** Block Drop (Tetris-inspired Kotlin game)
+- **Name:** Mod Fall (Tetris-inspired Kotlin game)
 - **Platform:** Native Android using Jetpack Compose UI with Kotlin core logic and coroutines-driven game loop.
 - **Goal:** Ship a polished single-player experience with smooth animations, responsive controls, score/level systems, and visual/audio feedback before iterating on polish.
 - **Distribution:** Completely free, ultra-lightweight launch footprint, no advertisements or paid upgrades—focus on fast load times and a single bundled APK.
@@ -67,7 +67,7 @@
    - **Drop delay** – swipe-up freezes the active piece's gravity for a fixed duration, giving the player time to reposition. Usable once per piece; duration scales linearly from **2 000 ms at level 1** to **200 ms at level 100**: `delay = max(200, 2000 - (level - 1) × 18)` ms (rounded to nearest 10 ms). After the delay expires the piece resumes falling at normal speed.
    - Gesture classification distinguishes slow-drag (soft drop) vs. fast-flick (hard drop) by velocity threshold (~800 dp/s); tunable constant so it can be adjusted during playtesting.
    - DAS (150 ms), ARR (30 ms), hard-drop velocity threshold, drop-delay formula, and `GRAB_CELL_SLOP` all exposed as named constants in `GameConstants`.
-   - A small **`?` button** fixed in the top-left corner (top-start) opens the tutorial at any time without pausing the game (renders as an overlay on top).
+   - A small **`?` button** fixed in the top-left corner (top-start) opens the tutorial at any time without pausing the game (renders as a standalone full-screen help panel).
    - A small **mute/unmute button** fixed in the top-right corner (top-end) toggles all sound and vibration instantly; icon switches between speaker and muted-speaker states. Preference persisted in DataStore so it survives app restarts.
    - No other dedicated buttons.
 6. **UI + feedback** – Compose board canvas, animated scoreboard, level/lines display, SoundPool/vibration events, per-block flashes on line clear and piece placement. Block visual style must match the reference artwork (see Visual style section below).
@@ -127,7 +127,7 @@ Deep space-like dark purple-to-black radial gradient (`#0D0D1A` center → `#000
 
 ### Splash screen
 - Background: same deep purple-black radial gradient as above.
-- Centred logo: the stacked-blocks icon (three cyan + one orange, isometric-style, glowing) with the "BLOCK DROP" wordmark beneath it in the same bold rounded font visible in the splash image — thick white letters with a dark outline and a subtle colour gradient fill (yellow → green → blue across the letters, matching the splash artwork).
+- Centred logo: the stacked-blocks icon (three cyan + one orange, isometric-style, glowing) with the "MOD FALL" wordmark beneath it in the same bold rounded font visible in the splash image — thick white letters with a dark outline and a subtle colour gradient fill (yellow → green → blue across the letters, matching the splash artwork).
 - No animation required; static display for 2 seconds.
 
 ### Title / wordmark font style
@@ -150,7 +150,7 @@ Bold, rounded, slightly inflated letterforms. Each letter has: a thick dark outl
   - `BoardCanvas` (render grid, active tetromino, ghost piece projection via `Canvas`; use `Animatable` for fades).
   - `ControlSurface` (gesture detector covering the board area, tied to `ViewModel` actions).
   - `ScorePanel` (animated score/level/lines display).
-  - `TutorialOverlay` (full-screen plain-text tutorial triggered by `?` button; shown automatically on first launch, then on demand; does not pause the game).
+  - `TutorialScreen` (full-screen plain-text tutorial/help panel triggered by `?` button; shown automatically on first launch, then on demand; does not pause the game).
 - **Infrastructure**
   - `GameViewModel` exposes `StateFlow<GameUiModel>`; handles pause/start/resume/reset; observes `Lifecycle` to auto-pause when the app backgrounds. `GameLoop` receives `viewModelScope` rather than owning its own `CoroutineScope` — the ViewModel holds the returned `Job` and cancels/relaunches it on pause/restart/`onCleared()`.
   - `GameUiModel` includes: `state: GameState`, `pauseReason: PauseReason?` (`User` or `Lifecycle`; null when not paused), `score: Int`, `level: Int`, `lines: Int`, `board: BoardSnapshot`, `activePiece: ActivePieceUiModel` (type, cells as board coordinates — needed by `ControlSurface` for grab hit-testing and by `BoardCanvas` for rendering), `ghostCells: List<BoardCell>` (precomputed drop position, exposed for `BoardCanvas`), `nextPieces: List<TetrominoType>` (first N entries per level tier), `heldPiece: TetrominoType?` (null if hold slot is empty), `canHold: Boolean` (false after hold is used; resets to true on piece lock). `PauseReason` lives in the UI layer since core has no need for it.
@@ -159,7 +159,7 @@ Bold, rounded, slightly inflated letterforms. Each letter has: a thick dark outl
   - `CandyPalette` helper maps each tetromino to its vivid saturated base colour and derives highlight, shadow, glow, and bevel values (see Visual style section for full spec).
   - `SoundManager` should use lightweight bundled samples (short PCM/WAV or Synthesized SFX) so the APK stays small and load to memory quickly.
   - Sound effects should lean on simple synth/retro tones reminiscent of the original arcade Tetris—short blips for moves, a deeper pulse for clears, and a celebratory chime for level-up.
-  - `GameLoop` events (line clears, hard drop, level up, game over) flow into a shared `GameUiModel` `StateFlow`; Compose UI, effects (sound/vibration), and the scoreboard overlay reacts to that single stream so we avoid divergent state logic.
+  - `GameLoop` events (line clears, hard drop, level up, game over) flow into a shared `GameUiModel` `StateFlow`; Compose UI, effects (sound/vibration), and the scoreboard screen react to that single stream so we avoid divergent state logic.
   - Local scoreboard persisted with **DataStore** (not SharedPreferences); store up to 10 entries sorted by score descending; when full, drop the lowest entry if the new score qualifies.
   - Keep the dependency list minimal (lean Compose modules, no analytics/ads) and note to profile cold start on early builds so we hit the "fast load" goal before shipping.
   - `GameConstants` — a single object holding all tunable numeric constants: DAS (150 ms), ARR (30 ms), hard-drop velocity threshold (800 dp/s), lock-delay duration (500 ms), lock-delay max resets (15), drop-delay formula coefficients, gravity speed table, next-queue tier table, `GRAB_CELL_SLOP` (touch tolerance in dp for piece hit-testing).
@@ -227,7 +227,7 @@ Every visible string must have a key: game title, all score action labels (Singl
    - Animate block placement/clear flashes (row flash then fade).
    - Implement gesture recognizer: tap right-half = rotate CW, tap left-half = rotate CCW, swipe-left/right with DAS/ARR = move, slow-swipe-down (< 800 dp/s) = soft drop, fast-flick-down (≥ 800 dp/s) = hard drop, swipe-up = drop delay. Board is divided at the horizontal midpoint for tap-zone detection. All tunable values in `GameConstants`.
    - Implement grab mode in `ControlSurface`: on `ACTION_DOWN`, hit-test touch position against active piece cells from `GameUiModel` (using `GRAB_CELL_SLOP` tolerance); if hit, enter grab mode — horizontal drag moves piece column-by-column, lift without drag = rotate, downward drag without prior horizontal = normal soft/hard drop classification.
-   - Build `TutorialOverlay`: plain-text scrollable screen listing all gestures and scoring rules; triggered by the `?` button (top-left, always visible); shown automatically on first launch (DataStore flag), dismissable with a tap anywhere outside the panel.
+   - Build `TutorialScreen`: plain-text scrollable help screen listing all gestures and scoring rules; triggered by the `?` button (top-left, always visible); shown automatically on first launch (DataStore flag), dismissable via the dedicated bottom action button or back navigation.
    - Render each block according to the Visual style spec: base fill → inner gradient → top-left shine → edge bevel → outer glow (`BlurMaskFilter`). Use `CandyPalette` for all colour values.
    - Create responsive scoreboard and next-piece preview panel; next-queue panel animates slot count change on level-tier transition.
    - Render held piece panel (tappable); dim it with reduced opacity when `canHold` is false to signal unavailability.
@@ -245,14 +245,14 @@ Every visible string must have a key: game title, all score action labels (Singl
      2. Tie on score → lower level ranks higher (same score at a lower level is more impressive).
      3. Tie on score + level → lower lines-cleared ranks higher (same score with fewer rows cleared).
      4. Tie on score + level + lines → entries share the same rank number. The next distinct entry skips rank(s) accordingly (e.g. two entries at rank 3 → next entry is rank 5).
-   - Display scoreboard in a modal overlay with entry rank, nickname, score, level reached, and lines cleared.
+   - Display scoreboard in a standalone full-screen screen/panel with entry rank, nickname, score, level reached, and lines cleared.
 6. **Localisation & testing**
    - Fill all 17 non-English `strings.xml` files with translated content (machine-translate as a base, then review).
    - Verify Arabic RTL layout in emulator: `?` button top-right, score panel mirrored, no clipped text.
    - Check for text overflow in German and Russian (longest average word length among the set); adjust font size or line wrapping as needed.
    - Unit tests for `BoardState` (collision, line-clear, top-out), `Scoring` (all clear types, T-spin, back-to-back, combo), `PieceGenerator` (7-bag distribution), `GameLoop` (lock-delay reset cap, drop-delay timer, drop-delay one-use-per-piece flag).
    - `GameLoop` tests use `kotlinx-coroutines-test`: pass `TestScope` as the `CoroutineScope` to `GameLoop.start()`, use `advanceTimeBy` to control virtual time for lock-delay expiry, drop-delay timer, and gravity ticks without real waiting. Use `UnconfinedTestDispatcher` for tests that only need coroutines to run eagerly without time control. Add `kotlinx-coroutines-test` to `testImplementation` dependencies.
-   - Compose previews for board (with ghost piece), tutorial overlay, scoreboard, and pause menu in at least English, Arabic (RTL), and Chinese Simplified.
+   - Compose previews for board (with ghost piece), tutorial screen, scoreboard screen, and pause menu in at least English, Arabic (RTL), and Chinese Simplified.
    - Profile cold start; target < 1 s to first frame on a mid-range device.
 
 ## Package structure

@@ -50,7 +50,7 @@ class ScoreboardRepository(
     }
 
     internal companion object {
-        private const val MaxEntries = 10
+        internal const val MaxEntries = 100
         private val ScoreboardEntriesKey = stringPreferencesKey("scoreboard_entries")
 
         fun sanitizeNickname(rawNickname: String): String {

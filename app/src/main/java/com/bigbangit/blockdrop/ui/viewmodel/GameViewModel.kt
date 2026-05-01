@@ -17,9 +17,12 @@ import com.bigbangit.blockdrop.music.DefaultModMusicService
 import com.bigbangit.blockdrop.music.ModTrackInfo
 import com.bigbangit.blockdrop.music.ModMusicService
 import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
+import com.bigbangit.blockdrop.ui.model.AppLanguages
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.CelebrationType
 import com.bigbangit.blockdrop.ui.model.GameUiModel
+import com.bigbangit.blockdrop.ui.model.ParticleImpulseType
+import com.bigbangit.blockdrop.ui.model.ParticleQuality
 import com.bigbangit.blockdrop.ui.model.PauseReason
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,8 +42,10 @@ class GameViewModel(
     private val _uiModel = MutableStateFlow(GameUiModel())
     val uiModel: StateFlow<GameUiModel> = _uiModel.asStateFlow()
     private var musicPausedForBackground = false
+    private var pendingHardDropBurst = false
 
     init {
+        applyMusicVolumeForState(GameState.Idle)
         viewModelScope.launch {
             modMusicService.trackChanges.collect { trackInfo ->
                 _uiModel.update { current ->
@@ -54,8 +59,55 @@ class GameViewModel(
         }
         viewModelScope.launch {
             settingsRepository.isMuted.collect { isMuted ->
-                modMusicService.setEnabled(!isMuted)
+                modMusicService.setEnabled(!isMuted && _uiModel.value.musicEnabled)
+                if (!isMuted) {
+                    startMenuMusicIfNeeded()
+                }
                 refreshMusicState(isMutedOverride = isMuted)
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.buttonsEnabled.collect { buttonsEnabled ->
+                _uiModel.update { current -> current.copy(buttonsEnabled = buttonsEnabled) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.gesturesEnabled.collect { gesturesEnabled ->
+                _uiModel.update { current -> current.copy(gesturesEnabled = gesturesEnabled) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.musicEnabled.collect { musicEnabled ->
+                _uiModel.update { current -> current.copy(musicEnabled = musicEnabled) }
+                modMusicService.setEnabled(musicEnabled && !_uiModel.value.isMuted)
+                if (!musicEnabled) modMusicService.stop()
+                startMenuMusicIfNeeded()
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.musicVolume.collect { musicVolume ->
+                _uiModel.update { current -> current.copy(musicVolume = musicVolume) }
+                applyMusicVolumeForState(_uiModel.value.state)
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.sfxVolume.collect { sfxVolume ->
+                _uiModel.update { current -> current.copy(sfxVolume = sfxVolume) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.particlesEnabled.collect { particlesEnabled ->
+                _uiModel.update { current -> current.copy(particlesEnabled = particlesEnabled) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.particleQuality.collect { particleQuality ->
+                _uiModel.update { current -> current.copy(particleQuality = particleQuality) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.mainTrackPathOrUri.collect { pathOrUri ->
+                _uiModel.update { current -> current.copy(mainTrackPathOrUri = pathOrUri) }
             }
         }
         viewModelScope.launch {
@@ -73,7 +125,15 @@ class GameViewModel(
             settingsRepository.musicFolderUri.collect { musicFolderUri ->
                 modMusicService.setLibraryTreeUri(musicFolderUri)
                 _uiModel.update { current -> current.copy(musicFolderUri = musicFolderUri) }
+                startMenuMusicIfNeeded(rescan = true)
                 refreshMusicState()
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.languageTag.collect { languageTag ->
+                _uiModel.update { current ->
+                    current.copy(languageTag = AppLanguages.normalize(languageTag))
+                }
             }
         }
         viewModelScope.launch {
@@ -138,6 +198,7 @@ class GameViewModel(
         }
         if (shouldPause) {
             gameLoop.pause()
+            applyMusicVolumeForState(GameState.Paused)
             modMusicService.pause()
         }
     }
@@ -154,19 +215,27 @@ class GameViewModel(
         }
         if (shouldResume) {
             gameLoop.resume()
+            applyMusicVolumeForState(GameState.Running)
             modMusicService.resume()
         }
     }
 
     fun startGame() {
         modMusicService.stop()
+        applyMusicVolumeForState(GameState.Running)
         gameLoop.start(scope = viewModelScope, onStateChanged = ::consumeSnapshot)
-        modMusicService.start()
+        if (_uiModel.value.musicEnabled && !_uiModel.value.isMuted) {
+            modMusicService.start()
+            playPreferredMainTrack()
+        }
+        refreshMusicState()
     }
 
     fun quitGame() {
         gameLoop.stop()
         modMusicService.stop()
+        applyMusicVolumeForState(GameState.Idle)
+        startMenuMusicIfNeeded()
     }
 
     fun moveLeft() = gameLoop.moveLeft()
@@ -185,8 +254,80 @@ class GameViewModel(
         }
     }
 
+    fun toggleButtonsEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setButtonsEnabled(!current.buttonsEnabled)
+        }
+    }
+
+    fun toggleGesturesEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setGesturesEnabled(!current.gesturesEnabled)
+        }
+    }
+
+    fun toggleMusicEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setMusicEnabled(!current.musicEnabled)
+        }
+    }
+
+    fun setMusicVolume(volume: Float) {
+        viewModelScope.launch {
+            settingsRepository.setMusicVolume(volume)
+        }
+    }
+
+    fun setSfxVolume(volume: Float) {
+        viewModelScope.launch {
+            settingsRepository.setSfxVolume(volume)
+        }
+    }
+
+    fun toggleParticlesEnabled() {
+        val current = _uiModel.value
+        viewModelScope.launch {
+            settingsRepository.setParticlesEnabled(!current.particlesEnabled)
+        }
+    }
+
+    fun cycleParticleQuality() {
+        val next = when (_uiModel.value.particleQuality) {
+            ParticleQuality.Low -> ParticleQuality.High
+            ParticleQuality.High -> ParticleQuality.Low
+        }
+        viewModelScope.launch {
+            settingsRepository.setParticleQuality(next)
+        }
+    }
+
+    fun openSettings() {
+        _uiModel.update { current ->
+            current.copy(
+                showSettings = true,
+                returnToSettingsFromMusicLibrary = false,
+            )
+        }
+        if (_uiModel.value.state == GameState.Running) {
+            pauseGame()
+        }
+    }
+
+    fun closeSettings() {
+        _uiModel.update { current ->
+            current.copy(
+                showSettings = false,
+                returnToSettingsFromMusicLibrary = false,
+            )
+        }
+    }
+
     fun refreshMusicLibrary() {
         modMusicService.rescanLibrary()
+        startMenuMusicIfNeeded()
         refreshMusicState()
     }
 
@@ -194,15 +335,11 @@ class GameViewModel(
         modMusicService.rescanLibrary()
         var shouldPause = false
         _uiModel.update { current ->
-            current.copy(
-                showMusicLibrary = true,
-                pauseReason = if (current.state == GameState.Running) {
+            openMusicLibraryPanel(current).also { updated ->
+                if (updated.pauseReason == PauseReason.MusicLibrary) {
                     shouldPause = true
-                    PauseReason.MusicLibrary
-                } else {
-                    current.pauseReason
-                },
-            )
+                }
+            }
         }
         if (shouldPause) {
             gameLoop.pause()
@@ -211,10 +348,20 @@ class GameViewModel(
     }
 
     fun closeMusicLibrary() {
-        _uiModel.update { current -> current.copy(showMusicLibrary = false) }
+        _uiModel.update(::closeMusicLibraryPanel)
+    }
+
+    fun setMainTrack(track: ModTrackInfo) {
+        viewModelScope.launch {
+            settingsRepository.setMainTrackPathOrUri(track.pathOrUri)
+        }
     }
 
     fun selectTrack(track: ModTrackInfo) {
+        if (!_uiModel.value.musicEnabled || _uiModel.value.isMuted) {
+            refreshMusicState(trackLoadError = null)
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
             modMusicService.playTrack(track)
             val trackLoadError = if (modMusicService.currentTrackInfo()?.pathOrUri == track.pathOrUri) {
@@ -234,6 +381,10 @@ class GameViewModel(
     }
 
     fun resumeMusic() {
+        if (!_uiModel.value.musicEnabled || _uiModel.value.isMuted) {
+            refreshMusicState()
+            return
+        }
         modMusicService.resume()
         if (!modMusicService.isPlaying()) {
             modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
@@ -249,6 +400,12 @@ class GameViewModel(
     fun setMusicFolderUri(treeUri: String?) {
         viewModelScope.launch {
             settingsRepository.setMusicFolderUri(treeUri)
+        }
+    }
+
+    fun setLanguageTag(languageTag: String?) {
+        viewModelScope.launch {
+            settingsRepository.setLanguageTag(AppLanguages.normalize(languageTag))
         }
     }
 
@@ -342,9 +499,10 @@ class GameViewModel(
     }
 
     private fun consumeSnapshot(snapshot: LoopSnapshot) {
+        val placementFlashCells = detectNewLockedCells(_uiModel.value.board, snapshot.board)
+        val previousState = _uiModel.value.state
         _uiModel.update { current ->
             val enteringGameOver = snapshot.state == GameState.GameOver && current.state != GameState.GameOver
-            val placementFlashCells = detectNewLockedCells(current.board, snapshot.board)
             current.copy(
                 state = snapshot.state,
                 score = snapshot.score,
@@ -369,7 +527,19 @@ class GameViewModel(
                 nicknameError = if (snapshot.state == GameState.GameOver) current.nicknameError else null,
                 placementFlashCells = placementFlashCells,
                 placementFlashAnimationKey = if (placementFlashCells.isNotEmpty()) current.placementFlashAnimationKey + 1 else current.placementFlashAnimationKey,
+                hardDropBurstCells = if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) placementFlashCells else current.hardDropBurstCells,
+                hardDropBurstAnimationKey = if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) {
+                    current.hardDropBurstAnimationKey + 1
+                } else {
+                    current.hardDropBurstAnimationKey
+                },
             )
+        }
+        if (placementFlashCells.isNotEmpty() && pendingHardDropBurst) {
+            pendingHardDropBurst = false
+        }
+        if (snapshot.state == GameState.GameOver && previousState != GameState.GameOver) {
+            applyMusicVolumeForState(GameState.GameOver)
         }
     }
 
@@ -393,6 +563,26 @@ class GameViewModel(
                 GameEffect.LevelUp -> current.copy(
                     levelUpAnimationKey = current.levelUpAnimationKey + 1,
                 )
+                GameEffect.Move -> current.copy(
+                    particleImpulseType = ParticleImpulseType.Move,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.Rotate -> current.copy(
+                    particleImpulseType = ParticleImpulseType.Rotate,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.SoftDrop -> current.copy(
+                    particleImpulseType = ParticleImpulseType.SoftDrop,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.Hold -> current.copy(
+                    particleImpulseType = ParticleImpulseType.Hold,
+                    particleImpulseAnimationKey = current.particleImpulseAnimationKey + 1,
+                )
+                GameEffect.HardDrop -> {
+                    pendingHardDropBurst = true
+                    current
+                }
                 else -> current
             }
         }
@@ -444,6 +634,16 @@ class GameViewModel(
         }
     }
 
+    private fun playPreferredMainTrack() {
+        val preferred = _uiModel.value.mainTrackPathOrUri
+            ?: return
+        val tracks = modMusicService.tracks()
+        val candidate = tracks.firstOrNull { it.pathOrUri == preferred }
+        if (candidate != null && _uiModel.value.musicEnabled && !_uiModel.value.isMuted) {
+            modMusicService.playTrack(candidate)
+        }
+    }
+
     private fun resumeMusicIfNeededAfterBackground() {
         if (!musicPausedForBackground) return
         musicPausedForBackground = false
@@ -452,4 +652,48 @@ class GameViewModel(
             modMusicService.currentTrackInfo()?.let(modMusicService::playTrack)
         }
     }
+
+    private fun startMenuMusicIfNeeded(rescan: Boolean = false) {
+        val current = _uiModel.value
+        if (current.state != GameState.Idle || !current.musicEnabled || current.isMuted || modMusicService.isPlaying()) {
+            return
+        }
+        applyMusicVolumeForState(GameState.Idle)
+        if (rescan) {
+            modMusicService.rescanLibrary()
+        }
+        if (modMusicService.hasTracks()) {
+            modMusicService.start()
+        }
+    }
+
+    private fun applyMusicVolumeForState(state: GameState) {
+        val baseVolume = _uiModel.value.musicVolume
+        val multiplier = if (state == GameState.Running) GameMusicVolumeMultiplier else MenuMusicVolumeMultiplier
+        modMusicService.setVolume((baseVolume * multiplier).coerceIn(0f, 1f))
+    }
+
+    private companion object {
+        private const val MenuMusicVolumeMultiplier = 1f
+        private const val GameMusicVolumeMultiplier = 0.7f
+    }
+}
+
+internal fun openMusicLibraryPanel(current: GameUiModel): GameUiModel {
+    val shouldPauseForLibrary = current.state == GameState.Running
+    return current.copy(
+        showMusicLibrary = true,
+        showSettings = false,
+        returnToSettingsFromMusicLibrary = current.showSettings,
+        pauseReason = if (shouldPauseForLibrary) PauseReason.MusicLibrary else current.pauseReason,
+    )
+}
+
+internal fun closeMusicLibraryPanel(current: GameUiModel): GameUiModel {
+    val restoreSettings = current.returnToSettingsFromMusicLibrary
+    return current.copy(
+        showMusicLibrary = false,
+        showSettings = restoreSettings,
+        returnToSettingsFromMusicLibrary = false,
+    )
 }

@@ -1,2 +1,152 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources><string name="app_name">Block Drop</string><string name="start_game">Spiel starten</string><string name="game_state_label">Zustand: %1$s</string><string name="score_label">Punktzahl: %1$d</string><string name="level_label">Ebene: %1$d</string><string name="hold_label">HALTEN</string><string name="next_label_caps">NÄCHSTE</string><string name="lines_label">REIHEN</string><string name="score_label_caps">PUNKTZAHL</string><string name="level_label_caps">EBENE</string><string name="score_stat_compact">PUNKTE %1$d</string><string name="level_stat_compact">EBENE %1$d</string><string name="lines_stat_compact">REIHEN %1$d</string><string name="none_label">Keine</string><string name="move_left">Links</string><string name="move_right">Rechts</string><string name="rotate_ccw">Drehen GS</string><string name="rotate_cw">Drehen UZ</string><string name="soft_drop">Weicher Fall</string><string name="hard_drop">Harter Fall</string><string name="hard_drop_short">HARTER FALL</string><string name="hold_action">Halten</string><string name="drop_delay">Verzögerung</string><string name="block_drop_title">BLOCK DROP</string><string name="game_over_title">SPIEL VORBEI</string><string name="score_display">PUNKTZAHL: %1$d</string><string name="paused_title">PAUSIERT</string><string name="pause_menu_subtitle">Fortsetzen, neustarten oder ins Menü beenden.</string><string name="resume_button">FORTSETZEN</string><string name="restart_button">NEUSTARTEN</string><string name="menu_button">MENÜ</string><string name="quit_button">BEENDEN</string><string name="cancel_button">ABBRECHEN</string><string name="close_button">SCHLIESSEN</string><string name="exit_confirm_title">Spiel beenden?</string><string name="exit_confirm_message">Der aktuelle Fortschritt geht verloren.</string><string name="help_description">Hilfe</string><string name="mute_description">Stumm</string><string name="nickname_label">Spitzname</string><string name="nickname_placeholder">Bis zu 12 Zeichen</string><string name="nickname_required">Spitznamen eingeben, um Punktzahl zu speichern.</string><string name="save_score_button">PUNKTZAHL SPEICHERN</string><string name="score_saved">Punktzahl gespeichert.</string><string name="score_saved_ranked">Platz #%1$d auf der lokalen Bestenliste.</string><string name="not_in_top_ten">Punktzahl hat es nicht in die Top 10 geschafft.</string><string name="scoreboard_button">BESTENLISTE</string><string name="scoreboard_title">LOKALE BESTENLISTE</string><string name="scoreboard_empty">Noch keine Punktzahlen gespeichert.</string><string name="scoreboard_rank_header">#</string><string name="scoreboard_name_header">NAME</string><string name="scoreboard_score_header">PUNKTE</string><string name="scoreboard_level_header">LVL</string><string name="scoreboard_lines_header">REIHEN</string><string name="tutorial_title">SPIELANLEITUNG</string><string name="tutorial_section_movement">BEWEGUNG</string><string name="tutorial_section_dropping">FALLEN LASSEN</string><string name="tutorial_section_strategy">STRATEGIE</string><string name="tutorial_section_scoring">WERTUNG</string><string name="tutorial_got_it">VERSTANDEN!</string><string name="tutorial_movement_grab_label">Stück greifen</string><string name="tutorial_movement_grab_desc">Tippen Sie auf das aktive Stück und ziehen Sie es horizontal, um es spaltenweise zu bewegen.</string><string name="tutorial_movement_swipe_label">Wischen Bewegen</string><string name="tutorial_movement_swipe_desc">Wischen Sie an einer beliebigen Stelle auf dem Brett, um Stücke mit DAS/ARR zu bewegen.</string><string name="tutorial_movement_rotation_label">Drehung</string><string name="tutorial_movement_rotation_desc">Tippen Sie auf die rechte Hälfte des Bretts, um im Uhrzeigersinn zu drehen, linke Hälfte für gegen den Uhrzeigersinn.</string><string name="tutorial_dropping_soft_label">Weicher Fall</string><string name="tutorial_dropping_soft_desc">Ziehen Sie langsam nach unten, um schneller zu fallen (+1 Pkt/Reihe).</string><string name="tutorial_dropping_hard_label">Harter Fall</string><string name="tutorial_dropping_hard_desc">Schnelles Wischen nach unten, um sofort zu sperren (+2 Pkt/Reihe).</string><string name="tutorial_dropping_delay_label">Verzögerung</string><string name="tutorial_dropping_delay_desc">Wischen Sie nach oben, um die Schwerkraft vorübergehend einzufrieren (einmal pro Stück).</string><string name="tutorial_strategy_hold_label">Halten</string><string name="tutorial_strategy_hold_desc">Tippen Sie auf das HALTEN-Panel oder die Schaltfläche, um das aktive Stück für später aufzubewahren.</string><string name="tutorial_strategy_ghost_label">Geisterstück</string><string name="tutorial_strategy_ghost_desc">Beobachten Sie die Projektion auf dem Boden, um genau zu sehen, wo Ihr Stück landen wird.</string><string name="tutorial_strategy_queue_label">Nächste Schlange</string><string name="tutorial_strategy_queue_desc">Die Warteschlange rechts zeigt kommende Stücke. Sie schrumpft, wenn Sie aufsteigen!</string><string name="tutorial_scoring_lines_label">Linien räumen</string><string name="tutorial_scoring_lines_desc">Reihen löschen, um Punkte zu sammeln! Level-Multiplikator gilt für alle.</string><string name="tutorial_scoring_tspin_label">T-Spins</string><string name="tutorial_scoring_tspin_desc">Drehen Sie ein T-Stück in eine enge Stelle für massive Bonuspunkte.</string><string name="tutorial_scoring_combos_label">Kombinationen</string><string name="tutorial_scoring_combos_desc">Räumen Sie Linien in aufeinanderfolgenden Platzierungen ab, um einen Kombi-Multiplikator aufzubauen.</string><string name="tutorial_scoring_allclear_label">Alles abgeräumt</string><string name="tutorial_scoring_allclear_desc">Leeren Sie das gesamte Spielfeld für die ultimative Punktebelohnung.</string></resources>
+<resources>
+    <string name="app_name">Mod Fall</string>
+    <string name="start_game">Spiel starten</string>
+    <string name="game_state_label">Zustand: %1$s</string>
+    <string name="score_label">Punktzahl: %1$d</string>
+    <string name="level_label">Ebene: %1$d</string>
+    <string name="hold_label">HALTEN</string>
+    <string name="next_label_caps">NÄCHSTE</string>
+    <string name="lines_label">REIHEN</string>
+    <string name="score_label_caps">PUNKTZAHL</string>
+    <string name="level_label_caps">EBENE</string>
+    <string name="score_stat_compact">PUNKTE %1$d</string>
+    <string name="level_stat_compact">EBENE %1$d</string>
+    <string name="lines_stat_compact">REIHEN %1$d</string>
+    <string name="none_label">Keine</string>
+    <string name="move_left">Links</string>
+    <string name="move_right">Rechts</string>
+    <string name="rotate_ccw">Drehen GS</string>
+    <string name="rotate_cw">Drehen UZ</string>
+    <string name="soft_drop">Weicher Fall</string>
+    <string name="hard_drop">Harter Fall</string>
+    <string name="hard_drop_short">HARTER FALL</string>
+    <string name="hold_action">Halten</string>
+    <string name="drop_delay">Verzögerung</string>
+    <string name="block_drop_title">MOD FALL</string>
+    <string name="game_over_title">SPIEL VORBEI</string>
+    <string name="score_display">PUNKTZAHL: %1$d</string>
+    <string name="paused_title">PAUSIERT</string>
+    <string name="pause_menu_subtitle">Fortsetzen, neustarten oder ins Menü beenden.</string>
+    <string name="resume_button">FORTSETZEN</string>
+    <string name="restart_button">NEUSTARTEN</string>
+    <string name="menu_button">MENÜ</string>
+    <string name="quit_button">BEENDEN</string>
+    <string name="cancel_button">ABBRECHEN</string>
+    <string name="close_button">SCHLIESSEN</string>
+    <string name="exit_confirm_title">Spiel beenden?</string>
+    <string name="exit_confirm_message">Der aktuelle Fortschritt geht verloren.</string>
+    <string name="help_description">Hilfe</string>
+    <string name="mute_description">Stumm</string>
+    <string name="settings_description">Einstellungen</string>
+    <string name="settings_title">Einstellungen</string>
+    <string name="show_buttons_setting">Buttons anzeigen</string>
+    <string name="enable_gestures_setting">Gesten aktivieren</string>
+    <string name="enable_music_setting">Musik aktivieren</string>
+    <string name="main_tune_setting">Haupttitel</string>
+    <string name="settings_input_method_rule">Mindestens eine Eingabemethode aktiv lassen.</string>
+    <string name="nickname_label">Spitzname</string>
+    <string name="nickname_placeholder">Bis zu 12 Zeichen</string>
+    <string name="nickname_required">Spitznamen eingeben, um Punktzahl zu speichern.</string>
+    <string name="save_score_button">PUNKTZAHL SPEICHERN</string>
+    <string name="score_saved">Punktzahl gespeichert.</string>
+    <string name="score_saved_ranked">Platz #%1$d auf der lokalen Bestenliste.</string>
+    <string name="not_in_top_ten">Punktzahl hat es nicht in die Top 100 geschafft.</string>
+    <string name="scoreboard_button">BESTENLISTE</string>
+    <string name="scoreboard_title">LOKALE BESTENLISTE</string>
+    <string name="scoreboard_empty">Noch keine Punktzahlen gespeichert.</string>
+    <string name="scoreboard_rank_header">#</string>
+    <string name="scoreboard_name_header">NAME</string>
+    <string name="scoreboard_score_header">PUNKTE</string>
+    <string name="scoreboard_level_header">LVL</string>
+    <string name="scoreboard_lines_header">REIHEN</string>
+    <string name="music_library_set_main_track">Als Haupttitel festlegen</string>
+    <string name="music_library_title">Musikbibliothek</string>
+    <string name="music_library_back_description">Musikbibliothek schließen</string>
+    <string name="music_library_refresh">Musikbibliothek aktualisieren</string>
+    <string name="music_library_pick_folder">Musikordner festlegen</string>
+    <string name="music_library_pause">Musik pausieren</string>
+    <string name="music_library_stop">Musik stoppen</string>
+    <string name="music_library_play">Aktuellen Titel abspielen</string>
+    <string name="music_library_play_track">Titel abspielen</string>
+    <string name="music_library_muted_placeholder">Musik ist stummgeschaltet</string>
+    <string name="music_library_no_track_placeholder">Kein Titel ausgewählt</string>
+    <string name="music_library_track_load_error">%1$s konnte nicht geladen werden</string>
+    <string name="music_library_empty_title">Keine Musikdateien gefunden</string>
+    <string name="music_library_empty_hint">Lege .mod / .xm / .s3m / .it-Dateien in Download/Mods/
+        ab</string>
+    <string name="music_library_empty_api33_hint">Unter Android 13+ wähle deinen Mods-Ordner, damit
+        die App benutzerhinzugefügte Dateien lesen kann.</string>
+    <string name="music_library_empty_selected_folder_hint">Der ausgewählte Ordner ist lesbar, aber
+        es wurden noch keine gültigen Moduldateien gefunden.</string>
+    <string name="tutorial_title">SPIELANLEITUNG</string>
+    <string name="tutorial_section_movement">BEWEGUNG</string>
+    <string name="tutorial_section_dropping">FALLEN LASSEN</string>
+    <string name="tutorial_section_strategy">STRATEGIE</string>
+    <string name="tutorial_section_scoring">WERTUNG</string>
+    <string name="tutorial_got_it">VERSTANDEN!</string>
+    <string name="tutorial_movement_grab_label">Stück greifen</string>
+    <string name="tutorial_movement_grab_desc">Tippen Sie auf das aktive Stück und ziehen Sie es
+        horizontal, um es spaltenweise zu bewegen.</string>
+    <string name="tutorial_movement_swipe_label">Wischen Bewegen</string>
+    <string name="tutorial_movement_swipe_desc">Wischen Sie an einer beliebigen Stelle auf dem
+        Brett, um Stücke mit DAS/ARR zu bewegen.</string>
+    <string name="tutorial_movement_rotation_label">Drehung</string>
+    <string name="tutorial_movement_rotation_desc">Tippen Sie auf die rechte Hälfte des Bretts, um
+        im Uhrzeigersinn zu drehen, linke Hälfte für gegen den Uhrzeigersinn.</string>
+    <string name="tutorial_dropping_soft_label">Weicher Fall</string>
+    <string name="tutorial_dropping_soft_desc">Ziehen Sie langsam nach unten, um schneller zu fallen
+        (+1 Pkt/Reihe).</string>
+    <string name="tutorial_dropping_hard_label">Harter Fall</string>
+    <string name="tutorial_dropping_hard_desc">Schnelles Wischen nach unten, um sofort zu sperren
+        (+2 Pkt/Reihe).</string>
+    <string name="tutorial_dropping_delay_label">Verzögerung</string>
+    <string name="tutorial_dropping_delay_desc">Wischen Sie nach oben, um die Schwerkraft
+        vorübergehend einzufrieren (einmal pro Stück).</string>
+    <string name="tutorial_strategy_hold_label">Halten</string>
+    <string name="tutorial_strategy_hold_desc">Tippen Sie auf das HALTEN-Panel oder die
+        Schaltfläche, um das aktive Stück für später aufzubewahren.</string>
+    <string name="tutorial_strategy_ghost_label">Geisterstück</string>
+    <string name="tutorial_strategy_ghost_desc">Beobachten Sie die Projektion auf dem Boden, um
+        genau zu sehen, wo Ihr Stück landen wird.</string>
+    <string name="tutorial_strategy_queue_label">Nächste Schlange</string>
+    <string name="tutorial_strategy_queue_desc">Die Warteschlange rechts zeigt kommende Stücke. Sie
+        schrumpft, wenn Sie aufsteigen!</string>
+    <string name="tutorial_scoring_lines_label">Linien räumen</string>
+    <string name="tutorial_scoring_lines_desc">Reihen löschen, um Punkte zu sammeln!
+        Level-Multiplikator gilt für alle.</string>
+    <string name="tutorial_scoring_tspin_label">T-Spins</string>
+    <string name="tutorial_scoring_tspin_desc">Drehen Sie ein T-Stück in eine enge Stelle für
+        massive Bonuspunkte.</string>
+    <string name="tutorial_scoring_combos_label">Kombinationen</string>
+    <string name="tutorial_scoring_combos_desc">Räumen Sie Linien in aufeinanderfolgenden
+        Platzierungen ab, um einen Kombi-Multiplikator aufzubauen.</string>
+    <string name="tutorial_scoring_allclear_label">Alles abgeräumt</string>
+    <string name="tutorial_scoring_allclear_desc">Leeren Sie das gesamte Spielfeld für die
+        ultimative Punktebelohnung.</string>
+    <string name="level_and_lines_stat_compact">Ebene %1$d · Reihen %2$d</string>
+    <string name="sound_on_description">Ton an</string>
+    <string name="sound_off_description">Ton aus</string>
+    <string name="music_volume_setting">Musikpegel</string>
+    <string name="sfx_volume_setting">SFX-Pegel</string>
+    <string name="enable_particles_setting">Partikel</string>
+    <string name="particle_quality_setting">Partikeldichte</string>
+    <string name="particle_quality_low">Niedriger</string>
+    <string name="particle_quality_high">Höher</string>
+    <string name="music_library_disabled_placeholder">Musikwiedergabe ist deaktiviert</string>
+    <string name="tutorial_section_music">MUSIK</string>
+    <string name="tutorial_music_set_folder_label">Musikordner festlegen</string>
+    <string name="tutorial_music_set_folder_desc">Öffnen Sie Einstellungen, gehen Sie zur
+        Musikbibliothek, tippen Sie auf Musikordner festlegen und wählen Sie den Ordner mit Ihren
+        .mod / .xm / .s3m / .it-Dateien.</string>
+    <string name="tutorial_music_set_main_label">Haupttitel wählen</string>
+    <string name="tutorial_music_set_main_desc">Wählen Sie nach dem Scannen einen Titel in der
+        Musikbibliothek und tippen Sie auf Als Haupttitel festlegen, wenn er bei einem neuen Spiel
+        automatisch starten soll.</string>
+    <string name="tutorial_music_download_label">Wo Mods zu finden sind</string>
+    <string name="tutorial_music_download_desc">Beispielquellen: The Mod Archive (modarchive.org)
+        und scene.org (files.scene.org). Laden Sie dort Moduldateien herunter und legen Sie sie dann
+        in Download/Mods/ oder im ausgewählten Musikordner ab.</string>
+    <string name="language_setting">Sprache</string>
+    <string name="language_system_default">Systemstandard</string>
+</resources>

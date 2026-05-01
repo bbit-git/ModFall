@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Block Drop</string>
+    <string name="app_name">Mod Fall</string>
     <string name="start_game">Почати гру</string>
     <string name="game_state_label">Стан: %1$s</string>
     <string name="score_label">Рахунок: %1$d</string>
@@ -24,7 +24,7 @@
     <string name="hold_action">Утримати</string>
     <string name="drop_delay">Затримка падіння</string>
 
-    <string name="block_drop_title">BLOCK DROP</string>
+    <string name="block_drop_title">MOD FALL</string>
     <string name="game_over_title">ГРА ЗАВЕРШЕНА</string>
     <string name="score_display">РАХУНОК: %1$d</string>
     <string name="paused_title">ПАУЗА</string>
@@ -39,13 +39,20 @@
     <string name="exit_confirm_message">Поточний прогрес буде втрачено.</string>
     <string name="help_description">Допомога</string>
     <string name="mute_description">Вимкнути звук</string>
+    <string name="settings_description">Налаштування</string>
+    <string name="settings_title">Налаштування</string>
+    <string name="show_buttons_setting">Показувати кнопки</string>
+    <string name="enable_gestures_setting">Увімкнути жести</string>
+    <string name="enable_music_setting">Увімкнути музику</string>
+    <string name="main_tune_setting">Головна мелодія</string>
+    <string name="settings_input_method_rule">Залиште увімкненим щонайменше один спосіб введення.</string>
     <string name="nickname_label">Псевдонім</string>
     <string name="nickname_placeholder">До 12 символів</string>
     <string name="nickname_required">Введіть псевдонім, щоб зберегти рахунок.</string>
     <string name="save_score_button">ЗБЕРЕГТИ РАХУНОК</string>
     <string name="score_saved">Рахунок збережено.</string>
     <string name="score_saved_ranked">Місце #%1$d у локальній таблиці.</string>
-    <string name="not_in_top_ten">Рахунок не потрапив до топ-10.</string>
+    <string name="not_in_top_ten">Рахунок не потрапив до топ-100.</string>
     <string name="scoreboard_button">ТАБЛИЦЯ</string>
     <string name="scoreboard_title">ЛОКАЛЬНА ТАБЛИЦЯ</string>
     <string name="scoreboard_empty">Ще немає збережених рахунків.</string>
@@ -54,7 +61,25 @@
     <string name="scoreboard_score_header">РАХУНОК</string>
     <string name="scoreboard_level_header">РІВЕНЬ</string>
     <string name="scoreboard_lines_header">РЯДИ</string>
+    <string name="music_library_set_main_track">Встановити як головну мелодію</string>
 
+    <string name="music_library_title">Музична бібліотека</string>
+    <string name="music_library_back_description">Закрити музичну бібліотеку</string>
+    <string name="music_library_refresh">Оновити музичну бібліотеку</string>
+    <string name="music_library_pick_folder">Вибрати теку з музикою</string>
+    <string name="music_library_pause">Поставити музику на паузу</string>
+    <string name="music_library_stop">Зупинити музику</string>
+    <string name="music_library_play">Відтворити поточний трек</string>
+    <string name="music_library_play_track">Відтворити трек</string>
+    <string name="music_library_muted_placeholder">Музику вимкнено</string>
+    <string name="music_library_no_track_placeholder">Трек не вибрано</string>
+    <string name="music_library_track_load_error">Не вдалося завантажити %1$s</string>
+    <string name="music_library_empty_title">Музичних файлів не знайдено</string>
+    <string name="music_library_empty_hint">Помістіть файли .mod / .xm / .s3m / .it у Download/Mods/</string>
+    <string name="music_library_empty_api33_hint">На Android 13+ виберіть теку Mods, щоб застосунок
+        міг читати файли, додані користувачем.</string>
+    <string name="music_library_empty_selected_folder_hint">Вибрана тека доступна для читання, але
+        придатних module-файлів поки не знайдено.</string>
     <string name="tutorial_title">ЯК ГРАТИ</string>
     <string name="tutorial_section_movement">РУХ</string>
     <string name="tutorial_section_dropping">ПАДІННЯ</string>
@@ -63,32 +88,66 @@
     <string name="tutorial_got_it">ЗРОЗУМІЛО</string>
 
     <string name="tutorial_movement_grab_label">Схопити фігуру</string>
-    <string name="tutorial_movement_grab_desc">Доторкніться до активної фігури і перетягніть горизонтально, щоб перемістити по колонках.</string>
+    <string name="tutorial_movement_grab_desc">Доторкніться до активної фігури і перетягніть
+        горизонтально, щоб перемістити по колонках.</string>
     <string name="tutorial_movement_swipe_label">Проведіть пальцем</string>
     <string name="tutorial_movement_swipe_desc">Проведіть деінде по полі, щоб рухатися з DAS/ARR.</string>
     <string name="tutorial_movement_rotation_label">Обертання</string>
-    <string name="tutorial_movement_rotation_desc">Торкніться правої половини поля, щоб повернути за годинником, лівої - проти.</string>
+    <string name="tutorial_movement_rotation_desc">Торкніться правої половини поля, щоб повернути за
+        годинником, лівої - проти.</string>
 
     <string name="tutorial_dropping_soft_label">М’який спуск</string>
-    <string name="tutorial_dropping_soft_desc">Повільно потягніть вниз деінде, щоб прискорити падіння (+1 бал/ряд).</string>
+    <string name="tutorial_dropping_soft_desc">Повільно потягніть вниз деінде, щоб прискорити
+        падіння (+1 бал/ряд).</string>
     <string name="tutorial_dropping_hard_label">Жорсткий спуск</string>
-    <string name="tutorial_dropping_hard_desc">Швидко проведiть вниз, щоб негайно зафіксувати (+2 бали/ряд).</string>
+    <string name="tutorial_dropping_hard_desc">Швидко проведiть вниз, щоб негайно зафіксувати (+2
+        бали/ряд).</string>
     <string name="tutorial_dropping_delay_label">Затримка падіння</string>
-    <string name="tutorial_dropping_delay_desc">Проведіть угору, щоб тимчасово призупинити гравітацію (раз на фігуру).</string>
+    <string name="tutorial_dropping_delay_desc">Проведіть угору, щоб тимчасово призупинити
+        гравітацію (раз на фігуру).</string>
 
     <string name="tutorial_strategy_hold_label">Утримання</string>
-    <string name="tutorial_strategy_hold_desc">Торкніться панелі УТРИМАТИ або кнопки, щоб замінити активну фігуру.</string>
+    <string name="tutorial_strategy_hold_desc">Торкніться панелі УТРИМАТИ або кнопки, щоб замінити
+        активну фігуру.</string>
     <string name="tutorial_strategy_ghost_label">Привид</string>
-    <string name="tutorial_strategy_ghost_desc">Слідкуйте за проекцією на підлозі, щоб знати, куди приземлиться фігура.</string>
+    <string name="tutorial_strategy_ghost_desc">Слідкуйте за проекцією на підлозі, щоб знати, куди
+        приземлиться фігура.</string>
     <string name="tutorial_strategy_queue_label">Черга</string>
-    <string name="tutorial_strategy_queue_desc">Черга праворуч показує наступні фігури. Вона зменшується, коли підвищується рівень.</string>
+    <string name="tutorial_strategy_queue_desc">Черга праворуч показує наступні фігури. Вона
+        зменшується, коли підвищується рівень.</string>
 
     <string name="tutorial_scoring_lines_label">Чищення рядів</string>
-    <string name="tutorial_scoring_lines_desc">Очистіть ряди для бала! Множник рівня застосовується до всіх.</string>
+    <string name="tutorial_scoring_lines_desc">Очистіть ряди для бала! Множник рівня застосовується
+        до всіх.</string>
     <string name="tutorial_scoring_tspin_label">T-спіни</string>
     <string name="tutorial_scoring_tspin_desc">Вставте фігуру T у вузьке місце для великого бонусу.</string>
     <string name="tutorial_scoring_combos_label">Комбінації</string>
     <string name="tutorial_scoring_combos_desc">Очищайте ряди підряд, щоб збільшити множник комбо.</string>
     <string name="tutorial_scoring_allclear_label">Повне очищення</string>
     <string name="tutorial_scoring_allclear_desc">Очистіть усю дошку для максимального бонусу.</string>
+
+    <string name="level_and_lines_stat_compact">Рівень %1$d · Лінії %2$d</string>
+    <string name="sound_on_description">Звук увімкнено</string>
+    <string name="sound_off_description">Звук вимкнено</string>
+    <string name="music_volume_setting">Рівень музики</string>
+    <string name="sfx_volume_setting">Рівень SFX</string>
+    <string name="enable_particles_setting">Частинки</string>
+    <string name="particle_quality_setting">Щільність частинок</string>
+    <string name="particle_quality_low">Нижча</string>
+    <string name="particle_quality_high">Вища</string>
+    <string name="music_library_disabled_placeholder">Відтворення музики вимкнено</string>
+    <string name="tutorial_section_music">МУЗИКА</string>
+    <string name="tutorial_music_set_folder_label">Вибрати папку музики</string>
+    <string name="tutorial_music_set_folder_desc">Відкрийте Налаштування, перейдіть до музичної
+        бібліотеки, торкніться Вибрати папку музики, а потім виберіть папку з файлами .mod / .xm /
+        .s3m / .it.</string>
+    <string name="tutorial_music_set_main_label">Вибрати головну мелодію</string>
+    <string name="tutorial_music_set_main_desc">Після сканування виберіть трек у музичній бібліотеці
+        та торкніться Зробити головною мелодією, якщо хочете автоматичний запуск з новою грою.</string>
+    <string name="tutorial_music_download_label">Де взяти Mods</string>
+    <string name="tutorial_music_download_desc">Приклади джерел: The Mod Archive (modarchive.org) і
+        scene.org (files.scene.org). Завантажте там файли модулів, а потім помістіть їх у
+        Download/Mods/ або вибрану папку музики.</string>
+    <string name="language_setting">Мова</string>
+    <string name="language_system_default">За замовчуванням системи</string>
 </resources>

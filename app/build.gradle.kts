@@ -3,6 +3,18 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+fun gitOutput(vararg args: String): String? {
+    val process = ProcessBuilder(listOf("git", *args))
+        .directory(rootProject.projectDir)
+        .redirectErrorStream(true)
+        .start()
+    val output = process.inputStream.bufferedReader().readText().trim()
+    return output.takeIf { process.waitFor() == 0 && it.isNotBlank() }
+}
+
+val gitVersionName = gitOutput("describe", "--tags", "--exact-match", "HEAD")
+    ?: "dev-${gitOutput("rev-parse", "--short", "HEAD") ?: "unknown"}"
+
 val buildLibOpenMpt = tasks.register<Exec>("buildLibOpenMpt") {
     group = "build"
     description = "Download and build libopenmpt for the Android ABIs used by this app."
@@ -24,7 +36,7 @@ android {
         minSdk = 28
         targetSdk = 36
         versionCode = 1
-        versionName = "0.1.0"
+        versionName = gitVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -52,6 +64,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     externalNativeBuild {

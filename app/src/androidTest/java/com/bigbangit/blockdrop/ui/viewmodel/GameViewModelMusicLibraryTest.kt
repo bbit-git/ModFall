@@ -23,6 +23,7 @@ import com.bigbangit.blockdrop.ui.model.PauseReason
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -196,6 +197,71 @@ class GameViewModelMusicLibraryTest {
         assertEquals(treeUri, musicService.configuredLibraryTreeUri)
     }
 
+    @Test
+    fun startGamePrefersSelectedMainTrackWhenMusicIsEnabled() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val firstTrack = track("nebula.mod", title = "Nebula")
+        val secondTrack = track("orbit.xm", title = "Orbit")
+        val musicService = FakeModMusicService(
+            initialCurrentTrack = null,
+            availableTracks = listOf(firstTrack, secondTrack),
+            initialPlaying = false,
+        )
+        val viewModel = createViewModel(context, musicService)
+
+        composeRule.runOnIdle {
+            viewModel.setMainTrack(secondTrack)
+        }
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            viewModel.uiModel.value.mainTrackPathOrUri == secondTrack.pathOrUri
+        }
+
+        composeRule.runOnIdle {
+            viewModel.startGame()
+        }
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            viewModel.uiModel.value.currentTrack?.pathOrUri == secondTrack.pathOrUri
+        }
+
+        assertEquals(secondTrack.pathOrUri, musicService.lastPlayedTrackPath)
+        assertTrue(viewModel.uiModel.value.isMusicPlaying)
+    }
+
+    @Test
+    fun musicDisabledBlocksManualPlaybackButKeepsMainTrackSelectionAvailable() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val firstTrack = track("nebula.mod", title = "Nebula")
+        val secondTrack = track("orbit.xm", title = "Orbit")
+        val musicService = FakeModMusicService(
+            initialCurrentTrack = null,
+            availableTracks = listOf(firstTrack, secondTrack),
+            initialPlaying = false,
+        )
+        val viewModel = createViewModel(context, musicService)
+
+        composeRule.runOnIdle {
+            viewModel.toggleMusicEnabled()
+        }
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            !viewModel.uiModel.value.musicEnabled
+        }
+
+        composeRule.runOnIdle {
+            viewModel.setMainTrack(secondTrack)
+            viewModel.selectTrack(firstTrack)
+            viewModel.startGame()
+        }
+
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            viewModel.uiModel.value.mainTrackPathOrUri == secondTrack.pathOrUri
+        }
+
+        assertEquals(secondTrack.pathOrUri, viewModel.uiModel.value.mainTrackPathOrUri)
+        assertNull(viewModel.uiModel.value.currentTrack)
+        assertFalse(viewModel.uiModel.value.isMusicPlaying)
+        assertEquals(0, musicService.playTrackCalls)
+    }
+
     private fun createViewModel(
         context: Context,
         musicService: FakeModMusicService,
@@ -208,6 +274,14 @@ class GameViewModelMusicLibraryTest {
             effectBridge = effectBridge,
         )
         val settingsRepository = SettingsRepository(context)
+        runBlocking {
+            settingsRepository.setMuted(false)
+            settingsRepository.setButtonsEnabled(true)
+            settingsRepository.setGesturesEnabled(true)
+            settingsRepository.setMusicEnabled(true)
+            settingsRepository.setMainTrackPathOrUri(null)
+            settingsRepository.setMusicFolderUri(null)
+        }
         val scoreboardRepository = ScoreboardRepository(context)
         return GameViewModel(
             gameLoop = gameLoop,
@@ -235,6 +309,8 @@ class GameViewModelMusicLibraryTest {
         private var enabled = true
         private var playing = initialPlaying
         private var currentTrack: ModTrackInfo? = initialCurrentTrack
+        var playTrackCalls: Int = 0
+        var lastPlayedTrackPath: String? = null
         var rescanCalls: Int = 0
         var configuredLibraryTreeUri: String? = null
 
@@ -269,12 +345,14 @@ class GameViewModelMusicLibraryTest {
         }
 
         override fun playTrack(track: ModTrackInfo) {
+            playTrackCalls += 1
             if (track.pathOrUri in failingTracks) {
                 currentTrack = null
                 playing = false
                 return
             }
             currentTrack = track
+            lastPlayedTrackPath = track.pathOrUri
             playing = true
             trackEvents.tryEmit(track)
         }

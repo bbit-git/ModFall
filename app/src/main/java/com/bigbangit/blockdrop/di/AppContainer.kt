@@ -26,6 +26,7 @@ class AppContainer(
         context = applicationContext,
         effectBridge = effectBridge,
         isMuted = settingsRepository.isMuted,
+        sfxVolume = settingsRepository.sfxVolume,
     )
     val vibrationManager: VibrationManager = VibrationManager(
         context = applicationContext,

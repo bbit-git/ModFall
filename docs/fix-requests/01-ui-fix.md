@@ -2,7 +2,7 @@
 
 ### Context
 
-This is the Android/Kotlin version of Block Drop. The current in-game layout wastes space, does not feel properly fullscreen, has too many bottom controls, and overlay menus are too transparent. The game should feel board-first, immersive, and safe on devices with cutouts, rounded corners, and gesture areas.
+This is the Android/Kotlin version of Mod Fall. The current in-game layout wastes space, does not feel properly fullscreen, has too many bottom controls, and overlay menus are too transparent. The game should feel board-first, immersive, and safe on devices with cutouts, rounded corners, and gesture areas.
 
 ### Objective
 

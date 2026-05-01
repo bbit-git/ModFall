@@ -2,9 +2,11 @@ package com.bigbangit.blockdrop.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.bigbangit.blockdrop.ui.model.ParticleQuality
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,6 +19,38 @@ class SettingsRepository(
         preferences[IsMutedKey] ?: false
     }
 
+    val buttonsEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[ButtonsEnabledKey] ?: true
+    }
+
+    val gesturesEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[GesturesEnabledKey] ?: true
+    }
+
+    val musicEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[MusicEnabledKey] ?: true
+    }
+
+    val musicVolume: Flow<Float> = context.blockDropPreferences.data.map { preferences ->
+        (preferences[MusicVolumeKey] ?: DefaultMusicVolume).coerceIn(0f, 1f)
+    }
+
+    val sfxVolume: Flow<Float> = context.blockDropPreferences.data.map { preferences ->
+        (preferences[SfxVolumeKey] ?: DefaultSfxVolume).coerceIn(0f, 1f)
+    }
+
+    val particlesEnabled: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
+        preferences[ParticlesEnabledKey] ?: false
+    }
+
+    val particleQuality: Flow<ParticleQuality> = context.blockDropPreferences.data.map { preferences ->
+        ParticleQuality.entries.firstOrNull { it.name == preferences[ParticleQualityKey] } ?: ParticleQuality.High
+    }
+
+    val mainTrackPathOrUri: Flow<String?> = context.blockDropPreferences.data.map { preferences ->
+        preferences[MainTrackPathOrUriKey]
+    }
+
     val shouldShowTutorialOnLaunch: Flow<Boolean> = context.blockDropPreferences.data.map { preferences ->
         !(preferences[TutorialSeenKey] ?: false)
     }
@@ -25,9 +59,67 @@ class SettingsRepository(
         preferences[MusicFolderUriKey]
     }
 
+    val languageTag: Flow<String?> = context.blockDropPreferences.data.map { preferences ->
+        preferences[LanguageTagKey]?.takeIf { it.isNotBlank() }
+    }
+
     suspend fun setMuted(isMuted: Boolean) {
         context.blockDropPreferences.edit { preferences ->
             preferences[IsMutedKey] = isMuted
+        }
+    }
+
+    suspend fun setButtonsEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            if (!enabled && (preferences[GesturesEnabledKey] ?: true).not()) return@edit
+            preferences[ButtonsEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setGesturesEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            if (!enabled && (preferences[ButtonsEnabledKey] ?: true).not()) return@edit
+            preferences[GesturesEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setMusicEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[MusicEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setMusicVolume(volume: Float) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[MusicVolumeKey] = volume.coerceIn(0f, 1f)
+        }
+    }
+
+    suspend fun setSfxVolume(volume: Float) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[SfxVolumeKey] = volume.coerceIn(0f, 1f)
+        }
+    }
+
+    suspend fun setParticlesEnabled(enabled: Boolean) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[ParticlesEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setParticleQuality(quality: ParticleQuality) {
+        context.blockDropPreferences.edit { preferences ->
+            preferences[ParticleQualityKey] = quality.name
+        }
+    }
+
+    suspend fun setMainTrackPathOrUri(pathOrUri: String?) {
+        context.blockDropPreferences.edit { preferences ->
+            if (pathOrUri.isNullOrBlank()) {
+                preferences.remove(MainTrackPathOrUriKey)
+            } else {
+                preferences[MainTrackPathOrUriKey] = pathOrUri
+            }
         }
     }
 
@@ -47,9 +139,30 @@ class SettingsRepository(
         }
     }
 
+    suspend fun setLanguageTag(tag: String?) {
+        context.blockDropPreferences.edit { preferences ->
+            if (tag.isNullOrBlank()) {
+                preferences.remove(LanguageTagKey)
+            } else {
+                preferences[LanguageTagKey] = tag
+            }
+        }
+    }
+
     private companion object {
         val IsMutedKey = booleanPreferencesKey("is_muted")
+        val ButtonsEnabledKey = booleanPreferencesKey("buttons_enabled")
+        val GesturesEnabledKey = booleanPreferencesKey("gestures_enabled")
+        val MusicEnabledKey = booleanPreferencesKey("music_enabled")
+        val MusicVolumeKey = floatPreferencesKey("music_volume")
+        val SfxVolumeKey = floatPreferencesKey("sfx_volume")
+        val ParticlesEnabledKey = booleanPreferencesKey("particles_enabled")
+        val ParticleQualityKey = stringPreferencesKey("particle_quality")
         val TutorialSeenKey = booleanPreferencesKey("tutorial_seen")
         val MusicFolderUriKey = stringPreferencesKey("music_folder_uri")
+        val MainTrackPathOrUriKey = stringPreferencesKey("main_track_path_or_uri")
+        val LanguageTagKey = stringPreferencesKey("language_tag")
+        const val DefaultMusicVolume = 0.65f
+        const val DefaultSfxVolume = 1f
     }
 }

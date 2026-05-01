@@ -97,10 +97,11 @@ class DefaultModMusicService(
     }
 
     override fun setEnabled(enabled: Boolean) {
+        val wasEnabled = this.enabled
         this.enabled = enabled
         if (!enabled) {
             player.stop()
-        } else if (started) {
+        } else if (!wasEnabled && started) {
             val selectedTrack = currentTrack
             if (selectedTrack != null) {
                 playTrack(selectedTrack)

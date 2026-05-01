@@ -24,7 +24,7 @@
 - Next-piece preview panel (level-tier queue depth, animated slot fade on tier transition)
 - Held piece panel (tappable, dimmed when `canHold` is false)
 - `ScorePanel` (animated score / level / lines display)
-- `?` button (top-start) — opens `TutorialOverlay`
+- `?` button (top-start) — opens the full-screen tutorial/help screen
 - Mute button (top-end) — toggles `isMuted` StateFlow, icon switches, preference persisted in DataStore
 - Back button: running → pause dialog; paused → exit confirmation
 
@@ -37,5 +37,5 @@ Fully playable on a device/emulator with touch controls. Visual style matches ca
 - `BoardCanvas`: Custom `Canvas` implementation with candy-style blocks (glow, gradient, shine, bevel).
 - `ScorePanel`: Responsive HUD with held piece and next pieces preview.
 - `ControlSurface`: Advanced gesture classification with grab mode and DAS/ARR.
-- `TutorialOverlay`: Functional help screen.
+- Tutorial/help screen: functional full-screen help screen.
 - `BlockDropApp`: Integrated layout with overlays for Start, Pause, and Game Over.
