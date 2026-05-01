@@ -765,7 +765,7 @@ private fun DrawScope.drawCelebration(
     progress: Float,
 ) {
     val (overlayColor, label) = when (celebrationType) {
-        CelebrationType.Tetris -> Color(0xFF7A8DFF) to "TETRIS" // 4 ROW
+        CelebrationType.Tetris -> Color(0xFF7A8DFF) to "4 ROW" // TETRIS
         CelebrationType.TSpin -> Color(0xFFFF6FB5) to "T-SPIN"
         CelebrationType.AllClear -> Color(0xFF7BFFE1) to "ALL CLEAR"
     }
