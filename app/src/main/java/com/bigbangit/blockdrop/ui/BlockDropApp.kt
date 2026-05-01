@@ -623,8 +623,10 @@ private fun GameScreenContent(
 
                     GameState.Paused -> CompactOverlayCard(
                         title = stringResource(R.string.paused_title),
-                        subtitle = stringResource(R.string.pause_menu_subtitle),
+                        titleLogoRes = R.drawable.mod_fall_logo,
+                        subtitle = null,
                         width = overlayWidth,
+                        showContainer = false,
                         actions = listOf(
                             OverlayMenuAction(
                                 text = stringResource(R.string.resume_button),
@@ -1001,6 +1003,7 @@ private fun GameOverOverlayCard(
 private fun CompactOverlayCard(
     title: String,
     titleLogoRes: Int? = null,
+    showTitleWithLogo: Boolean = false,
     subtitle: String?,
     width: Dp,
     showContainer: Boolean = true,
@@ -1024,12 +1027,21 @@ private fun CompactOverlayCard(
         if (titleLogoRes != null) {
             Image(
                 painter = painterResource(titleLogoRes),
-                contentDescription = null,
+                contentDescription = title,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(92.dp),
             )
+            if (showTitleWithLogo) {
+                Text(
+                    text = title.uppercase(),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Black,
+                    color = TextWhite,
+                    textAlign = TextAlign.Center,
+                )
+            }
         } else {
             Text(
                 text = title.uppercase(),
