@@ -59,6 +59,10 @@ class SettingsRepository(
         preferences[MusicFolderUriKey]
     }
 
+    val languageTag: Flow<String?> = context.blockDropPreferences.data.map { preferences ->
+        preferences[LanguageTagKey]?.takeIf { it.isNotBlank() }
+    }
+
     suspend fun setMuted(isMuted: Boolean) {
         context.blockDropPreferences.edit { preferences ->
             preferences[IsMutedKey] = isMuted
@@ -135,6 +139,16 @@ class SettingsRepository(
         }
     }
 
+    suspend fun setLanguageTag(tag: String?) {
+        context.blockDropPreferences.edit { preferences ->
+            if (tag.isNullOrBlank()) {
+                preferences.remove(LanguageTagKey)
+            } else {
+                preferences[LanguageTagKey] = tag
+            }
+        }
+    }
+
     private companion object {
         val IsMutedKey = booleanPreferencesKey("is_muted")
         val ButtonsEnabledKey = booleanPreferencesKey("buttons_enabled")
@@ -147,6 +161,7 @@ class SettingsRepository(
         val TutorialSeenKey = booleanPreferencesKey("tutorial_seen")
         val MusicFolderUriKey = stringPreferencesKey("music_folder_uri")
         val MainTrackPathOrUriKey = stringPreferencesKey("main_track_path_or_uri")
+        val LanguageTagKey = stringPreferencesKey("language_tag")
         const val DefaultMusicVolume = 0.65f
         const val DefaultSfxVolume = 1f
     }

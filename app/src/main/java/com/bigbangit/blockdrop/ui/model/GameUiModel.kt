@@ -63,4 +63,5 @@ data class GameUiModel(
     val isMusicPlaying: Boolean = false,
     val musicFolderUri: String? = null,
     val trackLoadError: String? = null,
+    val languageTag: String? = null,
 )

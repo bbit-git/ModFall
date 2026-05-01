@@ -4,15 +4,15 @@
     <string name="game_state_label">State: %1$s</string>
     <string name="score_label">Score: %1$d</string>
     <string name="level_label">Level: %1$d</string>
-    <string name="hold_label">DRŽET</string>
-    <string name="next_label_caps">DALŠÍ</string>
-    <string name="lines_label">ŘÁDKY</string>
-    <string name="score_label_caps">SKÓRE</string>
-    <string name="level_label_caps">ÚROVEŇ</string>
-    <string name="score_stat_compact">Skóre %1$d</string>
-    <string name="level_stat_compact">Úroveň %1$d</string>
-    <string name="lines_stat_compact">Řádky %1$d</string>
-    <string name="level_and_lines_stat_compact">Úroveň %1$d · Řádky %2$d</string>
+    <string name="hold_label">HOLD</string>
+    <string name="next_label_caps">NEXT</string>
+    <string name="lines_label">LINES</string>
+    <string name="score_label_caps">SCORE</string>
+    <string name="level_label_caps">LEVEL</string>
+    <string name="score_stat_compact">Score %1$d</string>
+    <string name="level_stat_compact">Level %1$d</string>
+    <string name="lines_stat_compact">Lines %1$d</string>
+    <string name="level_and_lines_stat_compact">Level %1$d · Lines %2$d</string>
     <string name="none_label">None</string>
     <string name="move_left">Left</string>
     <string name="move_right">Right</string>
@@ -133,4 +133,6 @@
     <string name="tutorial_music_set_main_desc">After scanning, pick a track in Music Library and tap Set as main tune if you want it to start automatically with a new game.</string>
     <string name="tutorial_music_download_label">Where to Get Mods</string>
     <string name="tutorial_music_download_desc">Example sources: The Mod Archive (modarchive.org) and scene.org (files.scene.org). Download module files there, then place them in Download/Mods/ or your selected music folder.</string>
+    <string name="language_setting">Language</string>
+    <string name="language_system_default">System default</string>
 </resources>

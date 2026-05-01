@@ -91,4 +91,24 @@
     <string name="tutorial_scoring_combos_desc">Очищайте ряди підряд, щоб збільшити множник комбо.</string>
     <string name="tutorial_scoring_allclear_label">Повне очищення</string>
     <string name="tutorial_scoring_allclear_desc">Очистіть усю дошку для максимального бонусу.</string>
+
+    <string name="level_and_lines_stat_compact">Рівень %1$d · Лінії %2$d</string>
+    <string name="sound_on_description">Звук увімкнено</string>
+    <string name="sound_off_description">Звук вимкнено</string>
+    <string name="music_volume_setting">Рівень музики</string>
+    <string name="sfx_volume_setting">Рівень SFX</string>
+    <string name="enable_particles_setting">Частинки</string>
+    <string name="particle_quality_setting">Щільність частинок</string>
+    <string name="particle_quality_low">Нижча</string>
+    <string name="particle_quality_high">Вища</string>
+    <string name="music_library_disabled_placeholder">Відтворення музики вимкнено</string>
+    <string name="tutorial_section_music">МУЗИКА</string>
+    <string name="tutorial_music_set_folder_label">Вибрати папку музики</string>
+    <string name="tutorial_music_set_folder_desc">Відкрийте Налаштування, перейдіть до музичної бібліотеки, торкніться Вибрати папку музики, а потім виберіть папку з файлами .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_main_label">Вибрати головну мелодію</string>
+    <string name="tutorial_music_set_main_desc">Після сканування виберіть трек у музичній бібліотеці та торкніться Зробити головною мелодією, якщо хочете автоматичний запуск з новою грою.</string>
+    <string name="tutorial_music_download_label">Де взяти Mods</string>
+    <string name="tutorial_music_download_desc">Приклади джерел: The Mod Archive (modarchive.org) і scene.org (files.scene.org). Завантажте там файли модулів, а потім помістіть їх у Download/Mods/ або вибрану папку музики.</string>
+    <string name="language_setting">Мова</string>
+    <string name="language_system_default">За замовчуванням системи</string>
 </resources>

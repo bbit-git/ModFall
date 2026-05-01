@@ -100,4 +100,24 @@
     <string name="tutorial_scoring_combos_desc">Vymažte řady za sebou pro násobič komb.</string>
     <string name="tutorial_scoring_allclear_label">Vyčištění</string>
     <string name="tutorial_scoring_allclear_desc">Vyprázdněte celou desku pro ultimátní odměnu.</string>
+
+    <string name="level_and_lines_stat_compact">Úroveň %1$d · Řádky %2$d</string>
+    <string name="sound_on_description">Zvuk zapnutý</string>
+    <string name="sound_off_description">Zvuk vypnutý</string>
+    <string name="music_volume_setting">Hlasitost hudby</string>
+    <string name="sfx_volume_setting">Hlasitost efektů</string>
+    <string name="enable_particles_setting">Částice</string>
+    <string name="particle_quality_setting">Hustota částic</string>
+    <string name="particle_quality_low">Nižší</string>
+    <string name="particle_quality_high">Vyšší</string>
+    <string name="music_library_disabled_placeholder">Přehrávání hudby je vypnuté</string>
+    <string name="tutorial_section_music">HUDBA</string>
+    <string name="tutorial_music_set_folder_label">Nastavit složku hudby</string>
+    <string name="tutorial_music_set_folder_desc">Otevřete Nastavení, vstupte do Hudební knihovny, klepněte na Nastavit složku s hudbou a vyberte složku se soubory .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_main_label">Vybrat hlavní melodii</string>
+    <string name="tutorial_music_set_main_desc">Po skenování vyberte skladbu v Hudební knihovně a klepněte na Nastavit jako hlavní melodii, pokud chcete, aby se automaticky spustila s novou hrou.</string>
+    <string name="tutorial_music_download_label">Kde získat Mods</string>
+    <string name="tutorial_music_download_desc">Příklady zdrojů: The Mod Archive (modarchive.org) a scene.org (files.scene.org). Stáhněte tam soubory modulů a potom je vložte do Download/Mods/ nebo do vybrané složky s hudbou.</string>
+    <string name="language_setting">Jazyk</string>
+    <string name="language_system_default">Výchozí systém</string>
 </resources>

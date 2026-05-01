@@ -17,6 +17,7 @@ import com.bigbangit.blockdrop.music.DefaultModMusicService
 import com.bigbangit.blockdrop.music.ModTrackInfo
 import com.bigbangit.blockdrop.music.ModMusicService
 import com.bigbangit.blockdrop.ui.model.ActivePieceUiModel
+import com.bigbangit.blockdrop.ui.model.AppLanguages
 import com.bigbangit.blockdrop.ui.model.BoardCell
 import com.bigbangit.blockdrop.ui.model.CelebrationType
 import com.bigbangit.blockdrop.ui.model.GameUiModel
@@ -126,6 +127,13 @@ class GameViewModel(
                 _uiModel.update { current -> current.copy(musicFolderUri = musicFolderUri) }
                 startMenuMusicIfNeeded(rescan = true)
                 refreshMusicState()
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.languageTag.collect { languageTag ->
+                _uiModel.update { current ->
+                    current.copy(languageTag = AppLanguages.normalize(languageTag))
+                }
             }
         }
         viewModelScope.launch {
@@ -392,6 +400,12 @@ class GameViewModel(
     fun setMusicFolderUri(treeUri: String?) {
         viewModelScope.launch {
             settingsRepository.setMusicFolderUri(treeUri)
+        }
+    }
+
+    fun setLanguageTag(languageTag: String?) {
+        viewModelScope.launch {
+            settingsRepository.setLanguageTag(AppLanguages.normalize(languageTag))
         }
     }
 

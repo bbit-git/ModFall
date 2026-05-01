@@ -91,4 +91,24 @@
     <string name="tutorial_scoring_combos_desc">Zbijaj rzędy jeden po drugim, aby zwiększyć mnożnik combo.</string>
     <string name="tutorial_scoring_allclear_label">Czyszczenie</string>
     <string name="tutorial_scoring_allclear_desc">Wyczyść całą planszę, aby zdobyć maksymalny bonus.</string>
+
+    <string name="level_and_lines_stat_compact">Poziom %1$d · Linie %2$d</string>
+    <string name="sound_on_description">Dźwięk włączony</string>
+    <string name="sound_off_description">Dźwięk wyłączony</string>
+    <string name="music_volume_setting">Poziom muzyki</string>
+    <string name="sfx_volume_setting">Poziom SFX</string>
+    <string name="enable_particles_setting">Cząstki</string>
+    <string name="particle_quality_setting">Gęstość cząstek</string>
+    <string name="particle_quality_low">Niższa</string>
+    <string name="particle_quality_high">Wyższa</string>
+    <string name="music_library_disabled_placeholder">Odtwarzanie muzyki jest wyłączone</string>
+    <string name="tutorial_section_music">MUZYKA</string>
+    <string name="tutorial_music_set_folder_label">Ustaw folder muzyki</string>
+    <string name="tutorial_music_set_folder_desc">Otwórz Ustawienia, przejdź do Biblioteki muzyki, stuknij Ustaw folder muzyki, a potem wybierz folder z plikami .mod / .xm / .s3m / .it.</string>
+    <string name="tutorial_music_set_main_label">Wybierz główny utwór</string>
+    <string name="tutorial_music_set_main_desc">Po skanowaniu wybierz utwór w Bibliotece muzyki i stuknij Ustaw jako główny utwór, jeśli ma startować automatycznie z nową grą.</string>
+    <string name="tutorial_music_download_label">Skąd pobrać Mods</string>
+    <string name="tutorial_music_download_desc">Przykładowe źródła: The Mod Archive (modarchive.org) i scene.org (files.scene.org). Pobierz tam pliki modułów, a następnie umieść je w Download/Mods/ albo w wybranym folderze muzyki.</string>
+    <string name="language_setting">Język</string>
+    <string name="language_system_default">Domyślny systemowy</string>
 </resources>

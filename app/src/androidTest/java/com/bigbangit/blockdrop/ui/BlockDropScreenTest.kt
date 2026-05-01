@@ -24,7 +24,7 @@ class BlockDropScreenTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun runningLayoutShowsCzechHudAndSplitControls() {
+    fun runningLayoutShowsEnglishHudAndSplitControls() {
         composeRule.setContent {
             BlockDropTheme {
                 BlockDropScreen(
@@ -38,6 +38,7 @@ class BlockDropScreenTest {
                     onPause = {},
                     onResume = {},
                     onQuit = {},
+                    onExitApp = {},
                     onMuteToggle = {},
                     onOpenMusicLibrary = {},
                     onCloseMusicLibrary = {},
@@ -66,17 +67,20 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onMusicVolumeChanged = {},
+                    onSfxVolumeChanged = {},
                     onToggleParticlesEnabled = {},
                     onCycleParticleQuality = {},
+                    onLanguageChanged = {},
                     onSetMainTrack = {},
                 )
             }
         }
 
-        composeRule.onNodeWithText("Skóre 10119").assertIsDisplayed()
-        composeRule.onNodeWithText("Úroveň 4 · Řádky 34").assertIsDisplayed()
-        composeRule.onNodeWithText("DRŽET").assertIsDisplayed()
-        composeRule.onNodeWithText("DALŠÍ").assertIsDisplayed()
+        composeRule.onNodeWithText("Score 10119").assertIsDisplayed()
+        composeRule.onNodeWithText("Level 4 · Lines 34").assertIsDisplayed()
+        composeRule.onNodeWithText("HOLD").assertIsDisplayed()
+        composeRule.onNodeWithText("NEXT").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Left").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Right").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Rotate CCW").assertIsDisplayed()
@@ -113,6 +117,7 @@ class BlockDropScreenTest {
                     onPause = {},
                     onResume = {},
                     onQuit = {},
+                    onExitApp = {},
                     onMuteToggle = {},
                     onOpenMusicLibrary = {},
                     onCloseMusicLibrary = {},
@@ -141,8 +146,11 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onMusicVolumeChanged = {},
+                    onSfxVolumeChanged = {},
                     onToggleParticlesEnabled = {},
                     onCycleParticleQuality = {},
+                    onLanguageChanged = {},
                     onSetMainTrack = {},
                 )
             }
@@ -166,6 +174,7 @@ class BlockDropScreenTest {
                     onPause = {},
                     onResume = {},
                     onQuit = {},
+                    onExitApp = {},
                     onMuteToggle = {},
                     onOpenMusicLibrary = {},
                     onCloseMusicLibrary = {},
@@ -194,8 +203,11 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onMusicVolumeChanged = {},
+                    onSfxVolumeChanged = {},
                     onToggleParticlesEnabled = {},
                     onCycleParticleQuality = {},
+                    onLanguageChanged = {},
                     onSetMainTrack = {},
                 )
             }
@@ -220,6 +232,7 @@ class BlockDropScreenTest {
                     onPause = {},
                     onResume = {},
                     onQuit = {},
+                    onExitApp = {},
                     onMuteToggle = {},
                     onOpenMusicLibrary = {},
                     onCloseMusicLibrary = {},
@@ -248,8 +261,11 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onMusicVolumeChanged = {},
+                    onSfxVolumeChanged = {},
                     onToggleParticlesEnabled = {},
                     onCycleParticleQuality = {},
+                    onLanguageChanged = {},
                     onSetMainTrack = {},
                 )
             }
@@ -275,6 +291,7 @@ class BlockDropScreenTest {
                     onPause = {},
                     onResume = {},
                     onQuit = {},
+                    onExitApp = {},
                     onMuteToggle = {},
                     onOpenMusicLibrary = {},
                     onCloseMusicLibrary = {},
@@ -303,8 +320,11 @@ class BlockDropScreenTest {
                     onToggleButtonsEnabled = {},
                     onToggleGesturesEnabled = {},
                     onToggleMusicEnabled = {},
+                    onMusicVolumeChanged = {},
+                    onSfxVolumeChanged = {},
                     onToggleParticlesEnabled = {},
                     onCycleParticleQuality = {},
+                    onLanguageChanged = {},
                     onSetMainTrack = {},
                 )
             }

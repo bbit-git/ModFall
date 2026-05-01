@@ -3,10 +3,12 @@ package com.bigbangit.blockdrop.ui
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.text.TextUtils
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -61,6 +63,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -84,6 +88,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -97,10 +103,12 @@ import kotlinx.coroutines.delay
 import com.bigbangit.blockdrop.BuildConfig
 import com.bigbangit.blockdrop.R
 import com.bigbangit.blockdrop.core.GameState
+import com.bigbangit.blockdrop.ui.model.AppLanguages
 import com.bigbangit.blockdrop.ui.model.GameUiModel
 import com.bigbangit.blockdrop.ui.theme.BlockDropTheme
 import com.bigbangit.blockdrop.ui.theme.TextWhite
 import com.bigbangit.blockdrop.ui.viewmodel.GameViewModel
+import java.util.Locale
 
 @Composable
 fun BlockDropApp(
@@ -159,73 +167,120 @@ fun BlockDropApp(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        BlockDropScreen(
-            uiModel = uiModel,
-            onStartGame = viewModel::startGame,
-            onPause = viewModel::pauseGame,
-            onResume = viewModel::resumeGame,
-            onQuit = viewModel::quitGame,
-            onExitApp = { (context as? Activity)?.finish() },
-            onMuteToggle = viewModel::toggleMute,
-            onOpenMusicLibrary = viewModel::openMusicLibrary,
-            onCloseMusicLibrary = viewModel::closeMusicLibrary,
-            onRefreshMusicLibrary = viewModel::refreshMusicLibrary,
-            onPickMusicFolder = { musicFolderLauncher.launch(musicFolderInitialUri) },
-            onSelectTrack = viewModel::selectTrack,
-            onPauseMusic = viewModel::pauseMusic,
-            onResumeMusic = viewModel::resumeMusic,
-            onStopMusic = viewModel::stopMusic,
-            onShowTutorial = viewModel::showTutorial,
-            onDismissTutorial = viewModel::dismissTutorial,
-            onMoveLeft = viewModel::moveLeft,
-            onMoveRight = viewModel::moveRight,
-            onRotateClockwise = viewModel::rotateClockwise,
-            onRotateCounterClockwise = viewModel::rotateCounterClockwise,
-            onSoftDrop = viewModel::softDrop,
-            onHardDrop = viewModel::hardDrop,
-            onHold = viewModel::hold,
-            onDropDelay = viewModel::activateDropDelay,
-            onNicknameChanged = viewModel::updateNickname,
-            onSubmitScore = viewModel::submitScore,
-            onShowScoreboard = viewModel::showScoreboard,
-            onDismissScoreboard = viewModel::dismissScoreboard,
-            onOpenSettings = viewModel::openSettings,
-            onCloseSettings = viewModel::closeSettings,
-            onToggleButtonsEnabled = viewModel::toggleButtonsEnabled,
-            onToggleGesturesEnabled = viewModel::toggleGesturesEnabled,
-            onToggleMusicEnabled = viewModel::toggleMusicEnabled,
-            onMusicVolumeChanged = viewModel::setMusicVolume,
-            onSfxVolumeChanged = viewModel::setSfxVolume,
-            onToggleParticlesEnabled = viewModel::toggleParticlesEnabled,
-            onCycleParticleQuality = viewModel::cycleParticleQuality,
-            onSetMainTrack = viewModel::setMainTrack,
-        )
-
-        if (!uiModel.isMuted && uiModel.musicEnabled && !uiModel.showMusicLibrary) {
-            TrackInfoOverlay(
-                trackDisplay = uiModel.trackDisplay,
-                trackDisplayKey = uiModel.trackDisplayKey,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .safeDrawingPadding()
-                    .padding(bottom = 4.dp),
+    LocalizedAppContent(languageTag = uiModel.languageTag) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            BlockDropScreen(
+                uiModel = uiModel,
+                onStartGame = viewModel::startGame,
+                onPause = viewModel::pauseGame,
+                onResume = viewModel::resumeGame,
+                onQuit = viewModel::quitGame,
+                onExitApp = { (context as? Activity)?.finish() },
+                onMuteToggle = viewModel::toggleMute,
+                onOpenMusicLibrary = viewModel::openMusicLibrary,
+                onCloseMusicLibrary = viewModel::closeMusicLibrary,
+                onRefreshMusicLibrary = viewModel::refreshMusicLibrary,
+                onPickMusicFolder = { musicFolderLauncher.launch(musicFolderInitialUri) },
+                onSelectTrack = viewModel::selectTrack,
+                onPauseMusic = viewModel::pauseMusic,
+                onResumeMusic = viewModel::resumeMusic,
+                onStopMusic = viewModel::stopMusic,
+                onShowTutorial = viewModel::showTutorial,
+                onDismissTutorial = viewModel::dismissTutorial,
+                onMoveLeft = viewModel::moveLeft,
+                onMoveRight = viewModel::moveRight,
+                onRotateClockwise = viewModel::rotateClockwise,
+                onRotateCounterClockwise = viewModel::rotateCounterClockwise,
+                onSoftDrop = viewModel::softDrop,
+                onHardDrop = viewModel::hardDrop,
+                onHold = viewModel::hold,
+                onDropDelay = viewModel::activateDropDelay,
+                onNicknameChanged = viewModel::updateNickname,
+                onSubmitScore = viewModel::submitScore,
+                onShowScoreboard = viewModel::showScoreboard,
+                onDismissScoreboard = viewModel::dismissScoreboard,
+                onOpenSettings = viewModel::openSettings,
+                onCloseSettings = viewModel::closeSettings,
+                onToggleButtonsEnabled = viewModel::toggleButtonsEnabled,
+                onToggleGesturesEnabled = viewModel::toggleGesturesEnabled,
+                onToggleMusicEnabled = viewModel::toggleMusicEnabled,
+                onMusicVolumeChanged = viewModel::setMusicVolume,
+                onSfxVolumeChanged = viewModel::setSfxVolume,
+                onToggleParticlesEnabled = viewModel::toggleParticlesEnabled,
+                onCycleParticleQuality = viewModel::cycleParticleQuality,
+                onLanguageChanged = viewModel::setLanguageTag,
+                onSetMainTrack = viewModel::setMainTrack,
             )
-        }
 
-        AnimatedVisibility(
-            visible = showSplash,
-            enter = EnterTransition.None,
-            exit = fadeOut(animationSpec = tween(durationMillis = 300)),
-        ) {
-            Image(
-                painter = painterResource(R.drawable.splashscreen),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-            )
+            if (!uiModel.isMuted && uiModel.musicEnabled && !uiModel.showMusicLibrary) {
+                TrackInfoOverlay(
+                    trackDisplay = uiModel.trackDisplay,
+                    trackDisplayKey = uiModel.trackDisplayKey,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .safeDrawingPadding()
+                        .padding(bottom = 4.dp),
+                )
+            }
+
+            AnimatedVisibility(
+                visible = showSplash,
+                enter = EnterTransition.None,
+                exit = fadeOut(animationSpec = tween(durationMillis = 300)),
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.splashscreen),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun LocalizedAppContent(
+    languageTag: String?,
+    content: @Composable () -> Unit,
+) {
+    val baseContext = LocalContext.current
+    val baseConfiguration = LocalConfiguration.current
+    val baseLayoutDirection = LocalLayoutDirection.current
+    val locale = remember(languageTag) {
+        AppLanguages.normalize(languageTag)?.let(Locale::forLanguageTag)
+    }
+    val localizedConfiguration = remember(baseConfiguration, locale) {
+        Configuration(baseConfiguration).apply {
+            if (locale != null) {
+                setLocale(locale)
+                setLayoutDirection(locale)
+            }
+        }
+    }
+    val localizedContext = remember(baseContext, localizedConfiguration, locale) {
+        if (locale == null) {
+            baseContext
+        } else {
+            baseContext.createConfigurationContext(localizedConfiguration)
+        }
+    }
+    val layoutDirection = remember(locale, baseLayoutDirection) {
+        if (locale == null) {
+            baseLayoutDirection
+        } else if (TextUtils.getLayoutDirectionFromLocale(locale) == android.view.View.LAYOUT_DIRECTION_RTL) {
+            androidx.compose.ui.unit.LayoutDirection.Rtl
+        } else {
+            androidx.compose.ui.unit.LayoutDirection.Ltr
+        }
+    }
+
+    androidx.compose.runtime.CompositionLocalProvider(
+        LocalContext provides localizedContext,
+        LocalConfiguration provides localizedConfiguration,
+        LocalLayoutDirection provides layoutDirection,
+        content = content,
+    )
 }
 
 @Composable
@@ -268,6 +323,7 @@ fun BlockDropScreen(
     onSfxVolumeChanged: (Float) -> Unit,
     onToggleParticlesEnabled: () -> Unit,
     onCycleParticleQuality: () -> Unit,
+    onLanguageChanged: (String?) -> Unit,
     onSetMainTrack: (com.bigbangit.blockdrop.music.ModTrackInfo) -> Unit,
 ) {
     var showExitConfirm by remember { mutableStateOf(false) }
@@ -385,6 +441,7 @@ fun BlockDropScreen(
                     onSfxVolumeChanged = onSfxVolumeChanged,
                     onToggleParticlesEnabled = onToggleParticlesEnabled,
                     onCycleParticleQuality = onCycleParticleQuality,
+                    onLanguageChanged = onLanguageChanged,
                 )
                 2 -> TutorialScreen(
                     onDismiss = onDismissTutorial,
@@ -967,7 +1024,7 @@ private fun CompactOverlayCard(
         if (titleLogoRes != null) {
             Image(
                 painter = painterResource(titleLogoRes),
-                contentDescription = title,
+                contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -1141,6 +1198,7 @@ private fun SettingsPanel(
     onSfxVolumeChanged: (Float) -> Unit,
     onToggleParticlesEnabled: () -> Unit,
     onCycleParticleQuality: () -> Unit,
+    onLanguageChanged: (String?) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -1217,6 +1275,10 @@ private fun SettingsPanel(
             ),
             checked = uiModel.particleQuality == com.bigbangit.blockdrop.ui.model.ParticleQuality.High,
             onToggle = onCycleParticleQuality,
+        )
+        RetroLanguageRow(
+            selectedLanguageTag = uiModel.languageTag,
+            onLanguageChanged = onLanguageChanged,
         )
         RetroActionRow(
             label = stringResource(R.string.main_tune_setting),
@@ -1322,6 +1384,63 @@ private fun RetroSwitchActionRow(
 }
 
 @Composable
+private fun RetroLanguageRow(
+    selectedLanguageTag: String?,
+    onLanguageChanged: (String?) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val systemDefaultLabel = stringResource(R.string.language_system_default)
+    val selectedLabel = AppLanguages.displayNameFor(selectedLanguageTag, systemDefaultLabel)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White.copy(alpha = 0.06f), RoundedCornerShape(8.dp))
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(R.string.language_setting),
+                color = TextWhite,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                text = selectedLabel,
+                color = TextWhite.copy(alpha = 0.7f),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+        Box {
+            Button(onClick = { expanded = true }) {
+                Text(selectedLabel)
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+            ) {
+                DropdownMenuItem(
+                    text = { Text(systemDefaultLabel) },
+                    onClick = {
+                        expanded = false
+                        onLanguageChanged(null)
+                    },
+                )
+                AppLanguages.Supported.forEach { language ->
+                    DropdownMenuItem(
+                        text = { Text(language.displayName) },
+                        onClick = {
+                            expanded = false
+                            onLanguageChanged(language.tag)
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun RetroActionRow(
     label: String,
     value: String,
@@ -1392,6 +1511,7 @@ private fun BlockDropScreenPreview() {
             onSfxVolumeChanged = {},
             onToggleParticlesEnabled = {},
             onCycleParticleQuality = {},
+            onLanguageChanged = {},
             onSetMainTrack = {},
         )
     }
