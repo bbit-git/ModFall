@@ -52,8 +52,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -1212,6 +1214,33 @@ private fun SettingsPanel(
     onCycleParticleQuality: () -> Unit,
     onLanguageChanged: (String?) -> Unit,
 ) {
+    var showLicenses by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val licensesText = remember(context) {
+        context.resources.openRawResource(R.raw.third_party_licenses)
+            .bufferedReader()
+            .use { it.readText() }
+    }
+
+    if (showLicenses) {
+        AlertDialog(
+            onDismissRequest = { showLicenses = false },
+            title = { Text(stringResource(R.string.licenses_title)) },
+            text = {
+                Text(
+                    text = licensesText,
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { showLicenses = false }) {
+                    Text(stringResource(R.string.close_button))
+                }
+            },
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -1302,6 +1331,12 @@ private fun SettingsPanel(
             onClick = onOpenMusicLibrary,
         )
         Spacer(modifier = Modifier.weight(1f))
+        FilledTonalButton(
+            onClick = { showLicenses = true },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.licenses_button))
+        }
         Text(
             text = "VERSION ${BuildConfig.VERSION_NAME}",
             modifier = Modifier.fillMaxWidth(),
