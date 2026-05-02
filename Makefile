@@ -4,7 +4,7 @@ DIST_DIR := dist
 DIST_APK := $(DIST_DIR)/app-release-unsigned.apk
 GRADLE_USER_HOME := .gradle
 LIBOPENMPT_SCRIPT := scripts/build-libopenmpt.sh
-PKG := com.bigbangit.blockdrop
+PKG := com.bigbangit.modfall
 
 .PHONY: build install libopenmpt libopenmpt-force
 
