@@ -10,3 +10,5 @@
 app/build/
 app/src/main/cpp/libopenmpt/build/
 app/src/main/cpp/libopenmpt/prebuilt/**/*.so
+resources
+keys
