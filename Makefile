@@ -6,12 +6,21 @@ GRADLE_USER_HOME := .gradle
 LIBOPENMPT_SCRIPT := scripts/build-libopenmpt.sh
 PKG := com.bigbangit.modfall
 
-.PHONY: build install libopenmpt libopenmpt-force
+.PHONY: build clean install libopenmpt libopenmpt-force
 
 build:
 	GRADLE_USER_HOME=$(GRADLE_USER_HOME) ./gradlew assembleRelease
 	mkdir -p $(DIST_DIR)
 	cp $(APK_RELEASE) $(DIST_APK)
+
+clean:
+	rm -rf \
+		$(DIST_DIR) \
+		build \
+		app/.cxx \
+		app/build \
+		app/src/main/cpp/libopenmpt/build \
+		app/src/main/cpp/libopenmpt/prebuilt
 
 libopenmpt:
 	bash $(LIBOPENMPT_SCRIPT)

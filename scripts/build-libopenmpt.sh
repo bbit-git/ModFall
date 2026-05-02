@@ -10,7 +10,7 @@ NDK_DIR="${ANDROID_NDK_HOME:-${ANDROID_NDK:-}}"
 ABI_LIST=("arm64-v8a" "armeabi-v7a" "x86_64")
 API_LEVEL="${ANDROID_API_LEVEL:-28}"
 OPENMPT_REPO="https://github.com/OpenMPT/openmpt.git"
-OPENMPT_TAG="${OPENMPT_TAG:-master}"
+OPENMPT_TAG="${OPENMPT_TAG:-libopenmpt-0.8.6}"
 
 log() {
   printf '[libopenmpt] %s\n' "$*"
@@ -38,16 +38,6 @@ need_cmd git
 
 mkdir -p "${LIBOPENMPT_DIR}"
 
-if [[ ! -d "${SRC_DIR}/.git" ]]; then
-  log "cloning libopenmpt into ${SRC_DIR}"
-  rm -rf "${SRC_DIR}"
-  git clone --depth 1 --branch "${OPENMPT_TAG}" "${OPENMPT_REPO}" "${SRC_DIR}"
-else
-  log "updating existing libopenmpt checkout"
-  git -C "${SRC_DIR}" fetch --depth 1 origin "${OPENMPT_TAG}"
-  git -C "${SRC_DIR}" checkout --detach FETCH_HEAD
-fi
-
 all_built=true
 for abi in "${ABI_LIST[@]}"; do
   if [[ ! -f "${PREBUILT_DIR}/${abi}/${abi}/libopenmpt.so" ]]; then
@@ -58,6 +48,16 @@ done
 if [[ "${all_built}" == true && "${FORCE_REBUILD:-0}" != "1" ]]; then
   log "all prebuilt libraries already present, skipping build (set FORCE_REBUILD=1 to override)"
   exit 0
+fi
+
+if [[ ! -d "${SRC_DIR}/.git" ]]; then
+  log "cloning libopenmpt into ${SRC_DIR}"
+  rm -rf "${SRC_DIR}"
+  git clone --depth 1 --branch "${OPENMPT_TAG}" "${OPENMPT_REPO}" "${SRC_DIR}"
+else
+  log "updating existing libopenmpt checkout"
+  git -C "${SRC_DIR}" fetch --depth 1 origin "${OPENMPT_TAG}"
+  git -C "${SRC_DIR}" checkout --detach FETCH_HEAD
 fi
 
 rm -rf "${BUILD_DIR}" "${PREBUILT_DIR}"
