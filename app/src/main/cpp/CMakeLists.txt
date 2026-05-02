@@ -24,18 +24,6 @@ set_target_properties(openmpt PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${LIBOPENMPT_INCLUDE_DIR};${LIBOPENMPT_SOURCE_INCLUDE_DIR}"
 )
 
-set(LIBCXX_SHARED_LIBRARY "${LIBOPENMPT_PREBUILT_ROOT}/${LIBOPENMPT_ABI}/${LIBOPENMPT_ABI}/libc++_shared.so")
-if(NOT EXISTS "${LIBCXX_SHARED_LIBRARY}")
-    message(FATAL_ERROR
-        "Prebuilt libc++_shared library not found at ${LIBCXX_SHARED_LIBRARY}.\n"
-        "Run scripts/build-libopenmpt.sh first to download and build libopenmpt for ${LIBOPENMPT_ABI}.")
-endif()
-
-add_library(c++_shared SHARED IMPORTED GLOBAL)
-set_target_properties(c++_shared PROPERTIES
-    IMPORTED_LOCATION "${LIBCXX_SHARED_LIBRARY}"
-)
-
 add_library(openmpt_jni SHARED openmpt_jni.c)
 target_include_directories(openmpt_jni PRIVATE "${LIBOPENMPT_INCLUDE_DIR}")
-target_link_libraries(openmpt_jni openmpt c++_shared ${log-lib} ${z-lib})
+target_link_libraries(openmpt_jni openmpt ${log-lib} ${z-lib})

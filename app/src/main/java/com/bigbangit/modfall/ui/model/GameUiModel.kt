@@ -1,0 +1,67 @@
+package com.bigbangit.modfall.ui.model
+
+import com.bigbangit.modfall.core.BoardSnapshot
+import com.bigbangit.modfall.core.GameConstants
+import com.bigbangit.modfall.core.GameState
+import com.bigbangit.modfall.core.TetrominoType
+import com.bigbangit.modfall.data.RankedScoreboardEntry
+import com.bigbangit.modfall.music.ModTrackInfo
+
+data class GameUiModel(
+    val state: GameState = GameState.Idle,
+    val pauseReason: PauseReason? = null,
+    val score: Int = 0,
+    val level: Int = 1,
+    val lines: Int = 0,
+    val board: BoardSnapshot = BoardSnapshot(
+        cells = List(GameConstants.BOARD_HEIGHT) { List(GameConstants.BOARD_WIDTH) { 0 } },
+    ),
+    val activePiece: ActivePieceUiModel? = null,
+    val ghostCells: List<BoardCell> = emptyList(),
+    val nextPieces: List<TetrominoType> = emptyList(),
+    val heldPiece: TetrominoType? = null,
+    val canHold: Boolean = true,
+    val canUseDropDelay: Boolean = true,
+    val lockResetCount: Int = 0,
+    val isGrounded: Boolean = false,
+    val isMuted: Boolean = false,
+    val buttonsEnabled: Boolean = true,
+    val gesturesEnabled: Boolean = true,
+    val musicEnabled: Boolean = true,
+    val musicVolume: Float = 0.65f,
+    val sfxVolume: Float = 1f,
+    val particlesEnabled: Boolean = false,
+    val particleQuality: ParticleQuality = ParticleQuality.High,
+    val mainTrackPathOrUri: String? = null,
+    val showTutorial: Boolean = false,
+    val showSettings: Boolean = false,
+    val returnToSettingsFromMusicLibrary: Boolean = false,
+    val scoreboardEntries: List<RankedScoreboardEntry> = emptyList(),
+    val isScoreboardVisible: Boolean = false,
+    val pendingNickname: String = "",
+    val isSubmittingScore: Boolean = false,
+    val hasSubmittedScore: Boolean = false,
+    val didQualifyForScoreboard: Boolean? = null,
+    val qualifiedRank: Int? = null,
+    val nicknameError: String? = null,
+    val lineClearLines: Int? = null,
+    val lineClearAnimationKey: Int = 0,
+    val placementFlashCells: List<BoardCell> = emptyList(),
+    val placementFlashAnimationKey: Int = 0,
+    val levelUpAnimationKey: Int = 0,
+    val celebrationType: CelebrationType? = null,
+    val celebrationAnimationKey: Int = 0,
+    val particleImpulseType: ParticleImpulseType? = null,
+    val particleImpulseAnimationKey: Int = 0,
+    val hardDropBurstCells: List<BoardCell> = emptyList(),
+    val hardDropBurstAnimationKey: Int = 0,
+    val trackDisplay: String? = null,
+    val trackDisplayKey: Int = 0,
+    val showMusicLibrary: Boolean = false,
+    val availableTracks: List<ModTrackInfo> = emptyList(),
+    val currentTrack: ModTrackInfo? = null,
+    val isMusicPlaying: Boolean = false,
+    val musicFolderUri: String? = null,
+    val trackLoadError: String? = null,
+    val languageTag: String? = null,
+)

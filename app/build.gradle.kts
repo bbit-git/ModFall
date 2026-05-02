@@ -28,11 +28,11 @@ val buildLibOpenMpt = tasks.register<Exec>("buildLibOpenMpt") {
 }
 
 android {
-    namespace = "com.bigbangit.blockdrop"
+    namespace = "com.bigbangit.modfall"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.bigbangit.blockdrop"
+        applicationId = "com.bigbangit.modfall"
         minSdk = 28
         targetSdk = 36
         versionCode = 1

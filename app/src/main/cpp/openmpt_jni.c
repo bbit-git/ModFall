@@ -30,7 +30,7 @@ static void log_func(const char *message, void *userdata) {
  * Returns a native pointer (as jlong) or 0 on failure.
  */
 JNIEXPORT jlong JNICALL
-Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeOpen(
+Java_com_bigbangit_modfall_music_OpenMptJni_nativeOpen(
         JNIEnv *env, jclass clazz, jbyteArray data, jint length) {
     (void)clazz;
     jbyte *buf = (*env)->GetByteArrayElements(env, data, NULL);
@@ -66,7 +66,7 @@ Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeOpen(
  * Destroy a module previously returned by nativeOpen.
  */
 JNIEXPORT void JNICALL
-Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeClose(
+Java_com_bigbangit_modfall_music_OpenMptJni_nativeClose(
         JNIEnv *env, jclass clazz, jlong handle) {
     (void)env; (void)clazz;
     if (handle != 0) {
@@ -79,7 +79,7 @@ Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeClose(
  * Returns the number of frames actually rendered (0 = end of module).
  */
 JNIEXPORT jint JNICALL
-Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeReadStereo(
+Java_com_bigbangit_modfall_music_OpenMptJni_nativeReadStereo(
         JNIEnv *env, jclass clazz,
         jlong handle, jint sampleRate, jshortArray outBuf, jint frames) {
     (void)clazz;
@@ -100,7 +100,7 @@ Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeReadStereo(
  * Get module title metadata, or NULL if unavailable.
  */
 JNIEXPORT jstring JNICALL
-Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeGetTitle(
+Java_com_bigbangit_modfall_music_OpenMptJni_nativeGetTitle(
         JNIEnv *env, jclass clazz, jlong handle) {
     (void)clazz;
     if (handle == 0) return NULL;
@@ -121,7 +121,7 @@ Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeGetTitle(
  * Get module duration in seconds.
  */
 JNIEXPORT jdouble JNICALL
-Java_com_bigbangit_blockdrop_music_OpenMptJni_nativeGetDuration(
+Java_com_bigbangit_modfall_music_OpenMptJni_nativeGetDuration(
         JNIEnv *env, jclass clazz, jlong handle) {
     (void)env; (void)clazz;
     if (handle == 0) return 0.0;
