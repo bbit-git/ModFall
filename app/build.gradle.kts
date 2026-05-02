@@ -15,6 +15,12 @@ fun gitOutput(vararg args: String): String? {
 val gitVersionName = gitOutput("describe", "--tags", "--exact-match", "HEAD")
     ?: "dev-${gitOutput("rev-parse", "--short", "HEAD") ?: "unknown"}"
 
+val releaseKeystorePath = System.getenv("ANDROID_UPLOAD_KEYSTORE_PATH")?.takeIf { it.isNotBlank() }
+
+fun requireReleaseSigningEnv(name: String): String =
+    System.getenv(name)?.takeIf { it.isNotBlank() }
+        ?: throw GradleException("$name must be set when ANDROID_UPLOAD_KEYSTORE_PATH is set")
+
 val buildLibOpenMpt = tasks.register<Exec>("buildLibOpenMpt") {
     group = "build"
     description = "Download and build libopenmpt for the Android ABIs used by this app."
@@ -47,9 +53,23 @@ android {
         }
     }
 
+    signingConfigs {
+        if (releaseKeystorePath != null) {
+            create("release") {
+                storeFile = rootProject.file(releaseKeystorePath)
+                storePassword = requireReleaseSigningEnv("ANDROID_UPLOAD_KEYSTORE_PASSWORD")
+                keyAlias = requireReleaseSigningEnv("ANDROID_UPLOAD_KEY_ALIAS")
+                keyPassword = requireReleaseSigningEnv("ANDROID_UPLOAD_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (releaseKeystorePath != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

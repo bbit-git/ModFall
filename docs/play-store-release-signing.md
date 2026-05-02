@@ -30,6 +30,16 @@ Expected output:
 app/build/outputs/bundle/release/app-release.aab
 ```
 
+If you keep the upload keystore locally under the ignored `keys/` directory, pass it to Gradle through environment variables:
+
+```bash
+ANDROID_UPLOAD_KEYSTORE_PATH=keys/modfall-upload-key.jks \
+ANDROID_UPLOAD_KEYSTORE_PASSWORD=... \
+ANDROID_UPLOAD_KEY_ALIAS=... \
+ANDROID_UPLOAD_KEY_PASSWORD=... \
+./gradlew bundleRelease
+```
+
 ## CI Secrets
 
 Store the upload keystore in GitHub Actions secrets, usually base64 encoded.
